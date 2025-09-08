@@ -1,36 +1,54 @@
-# This is a basic workflow to help you get started with Actions
+# Azure Infrastructure and Application Deployment
 
-name: CI
+name: Azure Deploy
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# Required for OIDC authentication with Azure
+permissions:
+  id-token: write
+  contents: read
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
+  # This workflow contains a single job called "deploy"
+  deploy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      # Azure Login using OIDC (no secrets required!)
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      # Verify Azure connection
+      - name: Verify Azure Connection
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          echo "Current Azure context:"
+          az account show --output table
+          echo "Available resource groups:"
+          az group list --output table
+
+      # Example: Deploy using Azure CLI (replace with your deployment commands)
+      - name: Deploy Azure Resources
+        run: |
+          echo "Ready to deploy Azure resources!"
+          echo "Add your deployment commands here (az deployment, azd up, etc.)"

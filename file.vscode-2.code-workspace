@@ -1,0 +1,249 @@
+{
+    "folders": [
+        {
+            "name": "L.I.F.E Platform Root",
+            "path": "."
+        }
+    ],
+    "settings": {
+        "python.defaultInterpreterPath": "./venv/Scripts/python.exe",
+        "python.terminal.activateEnvironment": true,
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.linting.flake8Enabled": true,
+        "python.formatting.provider": "black",
+        "python.testing.pytestEnabled": true,
+        "python.testing.unittestEnabled": false,
+        "python.testing.pytestArgs": [
+            "tests"
+        ],
+        
+        "azure.resourceGroups": [
+            "rg-life-platform-prod",
+            "rg-life-platform-dev"
+        ],
+        "azure.subscriptionId": "${AZURE_SUBSCRIPTION_ID}",
+        
+        "files.associations": {
+            "*.bicep": "bicep",
+            "*.yml": "yaml",
+            "*.yaml": "yaml",
+            "azure-pipelines*.yml": "azure-pipelines",
+            "*.parameters.json": "jsonc"
+        },
+        
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+            "source.fixAll": true
+        },
+        
+        "git.enableSmartCommit": true,
+        "git.confirmSync": false,
+        "git.autofetch": true,
+        
+        "terminal.integrated.defaultProfile.windows": "PowerShell",
+        "terminal.integrated.profiles.windows": {
+            "PowerShell": {
+                "source": "PowerShell",
+                "args": ["-NoExit", "-Command", "& {Write-Host 'L.I.F.E Platform Development Environment' -ForegroundColor Green}"]
+            }
+        },
+        
+        "workbench.colorTheme": "Azure Dark",
+        "workbench.iconTheme": "vs-seti",
+        
+        "extensions.recommendations": [
+            "ms-python.python",
+            "ms-python.vscode-pylance",
+            "ms-vscode.azure-account",
+            "ms-azuretools.azure-dev",
+            "ms-azuretools.vscode-azurefunctions",
+            "ms-azuretools.vscode-bicep",
+            "ms-vscode.powershell",
+            "ms-python.black-formatter",
+            "ms-python.flake8",
+            "ms-python.pylint",
+            "ms-toolsai.jupyter",
+            "github.copilot",
+            "github.vscode-pull-request-github",
+            "redhat.vscode-yaml",
+            "ms-vscode.vscode-json"
+        ]
+    },
+    "tasks": {
+        "version": "2.0.0",
+        "tasks": [
+            {
+                "label": "Setup L.I.F.E Development Environment",
+                "type": "shell",
+                "command": "python",
+                "args": ["-m", "venv", "venv"],
+                "group": "build",
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": false,
+                    "panel": "shared"
+                },
+                "options": {
+                    "cwd": "${workspaceFolder}"
+                }
+            },
+            {
+                "label": "Install L.I.F.E Dependencies",
+                "type": "shell",
+                "command": "./venv/Scripts/pip",
+                "args": ["install", "-r", "requirements.txt"],
+                "group": "build",
+                "dependsOn": "Setup L.I.F.E Development Environment",
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": false,
+                    "panel": "shared"
+                }
+            },
+            {
+                "label": "Run L.I.F.E Algorithm Tests",
+                "type": "shell",
+                "command": "./venv/Scripts/python",
+                "args": ["-m", "pytest", "tests/", "-v", "--tb=short"],
+                "group": "test",
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": false,
+                    "panel": "shared"
+                }
+            },
+            {
+                "label": "Run L.I.F.E Core Algorithm",
+                "type": "shell",
+                "command": "./venv/Scripts/python",
+                "args": ["experimentP2L.I.F.E-Learning-Individually-from-Experience-Theory-Algorithm-Code-2025-Copyright-Se.py"],
+                "group": "build",
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": false,
+                    "panel": "shared"
+                }
+            },
+            {
+                "label": "Run 100-Cycle EEG Validation",
+                "type": "shell",
+                "command": "./venv/Scripts/python",
+                "args": ["-c", "from experimentP2L import LIFEAlgorithmCore; import asyncio; life = LIFEAlgorithmCore(); asyncio.run(life.run_100_cycle_eeg_test())"],
+                "group": "test",
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": true,
+                    "panel": "dedicated"
+                }
+            },
+            {
+                "label": "Azure: Login",
+                "type": "shell",
+                "command": "az",
+                "args": ["login"],
+                "group": "build",
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": false,
+                    "panel": "shared"
+                }
+            },
+            {
+                "label": "Azure: Deploy L.I.F.E Platform",
+                "type": "shell",
+                "command": "azd",
+                "args": ["up"],
+                "group": "build",
+                "dependsOn": "Azure: Login",
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": true,
+                    "panel": "dedicated"
+                }
+            },
+            {
+                "label": "Generate Enterprise Report",
+                "type": "shell",
+                "command": "./venv/Scripts/python",
+                "args": ["azure_config.py"],
+                "group": "build",
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": false,
+                    "panel": "shared"
+                }
+            }
+        ]
+    },
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "name": "L.I.F.E: Core Algorithm",
+                "type": "python",
+                "request": "launch",
+                "program": "${workspaceFolder}/experimentP2L.I.F.E-Learning-Individually-from-Experience-Theory-Algorithm-Code-2025-Copyright-Se.py",
+                "console": "integratedTerminal",
+                "env": {
+                    "PYTHONPATH": "${workspaceFolder}",
+                    "AZURE_SUBSCRIPTION_ID": "${env:AZURE_SUBSCRIPTION_ID}",
+                    "AZURE_CLIENT_ID": "${env:AZURE_CLIENT_ID}",
+                    "AZURE_TENANT_ID": "${env:AZURE_TENANT_ID}"
+                }
+            },
+            {
+                "name": "L.I.F.E: Azure Integration Test",
+                "type": "python",
+                "request": "launch",
+                "program": "${workspaceFolder}/azure_config.py",
+                "console": "integratedTerminal",
+                "env": {
+                    "PYTHONPATH": "${workspaceFolder}",
+                    "AZURE_SUBSCRIPTION_ID": "${env:AZURE_SUBSCRIPTION_ID}",
+                    "AZURE_CLIENT_ID": "${env:AZURE_CLIENT_ID}",
+                    "AZURE_TENANT_ID": "${env:AZURE_TENANT_ID}"
+                }
+            },
+            {
+                "name": "L.I.F.E: EEG Validation Suite",
+                "type": "python",
+                "request": "launch",
+                "module": "pytest",
+                "args": ["tests/test_eeg_validation.py", "-v"],
+                "console": "integratedTerminal",
+                "env": {
+                    "PYTHONPATH": "${workspaceFolder}"
+                }
+            }
+        ]
+    },
+    "extensions": {
+        "recommendations": [
+            "ms-python.python",
+            "ms-python.vscode-pylance",
+            "ms-vscode.azure-account",
+            "ms-azuretools.azure-dev",
+            "ms-azuretools.vscode-azurefunctions",
+            "ms-azuretools.vscode-bicep",
+            "ms-vscode.powershell",
+            "ms-python.black-formatter",
+            "ms-python.flake8",
+            "ms-python.pylint",
+            "ms-toolsai.jupyter",
+            "github.copilot",
+            "github.vscode-pull-request-github",
+            "redhat.vscode-yaml",
+            "ms-vscode.vscode-json"
+        ]
+    }
+}
