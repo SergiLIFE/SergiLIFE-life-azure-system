@@ -208,7 +208,7 @@ SergiLIFE-life-azure-system/
 - 🔧 [Migration Instructions](./migrate-life-platform.ps1)
 
 ### **Contact & Support**
-- 👨‍💻 **Developer:** Sergio Paya Borrull
+- 👨‍💻 **Developer:** Sergi Paya Borrull
 - 📧 **Enterprise Sales:** [Contact via Azure Marketplace]
 - 🎯 **Azure Marketplace:** Offer ID `9a600d96-fe1e-420b-902a-a0c42c561adb`
 - 📞 **Support Tiers:** Email (Basic) → Priority (Professional) → Dedicated (Enterprise)
