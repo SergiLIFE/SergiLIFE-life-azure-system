@@ -47,7 +47,7 @@ jobs:
           python simple_life_check.py
 
       - name: 📊 Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           file: ./coverage.xml
           flags: unittests
@@ -73,7 +73,7 @@ jobs:
           safety check --json --output safety-report.json || true
 
       - name: 📊 Upload security reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: security-reports
           path: |
@@ -113,7 +113,7 @@ jobs:
           echo "MARKETPLACE_OFFER_ID=${{ env.AZURE_MARKETPLACE_OFFER_ID }}" >> deployment/build-info.env
 
       - name: 📦 Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: life-platform-build
           path: deployment/
@@ -127,7 +127,7 @@ jobs:
 
     steps:
       - name: 📥 Download build artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: life-platform-build
           path: ./deployment
@@ -168,7 +168,7 @@ jobs:
 
     steps:
       - name: 📥 Download build artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: life-platform-build
           path: ./deployment
@@ -245,7 +245,7 @@ jobs:
           echo "- 🏪 Marketplace: Ready" >> deployment-report.md
 
       - name: 📦 Upload deployment report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: deployment-report
           path: deployment-report.md

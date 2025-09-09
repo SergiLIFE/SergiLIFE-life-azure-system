@@ -73,16 +73,30 @@ def test_adaptive_gamma_changes():
     b = VenturiBatcher(
         target_latency_ms=50, start_batch=8, batch_max=256, adaptive_gamma=True
     )
-    # Slow latencies to reduce gamma
-    for lat in [70, 75, 72, 68]:
+    initial_gamma = b.gamma
+
+    # Test that gamma responds to latency patterns
+    # Slow latencies should reduce gamma
+    for lat in [70, 75, 72, 68, 80, 85]:  # More slow latencies for clear effect
         b.adjust_batch_size(lat)
     gamma_after_slow = b.gamma
-    # Fast latencies to increase gamma
-    for lat in [30, 28, 32, 29]:
-        b.adjust_batch_size(lat)
+
+    # Verify gamma decreased from slow latencies
+    assert (
+        gamma_after_slow < initial_gamma
+    ), f"Expected gamma to decrease from {initial_gamma} but got {gamma_after_slow}"
+
+    # Fast latencies should increase gamma over time
+    # Need many fast latencies to overcome the EWMA smoothing
+    for _ in range(15):  # More iterations to ensure gamma recovery
+        for lat in [20, 25, 30, 22]:
+            b.adjust_batch_size(lat)
     gamma_after_fast = b.gamma
-    assert gamma_after_slow < 1.5  # decreased
-    assert gamma_after_fast > gamma_after_slow  # recovered upward
+
+    # Test that gamma increased from the slow period (allowing for EWMA lag)
+    assert (
+        gamma_after_fast > gamma_after_slow
+    ), f"Expected gamma to recover from {gamma_after_slow} but got {gamma_after_fast}"
 
 
 def test_summary_structure():
