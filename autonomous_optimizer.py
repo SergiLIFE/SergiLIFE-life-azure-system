@@ -12,6 +12,7 @@ Autonomous optimization for SOTA neural processing performance
 import asyncio
 import json
 import logging
+import os
 import threading
 import time
 import warnings
@@ -26,11 +27,11 @@ import psutil
 
 warnings.filterwarnings("ignore")
 
-# Set up logging
+# Set up logging (console only for CI/CD compatibility)
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler("autonomous_optimizer.log"), logging.StreamHandler()],
+    handlers=[logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
 
