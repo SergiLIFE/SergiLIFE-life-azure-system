@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 
+
 def create_host_json():
     """Create optimized host.json for L.I.F.E Theory functions"""
     host_config = {
@@ -17,17 +18,13 @@ def create_host_json():
             "logLevel": {
                 "default": "Information",
                 "Function": "Information",
-                "Host": "Warning"
+                "Host": "Warning",
             },
-            "console": {
-                "isEnabled": True
-            },
+            "console": {"isEnabled": True},
             "applicationInsights": {
                 "samplingExcludedTypes": "Request",
-                "samplingSettings": {
-                    "isEnabled": True
-                }
-            }
+                "samplingSettings": {"isEnabled": True},
+            },
         },
         "functionTimeout": "00:10:00",  # 10 minutes for complex processing
         "httpWorkerSettings": {
@@ -35,7 +32,7 @@ def create_host_json():
         },
         "extensionBundle": {
             "id": "Microsoft.Azure.Functions.ExtensionBundle",
-            "version": "[3.*, 4.0.0)"
+            "version": "[3.*, 4.0.0)",
         },
         "watchDirectories": ["src"],
         "maxOutstandingRequests": 50,
@@ -44,15 +41,16 @@ def create_host_json():
             "strategy": "exponentialBackoff",
             "maxRetryCount": 3,
             "minimumInterval": "00:00:02",
-            "maximumInterval": "00:00:30"
-        }
+            "maximumInterval": "00:00:30",
+        },
     }
-    
+
     return host_config
+
 
 def create_function_json_templates():
     """Create function.json templates for different endpoints"""
-    
+
     # Main HTTP trigger function
     main_function = {
         "scriptFile": "azure_life_functions.py",
@@ -64,16 +62,12 @@ def create_function_json_templates():
                 "direction": "in",
                 "name": "req",
                 "methods": ["get", "post"],
-                "route": "life/{route?}"
+                "route": "life/{route?}",
             },
-            {
-                "type": "http",
-                "direction": "out",
-                "name": "$return"
-            }
-        ]
+            {"type": "http", "direction": "out", "name": "$return"},
+        ],
     }
-    
+
     # EEG processing specific function
     eeg_function = {
         "scriptFile": "azure_life_functions.py",
@@ -85,16 +79,12 @@ def create_function_json_templates():
                 "direction": "in",
                 "name": "req",
                 "methods": ["post"],
-                "route": "eeg/process"
+                "route": "eeg/process",
             },
-            {
-                "type": "http",
-                "direction": "out", 
-                "name": "$return"
-            }
-        ]
+            {"type": "http", "direction": "out", "name": "$return"},
+        ],
     }
-    
+
     # Venturi enhancement function
     venturi_function = {
         "scriptFile": "azure_life_functions.py",
@@ -106,16 +96,12 @@ def create_function_json_templates():
                 "direction": "in",
                 "name": "req",
                 "methods": ["post"],
-                "route": "venturi/enhance"
+                "route": "venturi/enhance",
             },
-            {
-                "type": "http",
-                "direction": "out",
-                "name": "$return"
-            }
-        ]
+            {"type": "http", "direction": "out", "name": "$return"},
+        ],
     }
-    
+
     # Status and health functions
     status_function = {
         "scriptFile": "azure_life_functions.py",
@@ -127,22 +113,19 @@ def create_function_json_templates():
                 "direction": "in",
                 "name": "req",
                 "methods": ["get"],
-                "route": "status"
+                "route": "status",
             },
-            {
-                "type": "http",
-                "direction": "out",
-                "name": "$return"
-            }
-        ]
+            {"type": "http", "direction": "out", "name": "$return"},
+        ],
     }
-    
+
     return {
         "main": main_function,
         "eeg": eeg_function,
         "venturi": venturi_function,
-        "status": status_function
+        "status": status_function,
     }
+
 
 def create_local_settings_template():
     """Create local.settings.json template"""
@@ -160,17 +143,14 @@ def create_local_settings_template():
             "AZURE_STORAGE_CONNECTION_STRING": "",
             "APPLICATION_INSIGHTS_KEY": "",
             "COSMOS_DB_CONNECTION_STRING": "",
-            "LIFE_ALGORITHM_CONFIG": "{\"learning_rate\": 0.01, \"max_experiences\": 1000}"
+            "LIFE_ALGORITHM_CONFIG": '{"learning_rate": 0.01, "max_experiences": 1000}',
         },
-        "Host": {
-            "LocalHttpPort": 7071,
-            "CORS": "*",
-            "CORSCredentials": False
-        },
-        "ConnectionStrings": {}
+        "Host": {"LocalHttpPort": 7071, "CORS": "*", "CORSCredentials": False},
+        "ConnectionStrings": {},
     }
-    
+
     return local_settings
+
 
 def create_requirements_azure():
     """Create requirements.txt specifically for Azure Functions"""
@@ -193,16 +173,17 @@ def create_requirements_azure():
         "uvicorn>=0.20.0",
         "python-multipart>=0.0.5",
         "aiofiles>=0.8.0",
-        "httpx>=0.24.0"
+        "httpx>=0.24.0",
     ]
-    
+
     return "\n".join(requirements)
+
 
 def create_deployment_scripts():
     """Create PowerShell deployment scripts for Azure"""
-    
+
     # PowerShell deployment script
-    deploy_ps1 = '''# Azure Functions Deployment Script for L.I.F.E Theory
+    deploy_ps1 = """# Azure Functions Deployment Script for L.I.F.E Theory
 # Copyright 2025 - Sergio Paya Borrull
 
 param(
@@ -303,10 +284,10 @@ try {
 }
 
 Write-Host "L.I.F.E Theory Azure Functions deployment completed!" -ForegroundColor Green
-'''
+"""
 
     # Batch script for Windows
-    deploy_bat = '''@echo off
+    deploy_bat = """@echo off
 REM Azure Functions Deployment Batch Script for L.I.F.E Theory
 REM Copyright 2025 - Sergio Paya Borrull
 
@@ -343,64 +324,62 @@ if %errorlevel% neq 0 (
 )
 
 echo Deployment completed successfully!
-'''
+"""
 
-    return {
-        "deploy.ps1": deploy_ps1,
-        "deploy.bat": deploy_bat
-    }
+    return {"deploy.ps1": deploy_ps1, "deploy.bat": deploy_bat}
+
 
 def generate_azure_functions_config():
     """Generate all Azure Functions configuration files"""
-    
+
     print("Generating Azure Functions configuration for L.I.F.E Theory...")
-    
+
     # Create configuration directory structure
     config_dir = Path("azure_functions_config")
     config_dir.mkdir(exist_ok=True)
-    
+
     # Generate host.json
     host_config = create_host_json()
     with open(config_dir / "host.json", "w") as f:
         json.dump(host_config, f, indent=2)
     print("✓ Generated host.json")
-    
+
     # Generate function.json templates
     function_templates = create_function_json_templates()
     functions_dir = config_dir / "functions"
     functions_dir.mkdir(exist_ok=True)
-    
+
     for name, config in function_templates.items():
         func_dir = functions_dir / name
         func_dir.mkdir(exist_ok=True)
         with open(func_dir / "function.json", "w") as f:
             json.dump(config, f, indent=2)
         print(f"✓ Generated function.json for {name}")
-    
+
     # Generate local.settings.json template
     local_settings = create_local_settings_template()
     with open(config_dir / "local.settings.json.template", "w") as f:
         json.dump(local_settings, f, indent=2)
     print("✓ Generated local.settings.json template")
-    
+
     # Generate requirements.txt for Azure
     requirements = create_requirements_azure()
     with open(config_dir / "requirements_azure.txt", "w") as f:
         f.write(requirements)
     print("✓ Generated requirements_azure.txt")
-    
+
     # Generate deployment scripts
     scripts = create_deployment_scripts()
     scripts_dir = config_dir / "deployment"
     scripts_dir.mkdir(exist_ok=True)
-    
+
     for name, content in scripts.items():
         with open(scripts_dir / name, "w", encoding="utf-8") as f:
             f.write(content)
         print(f"✓ Generated {name}")
-    
+
     # Generate README for configuration
-    readme_content = '''# Azure Functions Configuration for L.I.F.E Theory
+    readme_content = """# Azure Functions Configuration for L.I.F.E Theory
 
 This directory contains all configuration files needed to deploy L.I.F.E Theory to Azure Functions.
 
@@ -445,18 +424,19 @@ Configure these in your Azure Function App settings:
 - `LOGGING_LEVEL` - Logging level (INFO)
 
 Copyright 2025 - Sergio Paya Borrull
-'''
-    
+"""
+
     with open(config_dir / "README.md", "w") as f:
         f.write(readme_content)
     print("✓ Generated README.md")
-    
+
     print(f"\nConfiguration generated successfully in: {config_dir.absolute()}")
     print("\nNext steps:")
     print("1. Copy generated files to your Azure Functions project")
     print("2. Configure local.settings.json with your values")
     print("3. Run 'func start' for local testing")
     print("4. Use deployment scripts for Azure deployment")
+
 
 if __name__ == "__main__":
     generate_azure_functions_config()
