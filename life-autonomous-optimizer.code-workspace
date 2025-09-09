@@ -1,0 +1,164 @@
+{
+    "folders": [
+        {
+            "name": "🧠 L.I.F.E. Autonomous Optimizer",
+            "path": "."
+        }
+    ],
+    "settings": {
+        "files.associations": {
+            "*.py": "python",
+            "autonomous_optimizer.py": "python",
+            "model_optimizer.py": "python",
+            "sota_benchmark.py": "python",
+            "test_*.py": "python",
+            "experimentP2L.I.F.E-Learning-Individually-from-Experience-Theory-Algorithm-Code-2025-Copyright-Se.py": "python"
+        },
+        "python.defaultInterpreterPath": "python",
+        "python.languageServer": "Pylance",
+        "python.analysis.typeCheckingMode": "strict",
+        "python.analysis.autoImportCompletions": true,
+        "python.analysis.completeFunctionParens": true,
+        "python.analysis.diagnosticMode": "workspace",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.linting.mypyEnabled": true,
+        "python.linting.flake8Enabled": true,
+        "python.testing.pytestEnabled": true,
+        "python.testing.unittestEnabled": false,
+        "python.testing.pytestArgs": [
+            "."
+        ],
+        "editor.formatOnSave": true,
+        "python.formatting.provider": "black",
+        "[python]": {
+            "editor.defaultFormatter": "ms-python.black-formatter",
+            "editor.formatOnSave": true,
+            "editor.codeActionsOnSave": {
+                "source.organizeImports": "explicit",
+                "source.fixAll.pylint": "explicit"
+            },
+            "editor.rulers": [79, 88],
+            "editor.tabSize": 4,
+            "editor.insertSpaces": true
+        },
+        "files.exclude": {
+            "**/__pycache__": true,
+            "**/.pytest_cache": true,
+            "**/*.pyc": true,
+            "**/.mypy_cache": true,
+            "**/node_modules": true,
+            "**/.venv": true,
+            "**/.env": true
+        },
+        "search.exclude": {
+            "**/__pycache__": true,
+            "**/.pytest_cache": true,
+            "**/*.pyc": true,
+            "**/.mypy_cache": true
+        },
+        "git.enabled": true,
+        "git.autoRefresh": true,
+        "git.autofetch": true,
+        "git.enableSmartCommit": true,
+        "git.confirmSync": false,
+        "scm.defaultViewMode": "tree",
+        "git.decorations.enabled": true,
+        "git.showProgress": false,
+        "git.ignoreLegacyWarning": true,
+        "github.copilot.enable": {
+            "*": true,
+            "yaml": true,
+            "plaintext": false,
+            "markdown": true,
+            "python": true
+        },
+        "terminal.integrated.defaultProfile.windows": "PowerShell",
+        "terminal.integrated.profiles.windows": {
+            "PowerShell": {
+                "source": "PowerShell",
+                "icon": "terminal-powershell"
+            },
+            "Command Prompt": {
+                "path": "cmd.exe",
+                "icon": "terminal-cmd"
+            }
+        },
+        "workbench.colorTheme": "Default Dark+",
+        "workbench.iconTheme": "vs-seti",
+        "workbench.editor.enablePreview": false,
+        "workbench.startupEditor": "readme",
+        "explorer.confirmDelete": false,
+        "explorer.confirmDragAndDrop": false,
+        "problems.showCurrentInStatus": true,
+        "breadcrumbs.enabled": true,
+        "outline.showVariables": true,
+        "outline.showFunctions": true,
+        "outline.showClasses": true,
+        "azure.tenant": "",
+        "azure.cloud": "AzureCloud",
+        "azureFunctions.deploySubpath": ".",
+        "azureFunctions.scmDoBuildDuringDeployment": true,
+        "azureFunctions.pythonVenv": ".venv",
+        "jupyter.askForKernelRestart": false,
+        "jupyter.interactiveWindowMode": "perFile",
+        "notebook.cellToolbarLocation": {
+            "default": "right",
+            "jupyter-notebook": "left"
+        }
+    },
+    "extensions": {
+        "recommendations": [
+            "ms-python.python",
+            "ms-python.debugpy",
+            "ms-python.black-formatter",
+            "ms-python.isort",
+            "ms-python.pylint",
+            "ms-toolsai.jupyter",
+            "ms-vscode.azure-account",
+            "ms-azure-devops.azure-pipelines",
+            "ms-azuretools.vscode-azure-functions",
+            "ms-azuretools.vscode-azureresourcegroups",
+            "github.copilot",
+            "github.copilot-chat",
+            "ms-vscode.vscode-json",
+            "redhat.vscode-yaml",
+            "ms-vscode.powershell",
+            "visualstudioexptteam.vscodeintellicode"
+        ]
+    },
+    "tasks": {
+        "version": "2.0.0",
+        "tasks": [
+            {
+                "label": "🧠 Quick Run Autonomous Optimizer",
+                "type": "shell",
+                "command": "python autonomous_optimizer.py",
+                "group": {
+                    "kind": "build",
+                    "isDefault": true
+                },
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": false,
+                    "panel": "new"
+                }
+            }
+        ]
+    },
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "name": "🧠 Quick Debug Autonomous Optimizer",
+                "type": "debugpy",
+                "request": "launch",
+                "program": "${workspaceFolder}/autonomous_optimizer.py",
+                "console": "integratedTerminal",
+                "cwd": "${workspaceFolder}",
+                "justMyCode": false
+            }
+        ]
+    }
+}

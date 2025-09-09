@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Azure OIDC Authentication Setup for GitHub Actions</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="azure-oidc-authentication-setup-for-github-actions">Azure OIDC Authentication Setup for GitHub Actions</h1>
+<p>This guide will help you set up OpenID Connect (OIDC) authentication between GitHub Actions and Azure, eliminating the need to store long-lived secrets.</p>
+<h2 id="step-1-create-azure-ad-application-if-not-exists">Step 1: Create Azure AD Application (if not exists)</h2>
+<pre><code class="language-powershell"><span class="hljs-comment"># Login to Azure</span>
+az login
+
+<span class="hljs-comment"># Create a new Azure AD application</span>
+az ad app create <span class="hljs-literal">--display-name</span> <span class="hljs-string">&quot;GitHub-SergiLIFE-life-azure-system&quot;</span> <span class="hljs-literal">--sign-in-audience</span> <span class="hljs-string">&quot;AzureADMyOrg&quot;</span>
+
+<span class="hljs-comment"># Note the appId (client-id) from the output</span>
+</code></pre>
+<h2 id="step-2-create-service-principal">Step 2: Create Service Principal</h2>
+<pre><code class="language-powershell"><span class="hljs-comment"># Create service principal for the app (replace APP_ID with your actual app ID)</span>
+az ad <span class="hljs-built_in">sp</span> create <span class="hljs-literal">--id</span> &lt;APP_ID&gt;
+
+<span class="hljs-comment"># Assign appropriate role to the service principal (replace SUBSCRIPTION_ID)</span>
+az role assignment create <span class="hljs-literal">--assignee</span> &lt;APP_ID&gt; <span class="hljs-literal">--role</span> <span class="hljs-string">&quot;Contributor&quot;</span> <span class="hljs-literal">--scope</span> <span class="hljs-string">&quot;/subscriptions/&lt;SUBSCRIPTION_ID&gt;&quot;</span>
+</code></pre>
+<h2 id="step-3-create-federated-credential-for-github">Step 3: Create Federated Credential for GitHub</h2>
+<pre><code class="language-powershell"><span class="hljs-comment"># Set variables (replace with your values)</span>
+<span class="hljs-variable">$APP_ID</span> = <span class="hljs-string">&quot;&lt;YOUR_APP_ID&gt;&quot;</span>
+<span class="hljs-variable">$REPO_OWNER</span> = <span class="hljs-string">&quot;SergiLIFE&quot;</span>
+<span class="hljs-variable">$REPO_NAME</span> = <span class="hljs-string">&quot;SergiLIFE-life-azure-system&quot;</span>
+
+<span class="hljs-comment"># Create federated credential for main branch</span>
+az ad app federated<span class="hljs-literal">-credential</span> create <span class="hljs-literal">--id</span> <span class="hljs-variable">$APP_ID</span> <span class="hljs-literal">--parameters</span> <span class="hljs-selector-tag">@</span>- &lt;&lt;EOF
+{
+    <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;github-main&quot;</span>,
+    <span class="hljs-string">&quot;issuer&quot;</span>: <span class="hljs-string">&quot;https://token.actions.githubusercontent.com&quot;</span>,
+    <span class="hljs-string">&quot;subject&quot;</span>: <span class="hljs-string">&quot;repo:<span class="hljs-variable">$REPO_OWNER</span>/<span class="hljs-variable">$</span>{REPO_NAME}:ref:refs/heads/main&quot;</span>,
+    <span class="hljs-string">&quot;description&quot;</span>: <span class="hljs-string">&quot;GitHub Actions for main branch&quot;</span>,
+    <span class="hljs-string">&quot;audiences&quot;</span>: [
+        <span class="hljs-string">&quot;api://AzureADTokenExchange&quot;</span>
+    ]
+}
+EOF
+
+<span class="hljs-comment"># Create federated credential for pull requests (optional)</span>
+az ad app federated<span class="hljs-literal">-credential</span> create <span class="hljs-literal">--id</span> <span class="hljs-variable">$APP_ID</span> <span class="hljs-literal">--parameters</span> <span class="hljs-selector-tag">@</span>- &lt;&lt;EOF
+{
+    <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;github-pr&quot;</span>,
+    <span class="hljs-string">&quot;issuer&quot;</span>: <span class="hljs-string">&quot;https://token.actions.githubusercontent.com&quot;</span>,
+    <span class="hljs-string">&quot;subject&quot;</span>: <span class="hljs-string">&quot;repo:<span class="hljs-variable">$REPO_OWNER</span>/<span class="hljs-variable">$</span>{REPO_NAME}:pull_request&quot;</span>,
+    <span class="hljs-string">&quot;description&quot;</span>: <span class="hljs-string">&quot;GitHub Actions for pull requests&quot;</span>,
+    <span class="hljs-string">&quot;audiences&quot;</span>: [
+        <span class="hljs-string">&quot;api://AzureADTokenExchange&quot;</span>
+    ]
+}
+EOF
+</code></pre>
+<h2 id="step-4-gather-required-information">Step 4: Gather Required Information</h2>
+<p>You'll need these values for GitHub repository variables:</p>
+<pre><code class="language-powershell"><span class="hljs-comment"># Get your tenant ID</span>
+az account show <span class="hljs-literal">--query</span> tenantId <span class="hljs-literal">-o</span> tsv
+
+<span class="hljs-comment"># Get your subscription ID</span>
+az account show <span class="hljs-literal">--query</span> id <span class="hljs-literal">-o</span> tsv
+
+<span class="hljs-comment"># Your client ID is the APP_ID from Step 1</span>
+</code></pre>
+<h2 id="step-5-set-github-repository-variables">Step 5: Set GitHub Repository Variables</h2>
+<p>Go to your GitHub repository → Settings → Secrets and variables → Actions → Variables tab:</p>
+<ul>
+<li><code>AZURE_CLIENT_ID</code>: Your application (client) ID</li>
+<li><code>AZURE_TENANT_ID</code>: Your Azure AD tenant ID</li>
+<li><code>AZURE_SUBSCRIPTION_ID</code>: Your Azure subscription ID</li>
+</ul>
+<h2 id="step-6-update-github-actions-workflow">Step 6: Update GitHub Actions Workflow</h2>
+<p>Your workflow should use the <code>azure/login@v2</code> action with these inputs:</p>
+<pre><code class="language-yaml"><span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Azure</span> <span class="hljs-string">Login</span>
+  <span class="hljs-attr">uses:</span> <span class="hljs-string">azure/login@v2</span>
+  <span class="hljs-attr">with:</span>
+    <span class="hljs-attr">client-id:</span> <span class="hljs-string">${{</span> <span class="hljs-string">vars.AZURE_CLIENT_ID</span> <span class="hljs-string">}}</span>
+    <span class="hljs-attr">tenant-id:</span> <span class="hljs-string">${{</span> <span class="hljs-string">vars.AZURE_TENANT_ID</span> <span class="hljs-string">}}</span>
+    <span class="hljs-attr">subscription-id:</span> <span class="hljs-string">${{</span> <span class="hljs-string">vars.AZURE_SUBSCRIPTION_ID</span> <span class="hljs-string">}}</span>
+</code></pre>
+<h2 id="benefits-of-oidc">Benefits of OIDC</h2>
+<ul>
+<li>✅ No long-lived secrets stored in GitHub</li>
+<li>✅ Automatic token rotation</li>
+<li>✅ Fine-grained access control</li>
+<li>✅ Better security posture</li>
+<li>✅ Audit trail</li>
+</ul>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<ol>
+<li><strong>Permission denied</strong>: Ensure the service principal has appropriate RBAC roles</li>
+<li><strong>Token exchange failed</strong>: Verify federated credential subject matches your repo exactly</li>
+<li><strong>Invalid audience</strong>: Ensure audience is set to <code>api://AzureADTokenExchange</code></li>
+</ol>
+<h2 id="security-best-practices">Security Best Practices</h2>
+<ul>
+<li>Use least privilege principle for RBAC assignments</li>
+<li>Scope permissions to specific resource groups when possible</li>
+<li>Regularly audit federated credentials</li>
+<li>Monitor authentication logs in Azure AD</li>
+</ul>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
