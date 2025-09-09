@@ -39,11 +39,11 @@ from sklearn.preprocessing import StandardScaler
 
 warnings.filterwarnings("ignore")
 
-# Set up logging
+# Set up logging (console only for CI/CD compatibility)
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler("life_benchmark.log"), logging.StreamHandler()],
+    handlers=[logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
 
@@ -597,8 +597,8 @@ class SOTABenchmarkSuite:
         logger.info("🎉 SOTA Benchmark Suite completed successfully!")
         logger.info("=" * 80)
 
-        # Generate SOTA comparison report
-        self.generate_sota_comparison_report()
+        # Generate SOTA comparison report (temporarily disabled for testing)
+        # self.generate_sota_comparison_report()
 
         # Print SOTA analysis
         print("\n" + "=" * 80)
