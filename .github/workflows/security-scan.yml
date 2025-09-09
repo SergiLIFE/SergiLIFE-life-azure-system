@@ -1,0 +1,35 @@
+name: Security Scanning
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 12 * * 1" # Weekly on Monday at noon
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    name: Security Analysis
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Bandit Security Scan
+        run: |
+          pip install bandit
+          bandit -r . -f json -o security-report.json
+
+      - name: Run Safety Check
+        run: |
+          pip install safety
+          safety check --json > safety-report.json
+
+      - name: Upload security reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: security-reports
+          path: |
+            security-report.json
+            safety-report.json
