@@ -24,6 +24,10 @@ values = [
 
 # SOTA comparison (if available)
 sota = summary.get("sota_comparison", None)
+if isinstance(sota, dict):
+    sota_value = sota.get("latency_vs_target", None)
+else:
+    sota_value = sota
 
 # Plot
 fig, ax = plt.subplots(figsize=(8, 5))
@@ -43,8 +47,8 @@ for bar in bars:
     )
 
 # Add SOTA line if available
-if sota:
-    ax.axhline(sota, color="red", linestyle="--", label="SOTA Champion")
+if sota_value:
+    ax.axhline(sota_value, color="red", linestyle="--", label="SOTA Champion")
     ax.legend()
 
 plt.tight_layout()
