@@ -1,0 +1,1 @@
+az account set --subscription 5c88cef6-f243-497d-98af-6c6086d575ca
