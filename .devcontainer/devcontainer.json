@@ -15,7 +15,8 @@
         "ms-toolsai.jupyter",
         "ryanluker.vscode-coverage-gutters",
         "github.copilot",
-        "ms-azuretools.vscode-azurelogicapps"
+        "ms-azuretools.vscode-azurelogicapps",
+        "ms-vscode.azure-account"
       ]
     }
   },
