@@ -243,7 +243,7 @@ class AzureIntegrationManager :
     def _default_azure_config(self) -> Dict[str, Any]:
         """Default Azure configuration for enterprise deployment"""
         return {
-    "subscription_id": os.getenv("AZURE_SUBSCRIPTION_ID"),
+            "subscription_id": "5c88cef6-f243-497d-98af-6c6086d575ca",  # Production subscription ID
             "resource_group": "rg-life-platform-prod",
             "storage_account": "stlifeplatformprod",
             "keyvault_name": "kv-life-platform-prod",
@@ -266,7 +266,7 @@ class AzureIntegrationManager :
             "compliance_mode": "HIPAA_SOC2"
         }
 
-def _initialize_azure_auth(self):
+    def _initialize_azure_auth(self):
         """Initialize Azure authentication with fallback options"""
         try:
             # Try managed identity first (for Azure-hosted scenarios)
@@ -319,37 +319,35 @@ def _initialize_azure_auth(self):
             logger.error(f"Azure services initialization error: {e}")
             raise
 
-    async def store_neural_data(self, user_id: str, session_id: str, 
+    async def store_neural_data(self, user_id: str, session_id: str,
                               neural_data: Dict[str, Any]) -> str:
-"""Store neural processing data in Azure Blob Storage"""
+        """Store neural processing data in Azure Blob Storage"""
         try:
             container_name = "neural-data"
             blob_name = f"{user_id}/{session_id}/{datetime.now().isoformat()}.json"
 
             # Add metadata
             neural_data["metadata"] = {
-    "user_id": user_id,
+                "user_id": user_id,
                 "session_id": session_id,
                 "timestamp": datetime.now().isoformat(),
                 "platform_version": "2025.1.0-PRODUCTION",
                 "compliance_tag": "HIPAA_COMPLIANT"
             }
 
-# Convert to JSON and upload
-json_data = json.dumps(neural_data, indent = 2)
-
+            # Convert to JSON and upload
+            json_data = json.dumps(neural_data, indent=2)
 
             blob_client = self.blob_client.get_blob_client(
-                container = container_name,
-                blob = blob_name
+                container=container_name,
+                blob=blob_name
             )
 
-
             await blob_client.upload_blob(
-                data = json_data,
-                overwrite = True,
-                metadata ={
-    "user_id": user_id,
+                data=json_data,
+                overwrite=True,
+                metadata={
+                    "user_id": user_id,
                     "session_id": session_id,
                     "data_type": "neural_processing",
                     "compliance": "HIPAA"
