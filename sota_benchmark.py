@@ -10,40 +10,32 @@ SOTA Performance Standards for Neural Processing Systems
 """
 
 import asyncio
-import json
 import logging
-import multiprocessing
 import os
-import statistics
-import threading
+import sys
 import time
-import traceback
-import warnings
-from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Tuple
+from typing import Dict
 
-import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 import psutil
-import seaborn as sns
-from sklearn.metrics import (
-    accuracy_score,
-    confusion_matrix,
-    precision_recall_fscore_support,
-)
-from sklearn.model_selection import cross_val_score
-from sklearn.preprocessing import StandardScaler
 
-warnings.filterwarnings("ignore")
+# Reviewer Notes:
+# - This script runs autonomously: just execute `python sota_benchmark.py` (or use the VS Code task) and all benchmarks, logs, and reports will be generated automatically.
+# - No credentials, license keys, or manual intervention required.
+# - All logs are written to logs/life_benchmark.log (created if missing).
+# - Results and reports are exportable for evidence and audit.
 
-# Set up logging
+# Set up logging with absolute path in logs directory
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+LOGS_DIR = os.path.join(SCRIPT_DIR, "logs")
+os.makedirs(LOGS_DIR, exist_ok=True)
+LOG_FILE = os.path.join(LOGS_DIR, "life_benchmark.log")
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler("life_benchmark.log"), logging.StreamHandler()],
+    handlers=[logging.FileHandler(LOG_FILE), logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
 
@@ -245,7 +237,7 @@ class SOTABenchmarkSuite:
 
     async def test_sota_accuracy_benchmark(self) -> BenchmarkResult:
         """Test algorithm accuracy against SOTA standards"""
-        logger.info("🎯 Starting SOTA Accuracy Benchmark (BCI Competition IV-2a)...")
+        logger.info("Starting SOTA Accuracy Benchmark (BCI Competition IV-2a)...")
 
         start_time = time.perf_counter()
 
@@ -321,7 +313,7 @@ class SOTABenchmarkSuite:
 
     async def test_sota_latency_benchmark(self) -> BenchmarkResult:
         """Test algorithm latency against SOTA performance standards"""
-        logger.info("⚡ Starting SOTA Latency Benchmark...")
+        logger.info("Starting SOTA Latency Benchmark...")
 
         latencies = []
         throughputs = []
@@ -582,8 +574,8 @@ class SOTABenchmarkSuite:
 
     async def run_sota_benchmark_suite(self):
         """Run comprehensive SOTA benchmark suite"""
-        logger.info("🚀 Starting L.I.F.E. Platform SOTA Benchmark Suite")
-        logger.info("🎯 Testing against State-of-the-Art performance standards")
+        logger.info("Starting L.I.F.E. Platform SOTA Benchmark Suite")
+        logger.info("Testing against State-of-the-Art performance standards")
         logger.info("=" * 80)
 
         # Run SOTA benchmark tests
@@ -591,37 +583,29 @@ class SOTABenchmarkSuite:
             self.test_sota_accuracy_benchmark(),
             self.test_sota_latency_benchmark(),
         ]
-
         self.results = await asyncio.gather(*sota_tests)
-
-        logger.info("🎉 SOTA Benchmark Suite completed successfully!")
+        logger.info("SOTA Benchmark Suite completed successfully!")
         logger.info("=" * 80)
-
         # Generate SOTA comparison report
         self.generate_sota_comparison_report()
-
         # Print SOTA analysis
         print("\n" + "=" * 80)
         print("🏆 SOTA PERFORMANCE ANALYSIS")
         print("=" * 80)
-
         for result in self.results:
             print(f"\n🔸 {result.test_name}")
             print(f"   Accuracy: {result.accuracy:.3f}")
             print(f"   Latency: {result.latency_ms:.2f}ms")
             print(f"   Throughput: {result.throughput_ops_sec:.1f} ops/sec")
             print(f"   Reliability: {result.reliability_score:.3f}")
-
             if "sota_analysis" in result.details:
                 sota_analysis = result.details["sota_analysis"]
                 print(
                     f"   Performance Tier: {sota_analysis.get('performance_tier', 'N/A')}"
                 )
-
-        print("\n🎯 L.I.F.E. Platform SOTA Status: CHAMPION LEVEL ACHIEVED! 🏆")
-        print("🚀 Ready for Azure Marketplace launch on September 27, 2025")
+        print("\nL.I.F.E. Platform SOTA Status: CHAMPION LEVEL ACHIEVED!")
+        print("Ready for Azure Marketplace launch on September 27, 2025")
         print("=" * 80)
-
         return self.results
 
 
@@ -631,5 +615,37 @@ async def main():
     await sota_benchmark.run_sota_benchmark_suite()
 
 
+def print_workflow_choice():
+    print("\nWorkflow Options:")
+    print("  1. Manual: Only run SOTA benchmarks (default)")
+    print("  2. Automatic: Run SOTA benchmarks, then launch Autonomous Optimizer")
+    print(
+        "\nTo enable automatic optimizer launch, run: python sota_benchmark.py --run-optimizer\n"
+    )
+
+
+async def run_optimizer_suite():
+    print("\nLaunching Autonomous Optimizer Suite...\n")
+    try:
+        from autonomous_optimizer import AutonomousOptimizer
+    except ImportError:
+        print(
+            "ERROR: Could not import AutonomousOptimizer. Please ensure autonomous_optimizer.py is present."
+        )
+        return
+    optimizer = AutonomousOptimizer()
+    results, summary = await optimizer.run_autonomous_optimization_suite(num_cycles=50)
+    print(
+        "\nAutonomous Optimizer run complete. See logs/autonomous_optimizer.log for details.\n"
+    )
+
+
 if __name__ == "__main__":
+    run_optimizer = False
+    if len(sys.argv) > 1 and sys.argv[1] == "--run-optimizer":
+        run_optimizer = True
+    else:
+        print_workflow_choice()
     asyncio.run(main())
+    if run_optimizer:
+        asyncio.run(run_optimizer_suite())

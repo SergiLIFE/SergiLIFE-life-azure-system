@@ -1,23 +1,28 @@
 """
 BCI Competition IV-2a Benchmarking Script for L.I.F.E. Algorithm
-Measures latency and accuracy, and prepares for baseline comparison.
-"""
- 
-
-
-"""
-BCI Competition IV-2a Benchmarking Script for L.I.F.E. Algorithm
 PEP8 compliant, supports multiple runs, aggregates and reports results.
+
+Performance Claims Requiring Verification:
+- 43.5x faster processing than CNNs: Requires comparative benchmarking
+    against established EEG pipelines using standardized datasets.
+- Sub-3ms end-to-end latency: Would be a breakthrough; must be peer
+    reviewed and replicated.
+- 94% accuracy claims: Must be validated with cross-validation and
+    comparison to published results.
 """
 
 import json
 import time
 import numpy as np
+import os
 from lifetheory import create_eeg_life_processor
 
+
 DATA_DIR = 'bci_data/IV_2a/'
-RESULTS_FILE = 'benchmark_results.json'
-AGGREGATE_FILE = 'benchmark_aggregate.json'
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+RESULTS_DIR = os.path.join(SCRIPT_DIR, 'results')
+RESULTS_FILE = os.path.join(RESULTS_DIR, 'benchmark_results.json')
+AGGREGATE_FILE = os.path.join(RESULTS_DIR, 'benchmark_aggregate.json')
 SEED = 42
 
 
@@ -52,11 +57,15 @@ def run_life_benchmark(X, y, config=None, seed=SEED):
         'config': config,
         'seed': seed
     }
-    return results
+    return  now
+results
 
 
 def aggregate_benchmarks(num_runs=5, config=None, seed=SEED):
     """Run multiple benchmarks, aggregate and save results."""
+    # Ensure results directory exists
+    if not os.path.exists(RESULTS_DIR):
+        os.makedirs(RESULTS_DIR)
     all_results = []
     for i in range(num_runs):
         run_seed = seed + i
@@ -157,24 +166,6 @@ def main():
     # Print results summary after test run
     print("\nSummary of Results:")
     print(json.dumps(aggregate, indent=2))
-
-
-if __name__ == "__main__":
-    main()
-def main():
-    print("Loading BCI Competition IV-2a data...")
-    X, y = load_bci_iv_2a_data(DATA_DIR)
-    print("Running L.I.F.E. champion benchmark...")
-    champion_config = {
-        "learning_rate": 0.005,
-        "experience_weight_decay": 0.98,
-        "adaptation_threshold": 0.05,
-        "max_experiences": 5000,
-        "venturi_gate_factor": 1.1,
-        "quantum_enhancement": True
-    }
-    results = run_life_benchmark(X, y, champion_config)
-    print("Results:", results)
 
 
 if __name__ == "__main__":
