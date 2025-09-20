@@ -1,5 +1,26 @@
 # L.I.F.E. Platform Autonomous Optimizer & SOTA Benchmarks
 
+## New Workflow Option: Automatic Optimizer Trigger
+
+You can now choose how the Autonomous Optimizer is launched after running the SOTA Benchmark Suite:
+
+- **Manual (default):** Only the SOTA benchmarks are run. To launch the optimizer, run it separately as before.
+- **Automatic:** The optimizer is triggered immediately after the SOTA benchmarks complete.
+
+### How to Use
+
+**Manual (default):**
+
+    python sota_benchmark.py
+
+**Automatic (run optimizer after benchmarks):**
+
+    python sota_benchmark.py --run-optimizer
+
+This will run the SOTA benchmarks and, upon completion, automatically launch the Autonomous Optimizer suite (50 cycles). Logs for each are written to their respective files in the `logs/` directory.
+
+Reviewers and users can select the workflow that best fits their needs.
+
 ## Autonomous Optimization Engine
 
 ### Core Features

@@ -12,6 +12,7 @@ Autonomous optimization for SOTA neural processing performance
 import asyncio
 import json
 import logging
+import queue
 import threading
 import time
 import warnings
@@ -19,6 +20,7 @@ from collections import deque
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict, dataclass
 from datetime import datetime
+from logging.handlers import QueueHandler, QueueListener
 from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
@@ -26,13 +28,61 @@ import psutil
 
 warnings.filterwarnings("ignore")
 
-# Set up logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler("autonomous_optimizer.log"), logging.StreamHandler()],
-)
-logger = logging.getLogger(__name__)
+
+import atexit
+
+# Set up logging and results directories robustly
+import os
+import sys
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+LOGS_DIR = os.path.join(SCRIPT_DIR, "logs")
+RESULTS_DIR = os.path.join(SCRIPT_DIR, "results")
+try:
+    os.makedirs(LOGS_DIR, exist_ok=True)
+except Exception as e:
+    print(f"Failed to create logs directory: {e}", file=sys.stderr)
+try:
+    os.makedirs(RESULTS_DIR, exist_ok=True)
+except Exception as e:
+    print(f"Failed to create results directory: {e}", file=sys.stderr)
+LOG_FILE = os.path.join(LOGS_DIR, "autonomous_optimizer.log")
+
+# Async-safe logging with QueueHandler/QueueListener
+log_queue = queue.Queue(-1)
+file_handler = logging.FileHandler(LOG_FILE, encoding="utf-8")
+file_handler.setLevel(logging.INFO)
+formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+file_handler.setFormatter(formatter)
+queue_handler = QueueHandler(log_queue)
+logger = logging.getLogger("autonomous_optimizer")
+logger.setLevel(logging.INFO)
+if logger.hasHandlers():
+    for h in logger.handlers[:]:
+        logger.removeHandler(h)
+logger.addHandler(queue_handler)
+listener = QueueListener(log_queue, file_handler)
+listener.start()
+
+
+# Ensure listener and handlers are closed on exit
+def cleanup_logging():
+    try:
+        logger.removeHandler(queue_handler)
+    except Exception:
+        pass
+    try:
+        listener.stop()
+    except Exception:
+        pass
+    try:
+        file_handler.close()
+    except Exception:
+        pass
+    logging.shutdown()
+
+
+atexit.register(cleanup_logging)
 
 
 @dataclass
@@ -119,9 +169,7 @@ class AutonomousOptimizer:
         cycle_start = time.perf_counter()
         self.optimization_cycle += 1
 
-        logger.info(
-            f"🧠 Starting Autonomous Optimization Cycle {self.optimization_cycle}"
-        )
+        logger.info(f"Starting Autonomous Optimization Cycle {self.optimization_cycle}")
 
         # Stage 1: Concrete Experience - Raw neural data intake
         filtered_data = await self._adaptive_data_filtering(neural_data)
@@ -178,7 +226,7 @@ class AutonomousOptimizer:
             await self._autonomous_mode_switching(state)
 
         logger.info(
-            f"✅ Cycle {self.optimization_cycle} completed: {cycle_time:.2f}ms, Score: {performance_score:.3f}"
+            f"Cycle {self.optimization_cycle} completed: {cycle_time:.2f}ms, Score: {performance_score:.3f}"
         )
 
         return state
@@ -459,16 +507,16 @@ class AutonomousOptimizer:
         # Performance-based mode switching logic
         if state.performance_score < 0.6 and state.latency_ms > 50:
             self.current_mode = "efficiency"
-            logger.info("🔄 Switched to efficiency mode - optimizing latency")
+            logger.info("Switched to efficiency mode - optimizing latency")
         elif state.performance_score > 0.85 and state.latency_ms < 20:
             self.current_mode = "performance"
-            logger.info("🔄 Switched to performance mode - maximizing accuracy")
+            logger.info("Switched to performance mode - maximizing accuracy")
         elif state.performance_score > 0.9:
             self.current_mode = "adaptive"
-            logger.info("🔄 Switched to adaptive mode - balanced optimization")
+            logger.info("Switched to adaptive mode - balanced optimization")
         else:
             self.current_mode = "balanced"
-            logger.info("🔄 Switched to balanced mode - steady optimization")
+            logger.info("Switched to balanced mode - steady optimization")
 
     def _predict_performance(self, impact: float) -> Dict:
         """Predict future performance based on current state"""
@@ -546,8 +594,8 @@ class AutonomousOptimizer:
         """
         Run comprehensive autonomous optimization suite
         """
-        logger.info(f"🚀 Starting Autonomous Optimization Suite - {num_cycles} cycles")
-        logger.info("🧠 L.I.F.E. Platform Self-Optimization Engine")
+        logger.info(f"Starting Autonomous Optimization Suite - {num_cycles} cycles")
+        logger.info("L.I.F.E. Platform Self-Optimization Engine")
         logger.info("=" * 80)
 
         results = []
@@ -565,7 +613,7 @@ class AutonomousOptimizer:
 
             # Progress reporting
             if (cycle + 1) % 10 == 0:
-                logger.info(f"🔄 Completed {cycle + 1}/{num_cycles} cycles")
+                logger.info(f"Completed {cycle + 1}/{num_cycles} cycles")
                 logger.info(f"   Performance: {state.performance_score:.3f}")
                 logger.info(f"   Latency: {state.latency_ms:.2f}ms")
                 logger.info(f"   Mode: {state.optimization_level}")
@@ -573,9 +621,9 @@ class AutonomousOptimizer:
         # Generate final summary
         summary = self.get_optimization_summary()
 
-        logger.info("🎉 Autonomous Optimization Suite completed!")
+        logger.info("Autonomous Optimization Suite completed!")
         logger.info("=" * 80)
-        logger.info("📊 OPTIMIZATION SUMMARY:")
+        logger.info("OPTIMIZATION SUMMARY:")
         logger.info(f"   Total Cycles: {summary['total_cycles']}")
         logger.info(
             f"   Average Performance: {summary['performance_metrics']['average_score']:.3f}"
@@ -655,20 +703,72 @@ async def main():
     optimizer = AutonomousOptimizer()
 
     # Run optimization suite
-    results, summary = await optimizer.run_autonomous_optimization_suite(num_cycles=50)
+
+    results, summary = await optimizer.run_autonomous_optimization_suite(
+        num_cycles=1000
+    )
 
     # Print final results
-    print("\n" + "=" * 80)
-    print("🏆 L.I.F.E. PLATFORM AUTONOMOUS OPTIMIZATION COMPLETE")
+    import os
+
+    import numpy as np
+
+    # Helper to recursively convert numpy floats to Python floats
+    def to_float(val):
+        if isinstance(val, (float, int)):
+            return val
+        if hasattr(np, "floating") and isinstance(val, np.floating):
+            return float(val)
+        if isinstance(val, dict):
+            return {k: to_float(v) for k, v in val.items()}
+        if isinstance(val, list):
+            return [to_float(v) for v in val]
+        return val
+
+    best_score = to_float(summary["performance_metrics"]["best_score"])
+    best_latency = to_float(summary["performance_metrics"]["best_latency"])
+    trait_evolution = to_float(summary["trait_evolution"])
+    sota_comparison = to_float(summary["sota_comparison"])
+
+    print()
     print("=" * 80)
-    print(f"🎯 Performance Score: {summary['performance_metrics']['best_score']:.3f}")
-    print(f"⚡ Best Latency: {summary['performance_metrics']['best_latency']:.2f}ms")
-    print(f"🧠 Trait Evolution: {summary['trait_evolution']}")
-    print(f"🚀 SOTA Comparison: {summary['sota_comparison']}")
+    print("L.I.F.E. PLATFORM AUTONOMOUS OPTIMIZATION COMPLETE")
     print("=" * 80)
+    print(f"Performance Score: {best_score:.3f}")
+    print(f"Best Latency: {best_latency:.2f}ms")
+    print(f"Trait Evolution: {trait_evolution}")
+    print(f"SOTA Comparison: {sota_comparison}")
+    print("=" * 80)
+
+    # Export summary to results directory as text and JSON
+    results_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "results")
+    os.makedirs(results_dir, exist_ok=True)
+    # Save as text
+    summary_txt = [
+        "=" * 80,
+        "L.I.F.E. PLATFORM AUTONOMOUS OPTIMIZATION COMPLETE",
+        "=" * 80,
+        f"Performance Score: {best_score:.3f}",
+        f"Best Latency: {best_latency:.2f}ms",
+        f"Trait Evolution: {trait_evolution}",
+        f"SOTA Comparison: {sota_comparison}",
+        "=" * 80,
+    ]
+    with open(
+        os.path.join(results_dir, "optimizer_summary.txt"), "w", encoding="utf-8"
+    ) as f:
+        f.write("\n".join(summary_txt))
+    # Save as JSON (full summary)
+    with open(
+        os.path.join(results_dir, "optimizer_summary.json"), "w", encoding="utf-8"
+    ) as f:
+        json.dump(to_float(summary), f, indent=2)
 
     return results, summary
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except Exception as e:
+        print(f"Exception in main: {e}", file=sys.stderr)
