@@ -119,16 +119,16 @@ class AutonomousOptimizer:
             "adaptability": {"baseline": 0.5, "current": 0.5, "velocity": 0.0},
         }
 
-        # Optimization parameters
-        self.ω = 0.8  # Learning momentum factor
-        self.α = 0.1  # Adaptation rate
-        self.τ = 0.05  # Trait evolution threshold
+        # Optimization parameters - Enhanced for 25% improvement target
+        self.ω = 0.9  # Increased learning momentum factor for faster convergence
+        self.α = 0.15  # Increased adaptation rate for aggressive learning
+        self.τ = 0.03  # Lowered trait evolution threshold for more frequent updates
         self.optimization_cycle = 0
 
         # Performance targets (SOTA standards)
         self.sota_targets = {
-            "latency_ms": 15.12,  # L.I.F.E Champion performance
-            "accuracy": 0.959,  # BCI Competition IV-2a champion
+            "latency_ms": 0.9,  # Target: 0.9ms latency
+            "accuracy": 0.97,  # Target: 97% accuracy
             "throughput_ops_sec": 80.16,
             "memory_efficiency_mb": 50.0,
         }
@@ -590,17 +590,24 @@ class AutonomousOptimizer:
         else:
             return "stable"
 
-    async def run_autonomous_optimization_suite(self, num_cycles: int = 100):
+    async def run_autonomous_optimization_suite(self, max_cycles: int = 1000):
         """
-        Run comprehensive autonomous optimization suite
+        Run comprehensive autonomous optimization suite until SOTA targets achieved
+        Targets: 0.9ms latency, 97% accuracy, 25% improvement after 100 cycles
         """
-        logger.info(f"Starting Autonomous Optimization Suite - {num_cycles} cycles")
-        logger.info("L.I.F.E. Platform Self-Optimization Engine")
+        logger.info(
+            "Starting Autonomous Optimization Suite - Target: 0.9ms latency, 97% accuracy"
+        )
+        logger.info("L.I.F.E. Platform Self-Optimization Engine with Enhanced Learning")
         logger.info("=" * 80)
 
-        results = []
+        trresults = []
+        baseline_score = None
+        target_latency = self.sota_targets["latency_ms"]
+        target_accuracy = self.sota_targets["accuracy"]
 
-        for cycle in range(num_cycles):
+        cycle = 0
+        while cycle < max_cycles:
             # Generate synthetic neural data for testing
             mock_neural_data = self._generate_test_neural_data()
             environment = f"autonomous_optimization_cycle_{cycle}"
@@ -609,14 +616,49 @@ class AutonomousOptimizer:
             state = await self.autonomous_optimization_cycle(
                 mock_neural_data, environment
             )
-            results.append(state)
+            trresults.append(state)
+
+            # Set baseline after first cycle
+            if baseline_score is None:
+                baseline_score = state.performance_score
+
+            # Check for 25% improvement after 100 cycles
+            improvement_threshold = 100
+            if cycle >= improvement_threshold:
+                current_avg_score = np.mean(
+                    [s.performance_score for s in trresults[-10:]]
+                )
+                improvement = (current_avg_score - baseline_score) / baseline_score
+                if improvement >= 0.25:
+                    logger.info(
+                        f"🎯 25% improvement achieved after {cycle + 1} cycles!"
+                    )
+                    break
+
+            # Check SOTA targets
+            if state.latency_ms <= target_latency and state.accuracy >= target_accuracy:
+                logger.info(
+                    f"🏆 SOTA targets achieved! Latency: {state.latency_ms:.2f}ms, Accuracy: {state.accuracy:.1f}%"
+                )
+                break
 
             # Progress reporting
-            if (cycle + 1) % 10 == 0:
-                logger.info(f"Completed {cycle + 1}/{num_cycles} cycles")
-                logger.info(f"   Performance: {state.performance_score:.3f}")
+            if (cycle + 1) % 25 == 0:
+                current_avg_score = np.mean(
+                    [s.performance_score for s in trresults[-10:]]
+                )
+                improvement = (
+                    (current_avg_score - baseline_score) / baseline_score
+                    if baseline_score
+                    else 0
+                )
+                logger.info(f"Completed {cycle + 1} cycles")
+                logger.info(f"   Performance: {current_avg_score:.3f}")
                 logger.info(f"   Latency: {state.latency_ms:.2f}ms")
-                logger.info(f"   Mode: {state.optimization_level}")
+                logger.info(f"   Accuracy: {state.accuracy:.1f}%")
+                logger.info(f"   Improvement: {improvement:.1f}%")
+
+            cycle += 1
 
         # Generate final summary
         summary = self.get_optimization_summary()
@@ -640,7 +682,7 @@ class AutonomousOptimizer:
         logger.info(f"   Current Mode: {summary['current_mode']}")
         logger.info("=" * 80)
 
-        return results, summary
+        return trresults, summary
 
     def _generate_test_neural_data(self) -> Dict:
         """Generate realistic test neural data"""
@@ -705,7 +747,7 @@ async def main():
     # Run optimization suite
 
     results, summary = await optimizer.run_autonomous_optimization_suite(
-        num_cycles=1000
+        max_cycles=1000
     )
 
     # Print final results
