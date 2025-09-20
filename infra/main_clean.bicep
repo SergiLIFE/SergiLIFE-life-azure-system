@@ -279,10 +279,7 @@ resource keyVaultSecretsOfficerRole 'Microsoft.Authorization/roleAssignments@202
   name: guid(keyVault.id, managedIdentity.id, 'Key Vault Secrets Officer')
   scope: keyVault
   properties: {
-    roleDefinitionId: subscriptionResourceId(
-      'Microsoft.Authorization/roleDefinitions',
-      'b86a8fe4-44ce-4948-aee5-eccb2c155cd7'
-    )
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b86a8fe4-44ce-4948-aee5-eccb2c155cd7')
     principalId: managedIdentity.properties.principalId
     principalType: 'ServicePrincipal'
   }
@@ -293,10 +290,7 @@ resource storageBlobDataContributorRole 'Microsoft.Authorization/roleAssignments
   name: guid(storageAccount.id, managedIdentity.id, 'Storage Blob Data Contributor')
   scope: storageAccount
   properties: {
-    roleDefinitionId: subscriptionResourceId(
-      'Microsoft.Authorization/roleDefinitions',
-      'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
-    )
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe')
     principalId: managedIdentity.properties.principalId
     principalType: 'ServicePrincipal'
   }
@@ -307,10 +301,7 @@ resource serviceBusDataOwnerRole 'Microsoft.Authorization/roleAssignments@2022-0
   name: guid(serviceBusNamespace.id, managedIdentity.id, 'Azure Service Bus Data Owner')
   scope: serviceBusNamespace
   properties: {
-    roleDefinitionId: subscriptionResourceId(
-      'Microsoft.Authorization/roleDefinitions',
-      '090c5cfd-751d-490a-894a-3ce6f1109419'
-    )
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '090c5cfd-751d-490a-894a-3ce6f1109419')
     principalId: managedIdentity.properties.principalId
     principalType: 'ServicePrincipal'
   }
@@ -321,10 +312,7 @@ resource acrPullRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(containerRegistry.id, managedIdentity.id, 'AcrPull')
   scope: containerRegistry
   properties: {
-    roleDefinitionId: subscriptionResourceId(
-      'Microsoft.Authorization/roleDefinitions',
-      '7f951dda-4ed3-4680-a7ca-43fe172d538d'
-    )
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d')
     principalId: managedIdentity.properties.principalId
     principalType: 'ServicePrincipal'
   }

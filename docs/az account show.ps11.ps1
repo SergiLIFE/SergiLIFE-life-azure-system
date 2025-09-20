@@ -1,0 +1,3 @@
+az account show
+az role assignment create --assignee JoyalB@proarch.com --role Contributor --scope /subscriptions/5c88cef6-f243-497d-98af-6c6086d575ca
+az role assignment create --assignee FuzailA@proarch.com --role Contributor --scope /subscriptions/5c88cef6-f243-497d-98af-6c6086d575ca

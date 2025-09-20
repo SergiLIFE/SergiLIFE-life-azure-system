@@ -223,3 +223,6 @@ A: Check Azure CLI authentication and permissions
 **L.I.F.E. Platform User Guide**
 Revolutionary neural processing with 94% accuracy and 43.5x speed advantage ✅
 Copyright © 2025 Sergio Paya Borrull - All Rights Reserved
+
+az role assignment create --assignee JoyalB@proarch.com --role Contributor --scope /subscriptions/5c88cef6-f243-497d-98af-6c6086d575ca
+az role assignment create --assignee FuzailA@proarch.com --role Contributor --scope /subscriptions/5c88cef6-f243-497d-98af-6c6086d575ca
