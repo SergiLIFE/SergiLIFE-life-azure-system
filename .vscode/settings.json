@@ -30,9 +30,5 @@
   "scm.defaultViewMode": "tree",
   "git.decorations.enabled": true,
   "git.showProgress": false,
-  "git.ignoreLegacyWarning": true,
-  "azureLogicAppsStandard.projectPath": "${env:USERPROFILE}/.azurelogicapps",
-  "terminal.integrated.env.windows": {
-    "AZURE_LOGIC_APPS_DEPENDENCIES": "${env:USERPROFILE}\\.azurelogicapps\\dependencies"
-  }
+  "git.ignoreLegacyWarning": true
 }
