@@ -1,6 +1,10 @@
+#!/usr/bin/env python3
 """
 L.I.F.E Platform - Repository Integration Script
 Integrates all .vscode repository components with the L.I.F.E platform
+
+Copyright 2025 - Sergio Paya Borrull
+L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
 """
 
 import json

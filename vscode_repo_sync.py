@@ -6,6 +6,9 @@
 Safely fetches and integrates VS Code configurations, tools, and utilities
 from other repositories to avoid recreating development environments.
 
+Copyright 2025 - Sergio Paya Borrull
+L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
+
 Features:
 - Safe configuration merging without overwriting existing customizations
 - Backup creation before any changes

@@ -2,6 +2,9 @@
 """
 L.I.F.E. Platform Autonomous Optimizer Test Suite
 Comprehensive testing and demonstration of autonomous optimization capabilities
+
+Copyright 2025 - Sergio Paya Borrull
+L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
 """
 
 import asyncio

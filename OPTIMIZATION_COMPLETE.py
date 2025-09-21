@@ -1,5 +1,11 @@
-# L.I.F.E Platform - Repository Optimization Summary
-# Integration of research synthesis into optimized Azure-native architecture
+#!/usr/bin/env python3
+"""
+L.I.F.E Platform - Repository Optimization Summary
+Integration of research synthesis into optimized Azure-native architecture
+
+Copyright 2025 - Sergio Paya Borrull
+L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
+"""
 
 """
 REPOSITORY OPTIMIZATION COMPLETED

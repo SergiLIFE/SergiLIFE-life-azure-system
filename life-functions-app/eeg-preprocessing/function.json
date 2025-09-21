@@ -1,0 +1,21 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "type": "eventHubTrigger",
+      "name": "events",
+      "direction": "in",
+      "eventHubName": "eeg-stream",
+      "connection": "EventHubConnectionString",
+      "cardinality": "many",
+      "consumerGroup": "$Default"
+    },
+    {
+      "type": "eventHub",
+      "name": "outputEvents",
+      "direction": "out",
+      "eventHubName": "processed-eeg",
+      "connection": "EventHubConnectionString"
+    }
+  ]
+}

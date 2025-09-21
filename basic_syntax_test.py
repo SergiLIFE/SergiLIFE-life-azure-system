@@ -2,6 +2,9 @@
 """
 Basic Syntax Test for L.I.F.E Algorithm
 Test that the core algorithm can be imported and basic functions work
+
+Copyright 2025 - Sergio Paya Borrull
+L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
 """
 
 import sys
@@ -31,14 +34,14 @@ def test_imports():
         print("🔬 Testing L.I.F.E algorithm import...")
         # Import the algorithm module using importlib
         import importlib.util
-        
+
         spec = importlib.util.spec_from_file_location(
-            'experimentP2L', 
-            'experimentP2L.I.F.E-Learning-Individually-from-Experience-Theory-Algorithm-Code-2025-Copyright-Se.py'
+            "experimentP2L",
+            "experimentP2L.I.F.E-Learning-Individually-from-Experience-Theory-Algorithm-Code-2025-Copyright-Se.py",
         )
         experimentP2L = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(experimentP2L)
-        
+
         # Import classes from the loaded module
         LIFEAlgorithmCore = experimentP2L.LIFEAlgorithmCore
         LearningStage = experimentP2L.LearningStage
@@ -68,7 +71,9 @@ def test_imports():
 
         async def test_processing():
             metrics = await life_core.process_eeg_stream(synthetic_eeg)
-            print(f"✅ EEG processed: attention={metrics.attention_index:.3f}, efficiency={metrics.learning_efficiency:.3f}")
+            print(
+                f"✅ EEG processed: attention={metrics.attention_index:.3f}, efficiency={metrics.learning_efficiency:.3f}"
+            )
             return metrics
 
         metrics = asyncio.run(test_processing())
@@ -88,11 +93,11 @@ def test_imports():
         traceback.print_exc()
         return False
 
+
 if __name__ == "__main__":
     success = test_imports()
     if success:
         print("\n🚀 L.I.F.E Algorithm is ready for production!")
     else:
         print("\n❌ L.I.F.E Algorithm has issues that need fixing")
-        sys.exit(1)        print("\n❌ L.I.F.E Algorithm has issues that need fixing")
         sys.exit(1)

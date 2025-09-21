@@ -6,6 +6,9 @@
 Quick setup script to fetch VS Code configurations from your .vscode repository
 and other common VS Code configuration sources.
 
+Copyright 2025 - Sergio Paya Borrull
+L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
+
 This script will:
 1. Backup your current .vscode settings
 2. Fetch configurations from specified repositories

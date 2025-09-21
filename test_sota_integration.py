@@ -2,6 +2,9 @@
 """
 SOTA Benchmark Validation Test
 Quick test to validate the SOTA benchmark integration
+
+Copyright 2025 - Sergio Paya Borrull
+L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
 """
 
 print("🧠 L.I.F.E. Platform SOTA Benchmark Suite")

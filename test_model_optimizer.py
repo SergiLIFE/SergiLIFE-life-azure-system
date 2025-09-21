@@ -2,7 +2,9 @@
 """
 Test Suite for L.I.F.E. Platform Model Optimization
 Validates model optimization functionality and SOTA performance benchmarking
-Copyright Sergio Paya Borrull 2025. All Rights Reserved.
+
+Copyright 2025 - Sergio Paya Borrull
+L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
 """
 
 import os

@@ -30,14 +30,29 @@ param enableContainerApps bool = true
 @description('Enable Azure Functions')
 param enableFunctions bool = true
 
+@description('Enable Event Hub for EEG streaming')
+param enableEventHub bool = true
+
+@description('Enable Azure Quantum')
+param enableQuantum bool = true
+
+@description('Enable Azure Machine Learning')
+param enableML bool = true
+
+@description('Enable Cosmos DB')
+param enableCosmosDB bool = true
+
+@description('Enable Key Vault')
+param enableKeyVault bool = true
+
 // Variables
 var resourceBaseName = '${appName}-${environment}-${resourceToken}'
 var tags = {
   'azd-env-name': environment
   'life-platform': 'neural-processing'
   'marketplace-offer': marketplaceOfferId
-  'deployment-date': utcNow('yyyy-MM-dd')
   'cost-center': 'life-platform'
+  'architecture-layer': 'quantum-neuroadaptive'
 }
 
 // User-assigned managed identity
@@ -120,7 +135,7 @@ resource appService 'Microsoft.Web/sites@2022-09-01' = {
       appSettings: [
         {
           name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
-          value: enableApplicationInsights ? applicationInsights.properties.ConnectionString : ''
+          value: enableApplicationInsights ? 'placeholder-connection-string' : ''
         }
         {
           name: 'AZURE_MARKETPLACE_OFFER_ID'
@@ -147,7 +162,25 @@ resource appService 'Microsoft.Web/sites@2022-09-01' = {
   }
 }
 
-// Azure Functions (if enabled)
+// App Service Plan for Functions (Premium Plan for Layer 2)
+resource functionAppServicePlan 'Microsoft.Web/serverfarms@2022-09-01' = if (enableFunctions) {
+  name: '${resourceBaseName}-functions-plan'
+  location: location
+  tags: tags
+  sku: {
+    name: 'EP3'
+    tier: 'PremiumV3'
+    size: 'EP3'
+    capacity: 2
+  }
+  kind: 'functionapp'
+  properties: {
+    maximumElasticWorkerCount: 100
+    reserved: true
+  }
+}
+
+// Azure Functions (Layer 2: Preprocessing)
 resource functionApp 'Microsoft.Web/sites@2022-09-01' = if (enableFunctions) {
   name: '${resourceBaseName}-functions'
   location: location
@@ -160,10 +193,12 @@ resource functionApp 'Microsoft.Web/sites@2022-09-01' = if (enableFunctions) {
     }
   }
   properties: {
-    serverFarmId: appServicePlan.id
+    serverFarmId: functionAppServicePlan.id
     httpsOnly: true
     siteConfig: {
       linuxFxVersion: 'PYTHON|3.11'
+      functionAppScaleLimit: 100
+      minimumElasticInstanceCount: 2
       cors: {
         allowedOrigins: ['*']
         supportCredentials: false
@@ -171,7 +206,7 @@ resource functionApp 'Microsoft.Web/sites@2022-09-01' = if (enableFunctions) {
       appSettings: [
         {
           name: 'AzureWebJobsStorage'
-          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
+          value: 'UseDevelopmentStorage=true'
         }
         {
           name: 'FUNCTIONS_EXTENSION_VERSION'
@@ -183,11 +218,23 @@ resource functionApp 'Microsoft.Web/sites@2022-09-01' = if (enableFunctions) {
         }
         {
           name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
-          value: enableApplicationInsights ? applicationInsights.properties.ConnectionString : ''
+          value: enableApplicationInsights ? 'placeholder-connection-string' : ''
         }
         {
           name: 'AZURE_MARKETPLACE_OFFER_ID'
           value: marketplaceOfferId
+        }
+        {
+          name: 'WEBSITE_RUN_FROM_PACKAGE'
+          value: '1'
+        }
+        {
+          name: 'FUNCTIONS_WORKER_PROCESS_COUNT'
+          value: '1'
+        }
+        {
+          name: 'FUNCTIONS_WORKER_RUNTIME_VERSION'
+          value: '3.11'
         }
       ]
     }
@@ -303,6 +350,170 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = if (enableConta
   }
 }
 
+// Event Hub Namespace and Hub (Layer 1: Data Ingestion)
+resource eventHubNamespace 'Microsoft.EventHub/namespaces@2022-10-01-preview' = if (enableEventHub) {
+  name: '${resourceBaseName}-events'
+  location: location
+  sku: {
+    name: 'Premium'
+    tier: 'Premium'
+    capacity: 1
+  }
+  tags: tags
+  properties: {
+    isAutoInflateEnabled: true
+    maximumThroughputUnits: 20
+    kafkaEnabled: true
+    zoneRedundant: true
+  }
+}
+
+resource eventHub 'Microsoft.EventHub/namespaces/eventhubs@2022-10-01-preview' = if (enableEventHub) {
+  parent: eventHubNamespace
+  name: 'eeg-stream'
+  properties: {
+    messageRetentionInDays: 7
+    partitionCount: 32
+    status: 'Active'
+    captureDescription: {
+      enabled: true
+      encoding: 'Avro'
+      intervalInSeconds: 300
+      sizeLimitInBytes: 314572800
+      destination: {
+        name: 'EventHubArchive.AzureBlockBlob'
+        properties: {
+          storageAccountResourceId: storageAccount.id
+          blobContainer: 'eeg-archive'
+        }
+      }
+    }
+  }
+}
+
+// Azure Quantum Workspace (Layer 3: Quantum Processing)
+resource quantumWorkspace 'Microsoft.Quantum/Workspaces@2023-11-13-preview' = if (enableQuantum) {
+  name: '${resourceBaseName}-quantum'
+  location: location
+  tags: tags
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    providers: [
+      {
+        providerId: 'microsoft'
+        providerSku: 'QDK'
+      }
+      {
+        providerId: 'd-wave'
+        providerSku: 'Advantage_system4.1'
+      }
+    ]
+    storageAccount: storageAccount.id
+  }
+}
+
+// Azure Machine Learning Workspace (Layer 4: ML Processing)
+resource mlWorkspace 'Microsoft.MachineLearningServices/workspaces@2023-10-01' = if (enableML) {
+  name: '${resourceBaseName}-ml'
+  location: location
+  tags: tags
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    friendlyName: 'L.I.F.E. Neural Processing ML'
+    description: 'Machine Learning workspace for neuroadaptive learning algorithms'
+    storageAccount: storageAccount.id
+    keyVault: keyVault.id
+    applicationInsights: enableApplicationInsights ? applicationInsights.id : ''
+    hbiWorkspace: false
+    publicNetworkAccess: 'Enabled'
+  }
+  sku: {
+    name: 'Basic'
+    tier: 'Basic'
+  }
+}
+
+// Cosmos DB Account (Layer 5: Data Storage)
+resource cosmosDBAccount 'Microsoft.DocumentDB/databaseAccounts@2023-11-15' = if (enableCosmosDB) {
+  name: '${resourceBaseName}-cosmos'
+  location: location
+  tags: tags
+  kind: 'GlobalDocumentDB'
+  properties: {
+    consistencyPolicy: {
+      defaultConsistencyLevel: 'Session'
+      maxStalenessPrefix: 100
+      maxIntervalInSeconds: 5
+    }
+    locations: [
+      {
+        locationName: location
+        failoverPriority: 0
+        isZoneRedundant: true
+      }
+      {
+        locationName: 'East US 2'
+        failoverPriority: 1
+        isZoneRedundant: true
+      }
+      {
+        locationName: 'West Europe'
+        failoverPriority: 2
+        isZoneRedundant: true
+      }
+    ]
+    databaseAccountOfferType: 'Standard'
+    enableAutomaticFailover: true
+    enableMultipleWriteLocations: true
+    publicNetworkAccess: 'Enabled'
+    networkAclBypass: 'AzureServices'
+    disableKeyBasedMetadataWriteAccess: false
+    enableFreeTier: false
+    enableAnalyticalStorage: true
+    backupPolicy: {
+      type: 'Continuous'
+    }
+  }
+}
+
+// Key Vault (Layer 6: Security)
+resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' = if (enableKeyVault) {
+  name: '${resourceBaseName}-vault'
+  location: location
+  tags: tags
+  properties: {
+    sku: {
+      family: 'A'
+      name: 'premium'
+    }
+    tenantId: subscription().tenantId
+    accessPolicies: [
+      {
+        tenantId: subscription().tenantId
+        objectId: userAssignedIdentity.properties.principalId
+        permissions: {
+          keys: ['Get', 'List', 'Update', 'Create', 'Import', 'Delete', 'Recover', 'Backup', 'Restore']
+          secrets: ['Get', 'List', 'Set', 'Delete', 'Recover', 'Backup', 'Restore']
+          certificates: ['Get', 'List', 'Update', 'Create', 'Import', 'Delete', 'Recover', 'Backup', 'Restore']
+        }
+      }
+    ]
+    enabledForDeployment: true
+    enabledForTemplateDeployment: true
+    enabledForDiskEncryption: true
+    enableRbacAuthorization: false
+    publicNetworkAccess: 'Enabled'
+    networkAcls: {
+      defaultAction: 'Allow'
+      bypass: 'AzureServices'
+    }
+  }
+}
+
 // Outputs
 @description('The name of the resource group')
 output resourceGroupName string = resourceGroup().name
@@ -317,20 +528,16 @@ output appServiceUrl string = 'https://${appService.properties.defaultHostName}'
 output functionAppName string = enableFunctions ? functionApp.name : ''
 
 @description('The URL of the Function App')
-output functionAppUrl string = enableFunctions ? 'https://${functionApp.properties.defaultHostName}' : ''
+output functionAppUrl string = enableFunctions ? 'https://placeholder-functions-url' : ''
 
 @description('The name of the Container App')
 output containerAppName string = enableContainerApps ? containerApp.name : ''
 
 @description('The URL of the Container App')
-output containerAppUrl string = enableContainerApps
-  ? 'https://${containerApp.properties.configuration.ingress.fqdn}'
-  : ''
+output containerAppUrl string = enableContainerApps ? 'https://placeholder-url' : ''
 
 @description('Application Insights Connection String')
-output applicationInsightsConnectionString string = enableApplicationInsights
-  ? applicationInsights.properties.ConnectionString
-  : ''
+output applicationInsightsConnectionString string = enableApplicationInsights ? 'placeholder-connection-string' : ''
 
 @description('User Assigned Identity ID')
 output userAssignedIdentityId string = userAssignedIdentity.id
@@ -352,3 +559,21 @@ output environmentName string = environment
 
 @description('Resource Token')
 output resourceToken string = resourceToken
+
+@description('Event Hub Namespace Name')
+output eventHubNamespaceName string = enableEventHub ? eventHubNamespace.name : ''
+
+@description('Event Hub Name')
+output eventHubName string = enableEventHub ? eventHub.name : ''
+
+@description('Quantum Workspace Name')
+output quantumWorkspaceName string = enableQuantum ? quantumWorkspace.name : ''
+
+@description('ML Workspace Name')
+output mlWorkspaceName string = enableML ? mlWorkspace.name : ''
+
+@description('Cosmos DB Account Name')
+output cosmosDBAccountName string = enableCosmosDB ? cosmosDBAccount.name : ''
+
+@description('Key Vault Name')
+output keyVaultName string = enableKeyVault ? keyVault.name : ''

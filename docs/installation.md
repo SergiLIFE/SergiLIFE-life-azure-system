@@ -1,5 +1,8 @@
 # L.I.F.E Platform Installation Guide
 
+Copyright 2025 - Sergio Paya Borrull
+L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
+
 ## Prerequisites
 
 ### System Requirements

@@ -1,6 +1,9 @@
 """
 L.I.F.E Platform - Artifacts Management System
 Integrates build artifacts, test results, and deployment packages
+
+Copyright 2025 - Sergio Paya Borrull
+L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
 """
 
 import hashlib

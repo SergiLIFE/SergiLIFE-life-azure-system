@@ -1,6 +1,10 @@
+#!/usr/bin/env python3
 """
 L.I.F.E Platform - Experiments Configuration System
 Advanced experimental design, execution, and analysis framework
+
+Copyright 2025 - Sergio Paya Borrull
+L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
 """
 
 import json

@@ -2,9 +2,9 @@
 """
 L.I.F.E. Platform Autonomous Optimizer
 Advanced Neural Processing Optimization System
-Copyright Sergio Paya Borrull 2025. All Rights Reserved.
 
-Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
+Copyright 2025 - Sergio Paya Borrull
+L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
 Launch Date: September 27, 2025
 Autonomous optimization for SOTA neural processing performance
 """

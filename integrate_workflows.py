@@ -6,6 +6,9 @@
 Integrates your existing GitHub Actions workflows with the Azure Functions Enterprise System
 for maximum DevOps efficiency and automation.
 
+Copyright 2025 - Sergio Paya Borrull
+L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
+
 Features:
 - Workflow analysis and compatibility checking
 - Automated integration setup

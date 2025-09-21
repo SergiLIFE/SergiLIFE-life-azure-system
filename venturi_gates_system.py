@@ -6,11 +6,13 @@ Copyright 2025 - Sergio Paya Borrull
 """
 
 import logging
+import math
+import statistics
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
-import numpy as np
+# import numpy as np  # Temporarily commented out due to space constraints
 
 logger = logging.getLogger(__name__)
 
@@ -47,9 +49,7 @@ class VenturiGate:
 
         logger.info(f"Venturi Gate {config.gate_id} initialized: {config.gate_type}")
 
-    def process_signal(
-        self, signal: np.ndarray, context: Dict[str, Any] = None
-    ) -> np.ndarray:
+    def process_signal(self, signal: Any, context: Dict[str, Any] = None) -> Any:
         """Apply Venturi effect to signal processing"""
         if context is None:
             context = {}
@@ -66,24 +66,25 @@ class VenturiGate:
 
         return processed
 
-    def _apply_venturi_effect(self, signal: np.ndarray) -> np.ndarray:
+    def _apply_venturi_effect(self, signal):
         """Core Venturi effect application"""
         # Venturi equation: velocity increases as area decreases
         # P1 + 0.5*ρ*v1² = P2 + 0.5*ρ*v2²
 
         # Constriction phase: signal compression
-        constricted = signal * self.config.constriction_factor * self.state
+        constriction_factor = self.config.constriction_factor * self.state
+        constricted = [s * constriction_factor for s in signal]
 
         # Acceleration phase: velocity increase through narrow section
         acceleration = self.config.acceleration_factor * self.efficiency
-        accelerated = constricted * acceleration
+        accelerated = [c * acceleration for c in constricted]
 
         # Apply gate-specific processing
         processed = self._apply_gate_specific_processing(accelerated)
 
         return processed
 
-    def _apply_gate_specific_processing(self, signal: np.ndarray) -> np.ndarray:
+    def _apply_gate_specific_processing(self, signal):
         """Apply gate-type-specific processing"""
         if self.config.gate_type == VenturiGateType.SIGNAL_ENHANCEMENT:
             return self._enhance_signal(signal)
@@ -96,26 +97,28 @@ class VenturiGate:
         else:
             return signal
 
-    def _enhance_signal(self, signal: np.ndarray) -> np.ndarray:
+    def _enhance_signal(self, signal):
         """Signal enhancement through Venturi acceleration"""
         # Enhance signal amplitude based on local characteristics
-        local_std = np.std(signal)
+        local_std = statistics.stdev(signal) if len(signal) > 1 else 0.0
         enhancement_factor = 1.0 + 0.1 * self.efficiency / (1.0 + local_std)
-        return signal * enhancement_factor
+        return [s * enhancement_factor for s in signal]
 
-    def _reduce_noise(self, signal: np.ndarray) -> np.ndarray:
+    def _reduce_noise(self, signal: List[float]) -> List[float]:
         """Noise reduction through selective Venturi filtering"""
         # Apply adaptive threshold based on signal characteristics
-        threshold = np.std(signal) * (2.0 - self.efficiency)
+        threshold = statistics.stdev(signal) * (2.0 - self.efficiency)
 
         # Selective filtering: preserve signal, reduce noise
         filtered = signal.copy()
-        noise_mask = np.abs(signal) < threshold
-        filtered[noise_mask] *= self.efficiency
+        noise_mask = [abs(s) < threshold for s in signal]
+        filtered = [
+            f * self.efficiency if mask else f for f, mask in zip(filtered, noise_mask)
+        ]
 
         return filtered
 
-    def _extract_patterns(self, signal: np.ndarray) -> np.ndarray:
+    def _extract_patterns(self, signal: List[float]) -> List[float]:
         """Pattern extraction using Venturi flow dynamics"""
         # Use Venturi pressure differential to highlight patterns
         window_size = max(5, len(signal) // 20)
@@ -127,32 +130,43 @@ class VenturiGate:
         patterns = []
         for i in range(len(signal) - window_size + 1):
             window = signal[i : i + window_size]
-            pattern_strength = np.var(window) * self.efficiency
+            # Calculate variance manually
+            mean_val = sum(window) / len(window)
+            variance = sum((x - mean_val) ** 2 for x in window) / len(window)
+            pattern_strength = variance * self.efficiency
             patterns.append(pattern_strength)
 
         # Pad to match original length
-        patterns = np.array(patterns)
-        padded_patterns = np.pad(
-            patterns, (0, len(signal) - len(patterns)), mode="edge"
-        )
+        while len(patterns) < len(signal):
+            patterns.append(patterns[-1])
 
-        return padded_patterns
+        return patterns
 
-    def _adaptive_filter(self, signal: np.ndarray) -> np.ndarray:
+    def _adaptive_filter(self, signal: List[float]) -> List[float]:
         """Adaptive filtering using Venturi principles"""
         # Adapt filter characteristics based on signal properties
-        filter_strength = self.efficiency * (1.0 + np.var(signal))
+        mean_val = sum(signal) / len(signal)
+        variance = sum((x - mean_val) ** 2 for x in signal) / len(signal)
+        filter_strength = self.efficiency * (1.0 + variance)
 
         # Simple adaptive moving average
         window_size = max(3, int(filter_strength * 10))
         if window_size >= len(signal):
             return signal
 
-        filtered = np.convolve(signal, np.ones(window_size) / window_size, mode="same")
+        # Manual convolution with moving average
+        filtered = []
+        for i in range(len(signal)):
+            start = max(0, i - window_size // 2)
+            end = min(len(signal), i + window_size // 2 + 1)
+            window = signal[start:end]
+            avg = sum(window) / len(window)
+            filtered.append(avg)
+
         return filtered
 
     def _assess_performance(
-        self, input_signal: np.ndarray, output_signal: np.ndarray
+        self, input_signal: List[float], output_signal: List[float]
     ) -> float:
         """Assess processing performance"""
         # Calculate improvement metrics
@@ -160,23 +174,35 @@ class VenturiGate:
         output_noise = self._estimate_noise_level(output_signal)
 
         # Performance based on noise reduction and signal preservation
+        def calc_variance(sig):
+            mean_val = sum(sig) / len(sig)
+            return sum((x - mean_val) ** 2 for x in sig) / len(sig)
+
+        input_var = calc_variance(input_signal)
+        output_var = calc_variance(output_signal)
+
         noise_reduction = max(0, input_noise - output_noise) / max(input_noise, 0.001)
-        signal_preservation = 1.0 - abs(
-            np.var(output_signal) - np.var(input_signal)
-        ) / max(np.var(input_signal), 0.001)
+        signal_preservation = 1.0 - abs(output_var - input_var) / max(input_var, 0.001)
 
         performance = 0.6 * noise_reduction + 0.4 * signal_preservation
-        return np.clip(performance, 0.0, 1.0)
+        return max(0.0, min(1.0, performance))
 
-    def _estimate_noise_level(self, signal: np.ndarray) -> float:
+    def _estimate_noise_level(self, signal: List[float]) -> float:
         """Estimate noise level in signal"""
         # Simple noise estimation using high-frequency content
         if len(signal) < 10:
             return 0.0
 
         # High-frequency component as noise proxy
-        diff_signal = np.diff(signal, n=2)  # Second derivative
-        noise_level = np.std(diff_signal)
+        diff_signal = []
+        for i in range(2, len(signal)):
+            # Second derivative approximation
+            diff_signal.append(signal[i] - 2 * signal[i - 1] + signal[i - 2])
+
+        if diff_signal:
+            noise_level = statistics.stdev(diff_signal)
+        else:
+            noise_level = 0.0
         return noise_level
 
     def _adapt_gate(self, performance: float) -> None:
@@ -184,11 +210,13 @@ class VenturiGate:
         # Update gate state
         performance_delta = performance - 0.5  # Target performance = 0.5
         state_adjustment = self.config.adaptation_rate * performance_delta
-        self.state = np.clip(self.state + state_adjustment, 0.1, 2.0)
+        self.state = max(0.1, min(2.0, self.state + state_adjustment))
 
         # Update efficiency
         if len(self.processing_history) >= 10:
-            recent_performance = np.mean(self.processing_history[-10:])
+            recent_performance = sum(self.processing_history[-10:]) / len(
+                self.processing_history[-10:]
+            )
             if recent_performance > self.config.efficiency_threshold:
                 self.efficiency = min(2.0, self.efficiency * 1.01)
             else:
@@ -200,7 +228,7 @@ class VenturiGate:
             "state": self.state,
             "efficiency": self.efficiency,
             "recent_performance": (
-                np.mean(self.processing_history[-10:])
+                sum(self.processing_history[-10:]) / len(self.processing_history[-10:])
                 if len(self.processing_history) >= 10
                 else 0.0
             ),
@@ -248,7 +276,7 @@ class VenturiGatesSystem:
         ]
 
     def process_through_gates(
-        self, signal: np.ndarray, context: Dict[str, Any] = None
+        self, signal: List[float], context: Dict[str, Any] = None
     ) -> Dict[str, Any]:
         """Process signal through complete Venturi gate system"""
         if context is None:
@@ -286,7 +314,7 @@ class VenturiGatesSystem:
         return results
 
     def process_parallel_gates(
-        self, signal: np.ndarray, context: Dict[str, Any] = None
+        self, signal: List[float], context: Dict[str, Any] = None
     ) -> Dict[str, Any]:
         """Process signal through gates in parallel configuration"""
         if context is None:
@@ -315,11 +343,12 @@ class VenturiGatesSystem:
             for gate in self.gates.values():
                 weights.append(gate.efficiency)
 
-            weights = np.array(weights) / np.sum(weights)
+            total_weight = sum(weights)
+            weights = [w / total_weight for w in weights]
 
-            combined = np.zeros_like(signal)
+            combined = [0.0] * len(signal)
             for i, output in enumerate(parallel_outputs):
-                combined += weights[i] * output
+                combined = [c + weights[i] * o for c, o in zip(combined, output)]
 
             results["combined_output"] = combined
 
@@ -331,7 +360,7 @@ class VenturiGatesSystem:
     def _update_system_efficiency(self) -> None:
         """Update overall system efficiency"""
         gate_efficiencies = [gate.efficiency for gate in self.gates.values()]
-        self.system_efficiency = np.mean(gate_efficiencies)
+        self.system_efficiency = sum(gate_efficiencies) / len(gate_efficiencies)
 
     def optimize_pipeline(self) -> None:
         """Optimize gate processing pipeline order"""
@@ -377,13 +406,17 @@ class VenturiGatesSystem:
         return status
 
     def demonstrate_venturi_system(
-        self, test_signal: np.ndarray = None
+        self, test_signal: Optional[List[float]] = None
     ) -> Dict[str, Any]:
         """Demonstrate Venturi Gates System capabilities"""
         if test_signal is None:
             # Create test signal with noise
-            t = np.linspace(0, 1, 1000)
-            test_signal = np.sin(2 * np.pi * 5 * t) + 0.3 * np.random.randn(1000)
+            import random
+
+            t = [i / 1000 for i in range(1000)]
+            test_signal = [
+                math.sin(2 * math.pi * 5 * ti) + 0.3 * random.gauss(0, 1) for ti in t
+            ]
 
         demonstration = {
             "test_signal": test_signal,

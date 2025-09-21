@@ -6,6 +6,9 @@
 Comprehensive Azure Functions development workflow with automated planning,
 code generation, testing, and deployment using Azure best practices.
 
+Copyright 2025 - Sergio Paya Borrull
+L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
+
 Features:
 - Architecture planning and documentation
 - Code generation with best practices

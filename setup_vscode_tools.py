@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """
 Simple VS Code Tools Setup for L.I.F.E. Autonomous Optimizer
-Copyright Sergio Paya Borrull 2025. All Rights Reserved.
+
+Copyright 2025 - Sergio Paya Borrull
+L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
 """
 
 import json

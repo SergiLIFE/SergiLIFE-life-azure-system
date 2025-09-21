@@ -2,6 +2,9 @@
 """
 Azure Functions Enterprise Workflow Demo
 Demonstrates the complete 5-phase Azure Functions development process
+
+Copyright 2025 - Sergio Paya Borrull
+L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
 """
 
 

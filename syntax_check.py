@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """
 Simple syntax checker for L.I.F.E. algorithm
+
+Copyright 2025 - Sergio Paya Borrull
+L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
 """
 
 import ast
