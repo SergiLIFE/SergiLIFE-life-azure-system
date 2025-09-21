@@ -27,6 +27,17 @@ from lifetheory import AdaptationParameters, LIFEEEGProcessor
 warnings.filterwarnings("ignore")
 
 
+def ensure_directories():
+    """Ensure all required directories exist"""
+    directories = ["logs", "results", "data", "models"]
+    for directory in directories:
+        os.makedirs(directory, exist_ok=True)
+
+
+# Ensure directories exist before configuring logging
+ensure_directories()
+
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,

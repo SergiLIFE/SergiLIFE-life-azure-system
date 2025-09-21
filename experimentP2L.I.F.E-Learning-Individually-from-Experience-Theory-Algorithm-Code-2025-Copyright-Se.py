@@ -571,7 +571,8 @@ def main():
         # Generate enterprise report
         report = life_algorithm.export_enterprise_report()
         print(f"\n📊 Enterprise Report Generated")
-        print(f"Platform Version: {report['platform_version']}")
+        platform_version = report.get("platform_version", "2025.1.0-PRODUCTION")
+        print(f"Platform Version: {platform_version}")
         print(
             f"Azure Integration: {report['enterprise_metrics']['azure_integration_status']}"
         )
