@@ -434,6 +434,7 @@ if __name__ == "__main__":
 
     print("\nL.I.F.E Theory demonstration completed successfully!")
 
+"""
 L.I.F.E. THEORY SAAS - AZURE EEG TESTING REPORT
 ================================================================================
 Test Timestamp: 2025-01-27T10:30:00.000000
@@ -465,3 +466,4 @@ RECOMMENDATIONS:
   • Complete Azure resource configuration for full integration
   • Optimize real-time processing pipeline
   • Consider enhancing EEG preprocessing algorithms
+"""

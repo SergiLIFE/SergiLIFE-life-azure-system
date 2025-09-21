@@ -20,6 +20,7 @@ import numpy as np
 import requests
 
 from autonomous_optimizer import AutonomousOptimizer
+
 # L.I.F.E. Theory imports
 from lifetheory import AdaptationParameters, LIFEEEGProcessor
 
@@ -30,10 +31,7 @@ warnings.filterwarnings("ignore")
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
-    handlers=[
-        logging.FileHandler("logs/azure_eeg_test.log"),
-        logging.StreamHandler()
-    ]
+    handlers=[logging.FileHandler("logs/azure_eeg_test.log"), logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
 
@@ -52,22 +50,22 @@ class AzureEEGTestFramework:
                 "data_source": "physionet_bci_iv_2a",
                 "channels": 22,
                 "frequency": 250,
-                "classes": ["left_hand", "right_hand", "feet", "tongue"]
+                "classes": ["left_hand", "right_hand", "feet", "tongue"],
             },
             "heart_brain_coupling": {
                 "description": "EEG-ECG coupling during cognitive tasks",
                 "data_source": "physionet_eeg_ecg",
                 "channels": 32,
                 "frequency": 500,
-                "classes": ["rest", "cognitive_task", "stress"]
+                "classes": ["rest", "cognitive_task", "stress"],
             },
             "neuroplasticity": {
                 "description": "Motor learning and neuroplasticity assessment",
                 "data_source": "physionet_motor_learning",
                 "channels": 64,
                 "frequency": 1000,
-                "classes": ["baseline", "learning", "consolidation"]
-            }
+                "classes": ["baseline", "learning", "consolidation"],
+            },
         }
 
     async def initialize_azure_resources(self):
@@ -89,16 +87,13 @@ class AzureEEGTestFramework:
             if scenario == "brain_cognition":
                 # BCI Competition IV-2a data
                 data_url = (
-                    "https://physionet.org/files/eegmmidb/1.0.0/"
-                    "S001/S001R01.edf"
+                    "https://physionet.org/files/eegmmidb/1.0.0/" "S001/S001R01.edf"
                 )
                 response = requests.get(data_url, timeout=30)
 
                 if response.status_code == 200:
                     # Parse EDF format (simplified)
-                    eeg_data = self._parse_edf_data(
-                        response.content, scenario_config
-                    )
+                    eeg_data = self._parse_edf_data(response.content, scenario_config)
                     return eeg_data
 
             elif scenario == "heart_brain_coupling":
@@ -110,21 +105,18 @@ class AzureEEGTestFramework:
                 response = requests.get(data_url, timeout=30)
 
                 if response.status_code == 200:
-                    eeg_data = self._parse_edf_data(
-                        response.content, scenario_config
-                    )
+                    eeg_data = self._parse_edf_data(response.content, scenario_config)
                     return eeg_data
 
             elif scenario == "neuroplasticity":
                 # Motor learning data
-                data_url = (
-                    "https://physionet.org/files/eegmat/1.0.0/"
-                    "EEG_MAT.tar.gz"
-                )
+                data_url = "https://physionet.org/files/eegmat/1.0.0/" "EEG_MAT.tar.gz"
                 response = requests.get(data_url, timeout=30)
 
                 if response.status_code == 200:
-                    eeg_data = self._extract_tar_gz_data(response.content, scenario_config)
+                    eeg_data = self._extract_tar_gz_data(
+                        response.content, scenario_config
+                    )
                     return eeg_data
 
             logger.warning(f"Failed to download data for scenario: {scenario}")
@@ -150,7 +142,7 @@ class AzureEEGTestFramework:
                 "channels": n_channels,
                 "frequency": config["frequency"],
                 "classes": config["classes"],
-                "data": []
+                "data": [],
             }
 
             for trial in range(n_trials):
@@ -160,10 +152,10 @@ class AzureEEGTestFramework:
                     # Mix of sine waves with different frequencies
                     t = np.linspace(0, 10, n_samples)
                     signal = (
-                        np.sin(2 * np.pi * 10 * t) * 50 +  # Alpha rhythm
-                        np.sin(2 * np.pi * 20 * t) * 30 +  # Beta rhythm
-                        np.sin(2 * np.pi * 0.5 * t) * 100 + # Delta rhythm
-                        np.random.normal(0, 10, n_samples)  # Noise
+                        np.sin(2 * np.pi * 10 * t) * 50  # Alpha rhythm
+                        + np.sin(2 * np.pi * 20 * t) * 30  # Beta rhythm
+                        + np.sin(2 * np.pi * 0.5 * t) * 100  # Delta rhythm
+                        + np.random.normal(0, 10, n_samples)  # Noise
                     )
                     trial_data[f"ch_{ch}"] = signal.tolist()
 
@@ -210,7 +202,7 @@ class AzureEEGTestFramework:
             "sota_comparison": {},
             "processing_time_ms": 0,
             "accuracy": 0.0,
-            "latency_ms": 0.0
+            "latency_ms": 0.0,
         }
 
         start_time = time.time()
@@ -218,7 +210,9 @@ class AzureEEGTestFramework:
         try:
             # Process EEG data through L.I.F.E. algorithm
             for trial in eeg_data["data"][:5]:  # Test first 5 trials
-                trial_data = np.array([trial[f"ch_{ch}"] for ch in range(eeg_data["channels"])])
+                trial_data = np.array(
+                    [trial[f"ch_{ch}"] for ch in range(eeg_data["channels"])]
+                )
 
                 # L.I.F.E. processing
                 processed_result = processor.process_eeg(
@@ -228,7 +222,7 @@ class AzureEEGTestFramework:
                 # Autonomous optimization
                 await optimizer.autonomous_optimization_cycle(
                     {"eeg_data": trial_data.tolist(), "label": trial["label"]},
-                    f"{scenario}_trial"
+                    f"{scenario}_trial",
                 )
 
                 results["accuracy"] += processed_result.get("accuracy", 0)
@@ -246,7 +240,9 @@ class AzureEEGTestFramework:
             results["cognitive_traits"] = optimizer._get_current_traits()
             results["sota_comparison"] = opt_summary.get("sota_comparison", {})
 
-            logger.info(f"Completed {scenario} test - Accuracy: {results['accuracy']:.3f}")
+            logger.info(
+                f"Completed {scenario} test - Accuracy: {results['accuracy']:.3f}"
+            )
 
         except Exception as e:
             logger.error(f"Error in {scenario} test: {e}")
@@ -263,7 +259,7 @@ class AzureEEGTestFramework:
             "channels": config["channels"],
             "frequency": config["frequency"],
             "classes": config["classes"],
-            "data": []
+            "data": [],
         }
 
         for i in range(10):
@@ -272,10 +268,10 @@ class AzureEEGTestFramework:
                 # Generate realistic EEG signal
                 t = np.linspace(0, 4, config["frequency"] * 4)
                 signal = (
-                    np.sin(2 * np.pi * 10 * t) * 50 +  # Alpha
-                    np.sin(2 * np.pi * 20 * t) * 30 +  # Beta
-                    np.sin(2 * np.pi * 0.5 * t) * 100 + # Delta
-                    np.random.normal(0, 15, len(t))    # Noise
+                    np.sin(2 * np.pi * 10 * t) * 50  # Alpha
+                    + np.sin(2 * np.pi * 20 * t) * 30  # Beta
+                    + np.sin(2 * np.pi * 0.5 * t) * 100  # Delta
+                    + np.random.normal(0, 15, len(t))  # Noise
                 )
                 trial_data[f"ch_{ch}"] = signal.tolist()
 
@@ -297,7 +293,7 @@ class AzureEEGTestFramework:
             "scenarios_tested": [],
             "overall_performance": {},
             "azure_integration_status": "pending",
-            "recommendations": []
+            "recommendations": [],
         }
 
         # Initialize Azure resources
@@ -312,15 +308,23 @@ class AzureEEGTestFramework:
 
         # Calculate overall performance
         if all_results["scenarios_tested"]:
-            accuracies = [r["accuracy"] for r in all_results["scenarios_tested"] if "accuracy" in r]
-            latencies = [r["latency_ms"] for r in all_results["scenarios_tested"] if "latency_ms" in r]
+            accuracies = [
+                r["accuracy"]
+                for r in all_results["scenarios_tested"]
+                if "accuracy" in r
+            ]
+            latencies = [
+                r["latency_ms"]
+                for r in all_results["scenarios_tested"]
+                if "latency_ms" in r
+            ]
 
             all_results["overall_performance"] = {
                 "average_accuracy": np.mean(accuracies) if accuracies else 0,
                 "average_latency_ms": np.mean(latencies) if latencies else 0,
                 "best_accuracy": max(accuracies) if accuracies else 0,
-                "best_latency_ms": min(latencies) if latencies else float('inf'),
-                "scenarios_completed": len(all_results["scenarios_tested"])
+                "best_latency_ms": min(latencies) if latencies else float("inf"),
+                "scenarios_completed": len(all_results["scenarios_tested"]),
             }
 
         # Generate recommendations
@@ -331,8 +335,12 @@ class AzureEEGTestFramework:
             await self._save_results_to_azure(all_results)
 
         logger.info("Comprehensive test suite completed")
-        logger.info(f"Overall Accuracy: {all_results['overall_performance'].get('average_accuracy', 0):.3f}")
-        logger.info(f"Average Latency: {all_results['overall_performance'].get('average_latency_ms', 0):.2f}ms")
+        logger.info(
+            f"Overall Accuracy: {all_results['overall_performance'].get('average_accuracy', 0):.3f}"
+        )
+        logger.info(
+            f"Average Latency: {all_results['overall_performance'].get('average_latency_ms', 0):.2f}ms"
+        )
 
         return all_results
 
@@ -366,6 +374,7 @@ class AzureEEGTestFramework:
             logger.info(f"Results saved locally: results/{filename}")
         except Exception as e:
             logger.error(f"Failed to save results: {e}")
+
 
 async def main():
     """Main function for Azure EEG testing"""
@@ -414,5 +423,6 @@ async def main():
         logger.error(f"Test suite failed: {e}")
         print(f"Error: {e}")
 
+
 if __name__ == "__main__":
-    asyncio.run(main())    asyncio.run(main())
+    asyncio.run(main())

@@ -62,10 +62,7 @@ def run_life_benchmark(X, y, config=None, seed=SEED):
         "config": config,
         "seed": seed,
     }
-    return now
-
-
-results
+    return results
 
 
 def aggregate_benchmarks(num_runs=5, config=None, seed=SEED):
