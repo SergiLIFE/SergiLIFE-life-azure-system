@@ -12,14 +12,16 @@ Launch: September 27, 2025
 """
 
 import asyncio
+import json
 import logging
 import warnings
-from dataclasses import dataclass
-from datetime import datetime
+from dataclasses import asdict, dataclass
+from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
+import pandas as pd
 
 # Suppress non-critical warnings for production
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -93,7 +95,7 @@ class LIFEAlgorithmCore:
         self.adaptation_parameters = self._initialize_adaptation()
         self.version = "2025.1.0-PRODUCTION"
 
-        logger.info("L.I.F.E Algorithm Core v%s initialized", self.version)
+        logger.info(f"L.I.F.E Algorithm Core v{self.version} initialized")
 
     def _default_config(self) -> Dict:
         """Default configuration for enterprise deployment"""
@@ -160,7 +162,7 @@ class LIFEAlgorithmCore:
             return metrics
 
         except Exception as e:
-            logger.error("EEG processing error: %s", e)
+            logger.error(f"EEG processing error: {e}")
             raise
 
     def _calculate_band_power(
@@ -226,12 +228,13 @@ class LIFEAlgorithmCore:
         session_id = f"LIFE_{user_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         session_start = datetime.now()
 
-        logger.info("Starting L.I.F.E learning session: %s", session_id)
+        logger.info(f"Starting L.I.F.E learning session: {session_id}")
 
         try:
             # Initialize session metrics
             attention_scores = []
             learning_efficiency_scores = []
+            neural_adaptation_markers = []
 
             # Real-time learning loop
             session_active = True
@@ -280,16 +283,16 @@ class LIFEAlgorithmCore:
             # Store learning history
             self.learning_history.append(outcome)
 
-            logger.info("L.I.F.E session completed: %s", session_id)
-            logger.info("Knowledge retention: %.2f", outcome.knowledge_retention)
+            logger.info(f"L.I.F.E session completed: {session_id}")
+            logger.info(f"Knowledge retention: {outcome.knowledge_retention:.2f}")
             logger.info(
-                "Learning efficiency: %.2f", np.mean(learning_efficiency_scores)
+                f"Learning efficiency: {np.mean(learning_efficiency_scores):.2f}"
             )
 
             return outcome
 
         except Exception as e:
-            logger.error("Learning session error: %s", e)
+            logger.error(f"Learning session error: {e}")
             raise
 
     async def _adjust_learning_parameters(self, eeg_metrics: EEGMetrics):
@@ -399,7 +402,7 @@ class LIFEAlgorithmCore:
 
                 # Log progress every 10 cycles
                 if (cycle + 1) % 10 == 0:
-                    logger.info("EEG test progress: %d/100 cycles completed", cycle + 1)
+                    logger.info(f"EEG test progress: {cycle + 1}/100 cycles completed")
 
                 test_results["detailed_metrics"].append(
                     {
@@ -425,21 +428,18 @@ class LIFEAlgorithmCore:
             )
 
             logger.info("100-cycle EEG test completed successfully")
-            logger.info("Success rate: %.2f%%", test_results["success_rate"] * 100)
+            logger.info(f"Success rate: {test_results['success_rate']:.2%}")
             logger.info(
-                "Average processing time: %.4fs",
-                test_results["average_processing_time"],
+                f"Average processing time: {test_results['average_processing_time']:.4f}s"
             )
-            logger.info(
-                "Neural accuracy: %.2f%%", test_results["neural_accuracy"] * 100
-            )
-            logger.info("Enterprise ready: %s", test_results["enterprise_readiness"])
+            logger.info(f"Neural accuracy: {test_results['neural_accuracy']:.2%}")
+            logger.info(f"Enterprise ready: {test_results['enterprise_readiness']}")
 
             return test_results
 
         except Exception as e:
             logger.error(
-                "EEG test failed at cycle %d: %s", test_results["cycles_completed"], e
+                f"EEG test failed at cycle {test_results['cycles_completed']}: {e}"
             )
             raise
 
@@ -502,6 +502,7 @@ class LIFEAlgorithmCore:
     def _assess_signal_quality(self, eeg_data: np.ndarray) -> float:
         """Assess the quality of EEG signal"""
         # Signal quality metrics
+        signal_power = np.mean(np.var(eeg_data, axis=1))
         artifact_level = np.mean(np.abs(eeg_data)) / np.std(eeg_data)
 
         # Normalize to 0-1 range
@@ -561,19 +562,18 @@ def main():
         print("Running 100-cycle EEG validation test...")
         test_results = await life_algorithm.run_100_cycle_eeg_test()
 
-        print("\n✅ Test Results:")
-        print("Success Rate: %.2f%%", test_results["success_rate"] * 100)
-        print("Processing Time: %.4fs", test_results["average_processing_time"])
-        print("Neural Accuracy: %.2f%%", test_results["neural_accuracy"] * 100)
-        print("Enterprise Ready: %s", test_results["enterprise_readiness"])
+        print(f"\n✅ Test Results:")
+        print(f"Success Rate: {test_results['success_rate']:.2%}")
+        print(f"Processing Time: {test_results['average_processing_time']:.4f}s")
+        print(f"Neural Accuracy: {test_results['neural_accuracy']:.2%}")
+        print(f"Enterprise Ready: {test_results['enterprise_readiness']}")
 
         # Generate enterprise report
         report = life_algorithm.export_enterprise_report()
-        print("\n📊 Enterprise Report Generated")
-        print("Platform Version: %s", report["platform_version"])
+        print(f"\n📊 Enterprise Report Generated")
+        print(f"Platform Version: {report['platform_version']}")
         print(
-            "Azure Integration: %s",
-            report["enterprise_metrics"]["azure_integration_status"],
+            f"Azure Integration: {report['enterprise_metrics']['azure_integration_status']}"
         )
 
         return test_results, report

@@ -1,26 +1,34 @@
 #!/usr/bin/env python3
 """
-Test script to check syntax issues in the L.I.F.E. file
+Simple syntax checker for L.I.F.E. algorithm
 """
+
 import ast
 import sys
 
 
 def check_syntax(file_path):
+    """Check Python file syntax"""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             source = f.read()
+
+        # Parse the AST
         ast.parse(source)
-        print("✅ Syntax is valid")
+        print(f"✅ Syntax check passed for {file_path}")
         return True
+
     except SyntaxError as e:
-        print(f"❌ Syntax error: {e}")
-        print(f"Line {e.lineno}: {e.text}")
+        print(f"❌ Syntax error in {file_path}:")
+        print(f"  Line {e.lineno}: {e.text}")
+        print(f"  {e.msg}")
         return False
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"❌ Error checking {file_path}: {e}")
         return False
 
+
 if __name__ == "__main__":
-    file_path = r"e:\NEW FOLDER X L.I.F.E\Letters\experimentP2L.I.F.E Learning Individually from Experience Theory Algorithm Code 2025 Copyright Sergio Paya Borrull. All rights Reserved 3-1.py"
-    check_syntax(file_path)    check_syntax(file_path)
+    file_path = r"c:\Users\Sergio Paya Borrull\OneDrive\Documents\GitHub\.vscode\New folder\SergiLIFE-life-azure-system\experimentP2L.I.F.E-Learning-Individually-from-Experience-Theory-Algorithm-Code-2025-Copyright-Se.py"
+    success = check_syntax(file_path)
+    sys.exit(0 if success else 1)
