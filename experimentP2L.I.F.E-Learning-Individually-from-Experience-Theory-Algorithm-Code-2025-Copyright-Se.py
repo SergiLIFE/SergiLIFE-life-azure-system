@@ -11,48 +11,50 @@ Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
 Launch: September 27, 2025
 """
 
-import numpy as np
-import pandas as pd
-from typing import Dict, List, Tuple, Optional, Any
-import logging
-from datetime import datetime, timedelta
 import asyncio
-import json
-from dataclasses import dataclass, asdict
-from enum import Enum
+import logging
 import warnings
+from dataclasses import dataclass
+from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, List, Optional
+
+import numpy as np
 
 # Suppress non-critical warnings for production
-warnings.filterwarnings('ignore', category = FutureWarning)
+warnings.filterwarnings("ignore", category=FutureWarning)
 
 # Configure logging for enterprise deployment
 logging.basicConfig(
     level=logging.INFO,
-    format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers = [
-        logging.FileHandler('life_algorithm.log'),
-        logging.StreamHandler()
-    ]
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
 
-class LearningStage(Enum) :
+
+class LearningStage(Enum):
     """Learning stages in the L.I.F.E algorithm"""
+
     ACQUISITION = "acquisition"
-    CONSOLIDATION = "consolidation" 
+    CONSOLIDATION = "consolidation"
     RETRIEVAL = "retrieval"
     ADAPTATION = "adaptation"
 
-class NeuralState(Enum) :
+
+class NeuralState(Enum):
     """Neural processing states"""
+
     RESTING = "resting"
     ACTIVE = "active"
     LEARNING = "learning"
     MEMORY_FORMATION = "memory_formation"
 
+
 @dataclass
-class EEGMetrics :
+class EEGMetrics:
     """EEG measurement data structure"""
+
     timestamp: datetime
     alpha_power: float
     beta_power: float
@@ -63,9 +65,11 @@ class EEGMetrics :
     attention_index: float
     learning_efficiency: float
 
+
 @dataclass
-class LearningOutcome :
+class LearningOutcome:
     """Learning session outcome metrics"""
+
     session_id: str
     user_id: str
     duration_minutes: float
@@ -75,12 +79,12 @@ class LearningOutcome :
     confidence_score: float
     next_session_recommendation: str
 
-class LIFEAlgorithmCore :
+
+class LIFEAlgorithmCore:
     """
     Core L.I.F.E Algorithm Implementation
     Production-ready neural processing system for enterprise deployment
     """
-
 
     def __init__(self, config: Optional[Dict] = None):
         self.config = config or self._default_config()
@@ -89,14 +93,12 @@ class LIFEAlgorithmCore :
         self.adaptation_parameters = self._initialize_adaptation()
         self.version = "2025.1.0-PRODUCTION"
 
-
-        logger.info(f"L.I.F.E Algorithm Core v{self.version} initialized")
-
+        logger.info("L.I.F.E Algorithm Core v%s initialized", self.version)
 
     def _default_config(self) -> Dict:
-"""Default configuration for enterprise deployment"""
+        """Default configuration for enterprise deployment"""
         return {
-    "learning_rate": 0.01,
+            "learning_rate": 0.01,
             "memory_consolidation_threshold": 0.75,
             "attention_threshold": 0.6,
             "adaptation_sensitivity": 0.8,
@@ -105,26 +107,26 @@ class LIFEAlgorithmCore :
             "eeg_channels": 64,
             "real_time_processing": True,
             "enterprise_mode": True,
-            "azure_integration": True
+            "azure_integration": True,
         }
 
-def _initialize_adaptation(self) -> Dict:
-"""Initialize adaptive learning parameters"""
+    def _initialize_adaptation(self) -> Dict:
+        """Initialize adaptive learning parameters"""
         return {
-    "individual_learning_rate": 1.0,
+            "individual_learning_rate": 1.0,
             "memory_strength": 0.5,
             "attention_decay": 0.02,
             "skill_transfer_coefficient": 0.3,
-            "neural_plasticity_index": 0.7
+            "neural_plasticity_index": 0.7,
         }
 
-async def process_eeg_stream(self, eeg_data: np.ndarray) -> EEGMetrics:
-"""
+    async def process_eeg_stream(self, eeg_data: np.ndarray) -> EEGMetrics:
+        """
         Process real-time EEG data stream
-        
+
         Args:
             eeg_data: Raw EEG data array (channels x time_points)
-            
+
         Returns:
             Processed EEG metrics
         """
@@ -138,44 +140,42 @@ async def process_eeg_stream(self, eeg_data: np.ndarray) -> EEGMetrics:
 
             # Coherence and attention analysis
             coherence_score = self._calculate_coherence(eeg_data)
-            attention_index = self._calculate_attention_index(alpha_power, beta_power, theta_power)
+            attention_index = self._calculate_attention_index(
+                alpha_power, beta_power, theta_power
+            )
             learning_efficiency = self._calculate_learning_efficiency(eeg_data)
 
-
             metrics = EEGMetrics(
-                timestamp = datetime.now(),
-                alpha_power = alpha_power,
-                beta_power = beta_power,
-                theta_power = theta_power,
-                delta_power = delta_power,
-                gamma_power = gamma_power,
-                coherence_score = coherence_score,
-                attention_index = attention_index,
-                learning_efficiency = learning_efficiency
+                timestamp=datetime.now(),
+                alpha_power=alpha_power,
+                beta_power=beta_power,
+                theta_power=theta_power,
+                delta_power=delta_power,
+                gamma_power=gamma_power,
+                coherence_score=coherence_score,
+                attention_index=attention_index,
+                learning_efficiency=learning_efficiency,
             )
-
 
             return metrics
 
-
         except Exception as e:
-            logger.error(f"EEG processing error: {e}")
+            logger.error("EEG processing error: %s", e)
             raise
 
-    def _calculate_band_power(self, eeg_data: np.ndarray, low_freq: float, high_freq: float)-> float:
+    def _calculate_band_power(
+        self, eeg_data: np.ndarray, low_freq: float, high_freq: float
+    ) -> float:
         """Calculate power in specific frequency band"""
         # Simplified implementation - in production, use advanced spectral analysis
         sampling_rate = self.config["neural_sampling_rate"]
-        fft_data = np.fft.fft(eeg_data, axis = 1)
+        fft_data = np.fft.fft(eeg_data, axis=1)
         freqs = np.fft.fftfreq(eeg_data.shape[1], 1 / sampling_rate)
 
-
         band_mask = (freqs >= low_freq) & (freqs <= high_freq)
-        band_power = np.mean(np.abs(fft_data[:, band_mask]) * *2)
-
+        band_power = np.mean(np.abs(fft_data[:, band_mask]) ** 2)
 
         return float(band_power)
-
 
     def _calculate_coherence(self, eeg_data: np.ndarray) -> float:
         """Calculate inter-channel coherence"""
@@ -186,11 +186,11 @@ async def process_eeg_stream(self, eeg_data: np.ndarray) -> EEGMetrics:
                 correlation = np.corrcoef(eeg_data[i], eeg_data[j])[0, 1]
                 coherence_values.append(abs(correlation))
 
-
         return float(np.mean(coherence_values))
 
-
-    def _calculate_attention_index(self, alpha: float, beta: float, theta: float) -> float:
+    def _calculate_attention_index(
+        self, alpha: float, beta: float, theta: float
+    ) -> float:
         """Calculate attention index from frequency bands"""
         # Attention index based on beta/alpha ratio and theta suppression
         if alpha > 0 and theta > 0:
@@ -198,53 +198,47 @@ async def process_eeg_stream(self, eeg_data: np.ndarray) -> EEGMetrics:
         else:
             attention_index = 0.0
 
-
         return min(1.0, max(0.0, attention_index))
-
 
     def _calculate_learning_efficiency(self, eeg_data: np.ndarray) -> float:
         """Calculate learning efficiency from neural patterns"""
         # Complex metric combining multiple neural indicators
         # Simplified for demonstration - production version uses advanced ML
-        variance_across_channels = np.var(eeg_data, axis = 0)
+        variance_across_channels = np.var(eeg_data, axis=0)
         temporal_stability = 1.0 / (1.0 + np.std(variance_across_channels))
-
 
         return min(1.0, max(0.0, temporal_stability))
 
-
-    async def run_learning_session(self, user_id: str, learning_content: Dict, 
-                                 eeg_stream: asyncio.Queue) -> LearningOutcome:
-"""
+    async def run_learning_session(
+        self, user_id: str, learning_content: Dict, eeg_stream: asyncio.Queue
+    ) -> LearningOutcome:
+        """
         Execute a complete learning session with real-time adaptation
-        
+
         Args:
             user_id: Unique user identifier
             learning_content: Learning material and parameters
             eeg_stream: Real-time EEG data queue
-            
+
         Returns:
             Learning session outcome and recommendations
         """
         session_id = f"LIFE_{user_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         session_start = datetime.now()
 
-
-        logger.info(f"Starting L.I.F.E learning session: {session_id}")
-
+        logger.info("Starting L.I.F.E learning session: %s", session_id)
 
         try:
             # Initialize session metrics
             attention_scores = []
             learning_efficiency_scores = []
-            neural_adaptation_markers = []
 
             # Real-time learning loop
             session_active = True
             while session_active:
                 # Get EEG data from stream
                 try:
-                    eeg_data = await asyncio.wait_for(eeg_stream.get(), timeout = 1.0)
+                    eeg_data = await asyncio.wait_for(eeg_stream.get(), timeout=1.0)
                     eeg_metrics = await self.process_eeg_stream(eeg_data)
 
                     # Track learning progress
@@ -256,38 +250,46 @@ async def process_eeg_stream(self, eeg_data: np.ndarray) -> EEGMetrics:
                         await self._adjust_learning_parameters(eeg_metrics)
 
                     # Check session completion criteria
-                    session_duration = (datetime.now() - session_start).total_seconds() / 60
-                    if (session_duration >= self.config["session_timeout_minutes"] or
-                        len(attention_scores) > 100 and np.mean(attention_scores[-10:]) > 0.9):
+                    session_duration = (
+                        datetime.now() - session_start
+                    ).total_seconds() / 60
+                    if (
+                        session_duration >= self.config["session_timeout_minutes"]
+                        or len(attention_scores) > 100
+                        and np.mean(attention_scores[-10:]) > 0.9
+                    ):
                         session_active = False
 
-
                 except asyncio.TimeoutError:
-# No new EEG data - check if session should continue
-session_duration = (datetime.now() - session_start).total_seconds() / 60
+                    # No new EEG data - check if session should continue
+                    session_duration = (
+                        datetime.now() - session_start
+                    ).total_seconds() / 60
                     if session_duration >= self.config["session_timeout_minutes"]:
                         session_active = False
 
             # Calculate session outcomes
             outcome = self._calculate_session_outcome(
-                session_id, user_id, session_start,
-                attention_scores, learning_efficiency_scores
+                session_id,
+                user_id,
+                session_start,
+                attention_scores,
+                learning_efficiency_scores,
             )
 
             # Store learning history
             self.learning_history.append(outcome)
 
-
-            logger.info(f"L.I.F.E session completed: {session_id}")
-            logger.info(f"Knowledge retention: {outcome.knowledge_retention:.2f}")
-            logger.info(f"Learning efficiency: {np.mean(learning_efficiency_scores):.2f}")
-
+            logger.info("L.I.F.E session completed: %s", session_id)
+            logger.info("Knowledge retention: %.2f", outcome.knowledge_retention)
+            logger.info(
+                "Learning efficiency: %.2f", np.mean(learning_efficiency_scores)
+            )
 
             return outcome
 
-
         except Exception as e:
-            logger.error(f"Learning session error: {e}")
+            logger.error("Learning session error: %s", e)
             raise
 
     async def _adjust_learning_parameters(self, eeg_metrics: EEGMetrics):
@@ -298,25 +300,26 @@ session_duration = (datetime.now() - session_start).total_seconds() / 60
             self.adaptation_parameters["individual_learning_rate"] *= 0.95
             logger.debug("Reduced learning rate due to low attention")
 
-
         if eeg_metrics.learning_efficiency > 0.8:
             # Optimize for higher complexity
             self.adaptation_parameters["individual_learning_rate"] *= 1.05
             logger.debug("Increased learning rate due to high efficiency")
 
-
-    def _calculate_session_outcome(self, session_id: str, user_id: str, 
-                                 session_start: datetime, attention_scores: List[float],
-                                 efficiency_scores: List[float]) -> LearningOutcome:
-"""Calculate comprehensive learning session outcome"""
-
+    def _calculate_session_outcome(
+        self,
+        session_id: str,
+        user_id: str,
+        session_start: datetime,
+        attention_scores: List[float],
+        efficiency_scores: List[float],
+    ) -> LearningOutcome:
+        """Calculate comprehensive learning session outcome"""
 
         duration_minutes = (datetime.now() - session_start).total_seconds() / 60
 
         # Knowledge retention based on attention and efficiency patterns
         avg_attention = np.mean(attention_scores) if attention_scores else 0.0
         avg_efficiency = np.mean(efficiency_scores) if efficiency_scores else 0.0
-
 
         knowledge_retention = min(1.0, (avg_attention * 0.6 + avg_efficiency * 0.4))
 
@@ -332,7 +335,9 @@ session_duration = (datetime.now() - session_start).total_seconds() / 60
         neural_adaptation = self.adaptation_parameters["neural_plasticity_index"]
 
         # Confidence score based on session consistency
-        attention_stability = 1.0 - np.std(attention_scores) if attention_scores else 0.0
+        attention_stability = (
+            1.0 - np.std(attention_scores) if attention_scores else 0.0
+        )
         confidence_score = min(1.0, max(0.0, attention_stability))
 
         # Next session recommendation
@@ -343,18 +348,16 @@ session_duration = (datetime.now() - session_start).total_seconds() / 60
         else:
             next_recommendation = "review_and_reinforce"
 
-
         return LearningOutcome(
-            session_id = session_id,
-            user_id = user_id,
-            duration_minutes = duration_minutes,
-            knowledge_retention = knowledge_retention,
-            skill_improvement = skill_improvement,
-            neural_adaptation = neural_adaptation,
-            confidence_score = confidence_score,
-            next_session_recommendation = next_recommendation
+            session_id=session_id,
+            user_id=user_id,
+            duration_minutes=duration_minutes,
+            knowledge_retention=knowledge_retention,
+            skill_improvement=skill_improvement,
+            neural_adaptation=neural_adaptation,
+            confidence_score=confidence_score,
+            next_session_recommendation=next_recommendation,
         )
-
 
     async def run_100_cycle_eeg_test(self) -> Dict[str, Any]:
         """
@@ -363,20 +366,18 @@ session_duration = (datetime.now() - session_start).total_seconds() / 60
         """
         logger.info("Starting 100-cycle EEG validation test")
 
-
         test_results = {
-    "test_id": f"LIFE_EEG_TEST_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+            "test_id": f"LIFE_EEG_TEST_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
             "cycles_completed": 0,
             "success_rate": 0.0,
             "average_processing_time": 0.0,
             "neural_accuracy": 0.0,
             "enterprise_readiness": False,
-            "detailed_metrics": []
+            "detailed_metrics": [],
         }
 
-processing_times = []
+        processing_times = []
         accuracy_scores = []
-
 
         try:
             for cycle in range(100):
@@ -398,51 +399,58 @@ processing_times = []
 
                 # Log progress every 10 cycles
                 if (cycle + 1) % 10 == 0:
-                    logger.info(f"EEG test progress: {cycle + 1}/100 cycles completed")
+                    logger.info("EEG test progress: %d/100 cycles completed", cycle + 1)
 
+                test_results["detailed_metrics"].append(
+                    {
+                        "cycle": cycle + 1,
+                        "processing_time": cycle_time,
+                        "accuracy": accuracy,
+                        "attention_index": eeg_metrics.attention_index,
+                        "learning_efficiency": eeg_metrics.learning_efficiency,
+                    }
+                )
 
-                test_results["detailed_metrics"].append({
-    "cycle": cycle + 1,
-                    "processing_time": cycle_time,
-                    "accuracy": accuracy,
-                    "attention_index": eeg_metrics.attention_index,
-                    "learning_efficiency": eeg_metrics.learning_efficiency
-                })
-            
             # Calculate final results
             test_results["cycles_completed"] = 100
-            test_results["success_rate"] = len([a for a in accuracy_scores if a > 0.8]) / 100
+            test_results["success_rate"] = (
+                len([a for a in accuracy_scores if a > 0.8]) / 100
+            )
             test_results["average_processing_time"] = np.mean(processing_times)
             test_results["neural_accuracy"] = np.mean(accuracy_scores)
             test_results["enterprise_readiness"] = (
-                test_results["success_rate"] > 0.85 and
-                test_results["average_processing_time"] < 0.1 and
-                test_results["neural_accuracy"] > 0.9
+                test_results["success_rate"] > 0.85
+                and test_results["average_processing_time"] < 0.1
+                and test_results["neural_accuracy"] > 0.9
             )
-            
-            logger.info("100-cycle EEG test completed successfully")
-            logger.info(f"Success rate: {test_results['success_rate']:.2%}")
-            logger.info(f"Average processing time: {test_results['average_processing_time']:.4f}s")
-            logger.info(f"Neural accuracy: {test_results['neural_accuracy']:.2%}")
-            logger.info(f"Enterprise ready: {test_results['enterprise_readiness']}")
 
+            logger.info("100-cycle EEG test completed successfully")
+            logger.info("Success rate: %.2f%%", test_results["success_rate"] * 100)
+            logger.info(
+                "Average processing time: %.4fs",
+                test_results["average_processing_time"],
+            )
+            logger.info(
+                "Neural accuracy: %.2f%%", test_results["neural_accuracy"] * 100
+            )
+            logger.info("Enterprise ready: %s", test_results["enterprise_readiness"])
 
             return test_results
 
-
         except Exception as e:
-            logger.error(f"EEG test failed at cycle {test_results['cycles_completed']}: {e}")
+            logger.error(
+                "EEG test failed at cycle %d: %s", test_results["cycles_completed"], e
+            )
             raise
 
-    def _generate_test_eeg_data(self)->np.ndarray:
+    def _generate_test_eeg_data(self) -> np.ndarray:
         """Generate realistic synthetic EEG data for testing"""
         channels = self.config["eeg_channels"]
         time_points = 1024  # ~4 seconds at 256 Hz
-        
+
         # Create realistic EEG patterns with multiple frequency components
         t = np.linspace(0, 4, time_points)
         eeg_data = np.zeros((channels, time_points))
-
 
         for ch in range(channels):
             # Alpha rhythm (8-12 Hz)
@@ -457,27 +465,25 @@ processing_times = []
             # Add realistic noise
             noise = 0.1 * np.random.randn(time_points)
 
-
             eeg_data[ch] = alpha + beta + theta + noise
-
 
         return eeg_data
 
-
-    def _validate_eeg_processing(self, original_eeg: np.ndarray, 
-                               processed_metrics: EEGMetrics) -> float:
+    def _validate_eeg_processing(
+        self, original_eeg: np.ndarray, processed_metrics: EEGMetrics
+    ) -> float:
         """Validate EEG processing accuracy against known patterns"""
         # Implement validation logic comparing known input patterns
         # to processed output metrics
-        
+
         # For demonstration - in production, use ground truth validation
         expected_ranges = {
-    "attention_index": (0.0, 1.0),
+            "attention_index": (0.0, 1.0),
             "learning_efficiency": (0.0, 1.0),
-            "coherence_score": (0.0, 1.0)
+            "coherence_score": (0.0, 1.0),
         }
 
-accuracy_checks = []
+        accuracy_checks = []
 
         # Check if metrics are within expected ranges
         for metric, (min_val, max_val) in expected_ranges.items():
@@ -491,53 +497,56 @@ accuracy_checks = []
         signal_quality = self._assess_signal_quality(original_eeg)
         accuracy_checks.append(signal_quality)
 
-
         return np.mean(accuracy_checks)
-
 
     def _assess_signal_quality(self, eeg_data: np.ndarray) -> float:
         """Assess the quality of EEG signal"""
         # Signal quality metrics
-        signal_power = np.mean(np.var(eeg_data, axis = 1))
         artifact_level = np.mean(np.abs(eeg_data)) / np.std(eeg_data)
 
         # Normalize to 0-1 range
         quality_score = min(1.0, max(0.0, 1.0 - artifact_level / 10.0))
 
-
         return quality_score
-
 
     def export_enterprise_report(self) -> Dict[str, Any]:
         """Export comprehensive enterprise analytics report"""
         if not self.learning_history:
-            return { "error": "No learning sessions completed"}
+            return {"error": "No learning sessions completed"}
 
-report = {
-    "platform_version": self.version,
+        report = {
+            "platform_version": self.version,
             "report_generated": datetime.now().isoformat(),
             "total_sessions": len(self.learning_history),
             "enterprise_metrics": {
-        "average_knowledge_retention": np.mean([s.knowledge_retention for s in self.learning_history]),
-                "average_skill_improvement": np.mean([s.skill_improvement for s in self.learning_history]),
-                "session_success_rate": len([s for s in self.learning_history if s.confidence_score > 0.7]) / len(self.learning_history),
+                "average_knowledge_retention": np.mean(
+                    [s.knowledge_retention for s in self.learning_history]
+                ),
+                "average_skill_improvement": np.mean(
+                    [s.skill_improvement for s in self.learning_history]
+                ),
+                "session_success_rate": len(
+                    [s for s in self.learning_history if s.confidence_score > 0.7]
+                )
+                / len(self.learning_history),
                 "platform_reliability": 0.98,  # Based on enterprise testing
-                "azure_integration_status": "ACTIVE"
+                "azure_integration_status": "ACTIVE",
             },
             "business_metrics": {
-        "revenue_target_q4_2025": "$345K",
+                "revenue_target_q4_2025": "$345K",
                 "revenue_projection_2029": "$50.7M",
                 "target_institutions": 1720,
-                "confidence_level": "75-85%"
+                "confidence_level": "75-85%",
             },
             "azure_marketplace": {
-        "offer_id": "9a600d96-fe1e-420b-902a-a0c42c561adb",
+                "offer_id": "9a600d96-fe1e-420b-902a-a0c42c561adb",
                 "launch_date": "2025-09-27",
-                "readiness_status": "PRODUCTION_READY"
-            }
-}
+                "readiness_status": "PRODUCTION_READY",
+            },
+        }
 
-return report
+        return report
+
 
 def main():
     """Main execution for testing and validation"""
@@ -552,26 +561,29 @@ def main():
         print("Running 100-cycle EEG validation test...")
         test_results = await life_algorithm.run_100_cycle_eeg_test()
 
-
-        print(f"\n✅ Test Results:")
-        print(f"Success Rate: {test_results['success_rate']:.2%}")
-        print(f"Processing Time: {test_results['average_processing_time']:.4f}s")
-        print(f"Neural Accuracy: {test_results['neural_accuracy']:.2%}")
-        print(f"Enterprise Ready: {test_results['enterprise_readiness']}")
+        print("\n✅ Test Results:")
+        print("Success Rate: %.2f%%", test_results["success_rate"] * 100)
+        print("Processing Time: %.4fs", test_results["average_processing_time"])
+        print("Neural Accuracy: %.2f%%", test_results["neural_accuracy"] * 100)
+        print("Enterprise Ready: %s", test_results["enterprise_readiness"])
 
         # Generate enterprise report
         report = life_algorithm.export_enterprise_report()
-        print(f"\n📊 Enterprise Report Generated")
-        print(f"Platform Version: {report['platform_version']}")
-        print(f"Azure Integration: {report['enterprise_metrics']['azure_integration_status']}")
-
+        print("\n📊 Enterprise Report Generated")
+        print("Platform Version: %s", report["platform_version"])
+        print(
+            "Azure Integration: %s",
+            report["enterprise_metrics"]["azure_integration_status"],
+        )
 
         return test_results, report
 
     # Run the validation
     return asyncio.run(run_validation())
 
+
 if __name__ == "__main__":
     results = main()
     print("\n🎯 L.I.F.E Algorithm validation completed successfully!")
+    print("Ready for Azure Marketplace deployment 🚀")
     print("Ready for Azure Marketplace deployment 🚀")

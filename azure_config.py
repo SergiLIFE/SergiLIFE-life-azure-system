@@ -198,26 +198,6 @@ class EnterpriseMetrics:
         """Convert metrics to dictionary for reporting"""
         return asdict(self)
 
-
-    def update_revenue_projection(self, current_quarter_revenue: float):
-        """Update revenue projections based on current performance"""
-        self.quarterly_revenue = current_quarter_revenue
-
-        # Calculate annual projection
-        quarters_remaining = 4 - (datetime.now().month - 1) // 3
-        if quarters_remaining > 0:
-            self.annual_revenue_projection = current_quarter_revenue * 4
-
-
-    def calculate_pricing_optimization(self) -> Dict[str, float]:
-        """Calculate optimal pricing based on market metrics"""
-        return {
-    "basic_optimized": self.basic_tier_price * 1.05,
-            "professional_optimized": self.professional_tier_price * 1.08,
-            "enterprise_optimized": self.enterprise_tier_price * 1.12,
-            "market_penetration_factor": 0.95
-        }
-
 class AzureIntegrationManager :
     """
     Comprehensive Azure integration manager for L.I.F.E platform
@@ -394,7 +374,7 @@ class AzureIntegrationManager :
                 "azure_marketplace_kpis": self._get_marketplace_kpis()
             }
 
-return analytics_data
+            return analytics_data
 
 
         except Exception as e:
@@ -407,9 +387,9 @@ return analytics_data
             if not self.logs_client:
                 return { "status": "logs_client_not_available"}
 
-# Simulate metrics for demonstration
-return {
-    "total_requests": 125000,
+            # Simulate metrics for demonstration
+            return {
+                "total_requests": 125000,
                 "success_rate": 99.2,
                 "avg_response_time": 145.7,
                 "p95_response_time": 280.3,
@@ -418,7 +398,7 @@ return {
                 "neural_processing_accuracy": 96.2
             }
 
-except Exception as e:
+        except Exception as e:
             logger.warning(f"Platform metrics query warning: {e}")
             return { "error": str(e)}
 
