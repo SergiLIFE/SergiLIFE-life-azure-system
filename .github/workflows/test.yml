@@ -39,26 +39,39 @@ jobs:
 
       - name: 🧪 Run comprehensive tests
         run: |
+          # Check if Python is available
+          if ! command -v python &> /dev/null; then
+            echo "❌ Python not found in PATH"
+            exit 1
+          fi
+
+          echo "✅ Python found: $(python --version)"
+
           # Run pytest if tests directory exists
-          if [ -d "tests" ] && [ "$(ls -A tests)" ]; then
-            python -m pytest tests/ -v --cov=. --cov-report=xml --tb=short || echo "Pytest failed, continuing..."
+          if [ -d "tests" ] && [ "$(ls -A tests 2>/dev/null)" ]; then
+            echo "Running pytest..."
+            python -m pytest tests/ -v --cov=. --cov-report=xml --tb=short || echo "⚠️  Pytest failed, continuing..."
           else
-            echo "No test files found, skipping pytest"
+            echo "ℹ️  No test files found, skipping pytest"
           fi
 
           # Run comprehensive test if it exists
           if [ -f "comprehensive_life_test.py" ]; then
-            python comprehensive_life_test.py || echo "Comprehensive test failed, continuing..."
+            echo "Running comprehensive test..."
+            python comprehensive_life_test.py || echo "⚠️  Comprehensive test failed, continuing..."
           else
-            echo "comprehensive_life_test.py not found"
+            echo "ℹ️  comprehensive_life_test.py not found"
           fi
 
           # Run simple check if it exists
           if [ -f "simple_life_check.py" ]; then
-            python simple_life_check.py || echo "Simple check failed, continuing..."
+            echo "Running simple life check..."
+            python simple_life_check.py || echo "⚠️  Simple check failed, continuing..."
           else
-            echo "simple_life_check.py not found"
+            echo "ℹ️  simple_life_check.py not found"
           fi
+
+          echo "✅ Test execution completed"
 
       - name: 📊 Upload coverage to Codecov
         uses: codecov/codecov-action@v3

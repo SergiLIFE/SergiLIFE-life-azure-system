@@ -32,6 +32,14 @@ jobs:
 
       - name: 🔍 Run basic syntax check
         run: |
+          # Check if Python is available
+          if ! command -v python &> /dev/null; then
+            echo "❌ Python not found in PATH"
+            exit 1
+          fi
+
+          echo "✅ Python found: $(python --version)"
+
           # Check if core files exist and are syntactically valid
           if [ -f "experimentP2L.I.F.E-Learning-Individually-from-Experience-Theory-Algorithm-Code-2025-Copyright-Se.py" ]; then
             python -m py_compile "experimentP2L.I.F.E-Learning-Individually-from-Experience-Theory-Algorithm-Code-2025-Copyright-Se.py" && echo "✅ Core algorithm syntax OK" || echo "⚠️  Core algorithm syntax issues"
@@ -52,16 +60,19 @@ jobs:
         run: |
           # Run simple life check if it exists
           if [ -f "simple_life_check.py" ]; then
+            echo "Running simple life check..."
             python simple_life_check.py || echo "⚠️  Simple life check failed"
           else
             echo "⚠️  simple_life_check.py not found"
           fi
 
           # Basic numpy test
-          python -c "import numpy as np; print('✅ NumPy', np.__version__, 'OK')" || echo "⚠️  NumPy test failed"
+          python -c "import numpy as np; print('✅ NumPy', np.__version__, 'OK')" 2>/dev/null || echo "⚠️  NumPy test failed"
 
           # Basic pandas test
-          python -c "import pandas as pd; print('✅ Pandas', pd.__version__, 'OK')" || echo "⚠️  Pandas test failed"
+          python -c "import pandas as pd; print('✅ Pandas', pd.__version__, 'OK')" 2>/dev/null || echo "⚠️  Pandas test failed"
+
+          echo "✅ Basic functionality checks completed"
 
       - name: 📋 CI Summary
         run: |
