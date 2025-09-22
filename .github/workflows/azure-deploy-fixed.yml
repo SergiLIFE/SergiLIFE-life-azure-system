@@ -40,27 +40,27 @@ jobs:
       - name: 🔧 Run Azure CLI login
         id: azure-login
         uses: azure/login@v2
-        if: vars.AZURE_CLIENT_ID && vars.AZURE_TENANT_ID && vars.AZURE_SUBSCRIPTION_ID
+        continue-on-error: true
         with:
-          client-id: ${{ vars.AZURE_CLIENT_ID }}
-          tenant-id: ${{ vars.AZURE_TENANT_ID }}
-          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: 🏗️ Build Azure Function App
-        if: success() && steps.azure-login.outcome == 'success'
+        if: steps.azure-login.outcome == 'success'
         run: |
           echo "Building Azure Function App..."
           # Add your build commands here
 
       - name: 🚀 Deploy to Azure Web App
-        if: success() && steps.azure-login.outcome == 'success'
+        if: steps.azure-login.outcome == 'success'
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
       - name: ✅ Verify deployment
-        if: success() && steps.azure-login.outcome == 'success'
+        if: steps.azure-login.outcome == 'success'
         run: |
           echo "Verifying deployment..."
           az webapp show --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group life-platform-rg
