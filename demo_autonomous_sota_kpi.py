@@ -10,17 +10,18 @@ and autonomous optimization triggers for the L.I.F.E. Platform.
 """
 
 import asyncio
-import logging
 import json
+import logging
 import time
+from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from typing import List
-from dataclasses import dataclass, asdict
 
 
 @dataclass
 class KPIMetrics:
     """KPI metrics data structure"""
+
     timestamp: datetime
     performance_score: float
     accuracy: float
@@ -33,6 +34,7 @@ class KPIMetrics:
 @dataclass
 class SOTABenchmark:
     """SOTA benchmark data structure"""
+
     model_name: str
     benchmark_score: float
     benchmark_date: datetime
@@ -53,13 +55,13 @@ class AutonomousSOTAKPIDemo:
             "latency_ms": 500.0,
             "memory_usage_mb": 1024.0,
             "cpu_usage_percent": 80.0,
-            "throughput_events_per_sec": 100.0
+            "throughput_events_per_sec": 100.0,
         }
 
         # Setup logging
         logging.basicConfig(
             level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         )
         self.logger = logging.getLogger(__name__)
 
@@ -75,22 +77,22 @@ class AutonomousSOTAKPIDemo:
                 benchmark_score=0.78,
                 benchmark_date=datetime.now() - timedelta(days=30),
                 dataset="BCI Competition IV-2a",
-                improvement_percentage=0.0
+                improvement_percentage=0.0,
             ),
             SOTABenchmark(
                 model_name="LIFE-v1.1",
                 benchmark_score=0.81,
                 benchmark_date=datetime.now() - timedelta(days=15),
                 dataset="BCI Competition IV-2a",
-                improvement_percentage=3.85
+                improvement_percentage=3.85,
             ),
             SOTABenchmark(
                 model_name="LIFE-v1.2",
                 benchmark_score=0.83,
                 benchmark_date=datetime.now() - timedelta(days=7),
                 dataset="BCI Competition IV-2a",
-                improvement_percentage=2.47
-            )
+                improvement_percentage=2.47,
+            ),
         ]
 
         # Generate initial KPI history
@@ -112,7 +114,7 @@ class AutonomousSOTAKPIDemo:
                 latency_ms=min(latency, 600),
                 memory_usage_mb=min(memory, 1200),
                 cpu_usage_percent=min(cpu, 90),
-                throughput_events_per_sec=min(throughput, 150)
+                throughput_events_per_sec=min(throughput, 150),
             )
             self.kpi_history.append(kpi)
 
@@ -123,12 +125,20 @@ class AutonomousSOTAKPIDemo:
 
         if last_kpi:
             # Simulate gradual improvement with noise
-            performance = last_kpi.performance_score + (0.001 * (1 if time.time() % 2 > 1 else -1))
-            accuracy = last_kpi.accuracy + (0.0005 * (1 if time.time() % 3 > 1.5 else -1))
+            performance = last_kpi.performance_score + (
+                0.001 * (1 if time.time() % 2 > 1 else -1)
+            )
+            accuracy = last_kpi.accuracy + (
+                0.0005 * (1 if time.time() % 3 > 1.5 else -1)
+            )
             latency = last_kpi.latency_ms + (2 * (1 if time.time() % 4 > 2 else -1))
-            memory = last_kpi.memory_usage_mb + (5 * (1 if time.time() % 5 > 2.5 else -1))
+            memory = last_kpi.memory_usage_mb + (
+                5 * (1 if time.time() % 5 > 2.5 else -1)
+            )
             cpu = last_kpi.cpu_usage_percent + (1 * (1 if time.time() % 6 > 3 else -1))
-            throughput = last_kpi.throughput_events_per_sec + (2 * (1 if time.time() % 7 > 3.5 else -1))
+            throughput = last_kpi.throughput_events_per_sec + (
+                2 * (1 if time.time() % 7 > 3.5 else -1)
+            )
         else:
             # Default values if no history
             performance = 0.84
@@ -146,7 +156,7 @@ class AutonomousSOTAKPIDemo:
             latency_ms=max(300, min(latency, 800)),
             memory_usage_mb=max(500, min(memory, 1500)),
             cpu_usage_percent=max(30, min(cpu, 95)),
-            throughput_events_per_sec=max(50, min(throughput, 200))
+            throughput_events_per_sec=max(50, min(throughput, 200)),
         )
 
         self.kpi_history.append(kpi)
@@ -171,7 +181,10 @@ class AutonomousSOTAKPIDemo:
         if kpi.cpu_usage_percent > self.kpi_thresholds["cpu_usage_percent"]:
             alerts.append(".1f")
 
-        if kpi.throughput_events_per_sec < self.kpi_thresholds["throughput_events_per_sec"]:
+        if (
+            kpi.throughput_events_per_sec
+            < self.kpi_thresholds["throughput_events_per_sec"]
+        ):
             alerts.append(".1f")
 
         return alerts
@@ -182,20 +195,28 @@ class AutonomousSOTAKPIDemo:
             return 0.0
 
         last_sota = max(self.sota_benchmarks, key=lambda x: x.benchmark_date)
-        improvement = ((current_kpi.performance_score - last_sota.benchmark_score) /
-                      last_sota.benchmark_score) * 100
+        improvement = (
+            (current_kpi.performance_score - last_sota.benchmark_score)
+            / last_sota.benchmark_score
+        ) * 100
         return improvement
 
     async def _autonomous_optimization_trigger(self, alerts: List[str]) -> bool:
         """Determine if autonomous optimization should be triggered"""
         if len(alerts) >= 2:  # Trigger if 2+ KPIs are outside thresholds
-            self.logger.info("🚨 Autonomous optimization triggered due to multiple KPI alerts")
+            self.logger.info(
+                "🚨 Autonomous optimization triggered due to multiple KPI alerts"
+            )
             return True
 
         # Check for critical single KPI issues
-        critical_alerts = [alert for alert in alerts if "latency" in alert or "memory" in alert]
+        critical_alerts = [
+            alert for alert in alerts if "latency" in alert or "memory" in alert
+        ]
         if critical_alerts:
-            self.logger.info("🚨 Autonomous optimization triggered due to critical KPI alert")
+            self.logger.info(
+                "🚨 Autonomous optimization triggered due to critical KPI alert"
+            )
             return True
 
         return False
@@ -218,8 +239,10 @@ class AutonomousSOTAKPIDemo:
 
         print("🎯 SOTA Benchmarks:")
         for benchmark in self.sota_benchmarks[-3:]:  # Show last 3
-            print(f"  {benchmark.model_name}: {benchmark.benchmark_score:.3f} "
-                  f"({benchmark.improvement_percentage:+.2f}%) - {benchmark.dataset}")
+            print(
+                f"  {benchmark.model_name}: {benchmark.benchmark_score:.3f} "
+                f"({benchmark.improvement_percentage:+.2f}%) - {benchmark.dataset}"
+            )
         print()
 
         optimization_triggers = 0
@@ -236,11 +259,13 @@ class AutonomousSOTAKPIDemo:
                 sota_improvement = self._calculate_sota_improvement(current_kpi)
 
                 # Display current status
-                print(f"📈 {current_kpi.timestamp.strftime('%H:%M:%S')} - "
-                      f"Perf: {current_kpi.performance_score:.3f} | "
-                      f"Acc: {current_kpi.accuracy:.3f} | "
-                      f"Lat: {current_kpi.latency_ms:.1f}ms | "
-                      f"SOTA Δ: {sota_improvement:+.2f}%")
+                print(
+                    f"📈 {current_kpi.timestamp.strftime('%H:%M:%S')} - "
+                    f"Perf: {current_kpi.performance_score:.3f} | "
+                    f"Acc: {current_kpi.accuracy:.3f} | "
+                    f"Lat: {current_kpi.latency_ms:.1f}ms | "
+                    f"SOTA Δ: {sota_improvement:+.2f}%"
+                )
 
                 if alerts:
                     print(f"   ⚠️  Alerts: {', '.join(alerts)}")
@@ -263,10 +288,14 @@ class AutonomousSOTAKPIDemo:
         # Final summary
         print()
         print("📋 Demo Summary:")
-        print(f"   Duration: {(datetime.now() - start_time).total_seconds() / 60:.1f} minutes")
+        print(
+            f"   Duration: {(datetime.now() - start_time).total_seconds() / 60:.1f} minutes"
+        )
         print(f"   KPI Readings: {len(self.kpi_history)}")
         print(f"   Optimization Triggers: {optimization_triggers}")
-        print(f"   Final SOTA Improvement: {self._calculate_sota_improvement(self.kpi_history[-1]):+.2f}%")
+        print(
+            f"   Final SOTA Improvement: {self._calculate_sota_improvement(self.kpi_history[-1]):+.2f}%"
+        )
 
         # Export results
         await self._export_demo_results()
@@ -277,21 +306,33 @@ class AutonomousSOTAKPIDemo:
             "demo_metadata": {
                 "timestamp": datetime.now().isoformat(),
                 "platform": "L.I.F.E. v2025.1.0",
-                "demo_type": "Autonomous SOTA KPI Monitoring"
+                "demo_type": "Autonomous SOTA KPI Monitoring",
             },
-            "kpi_history": [asdict(kpi) for kpi in self.kpi_history[-50:]],  # Last 50 readings
-            "sota_benchmarks": [asdict(benchmark) for benchmark in self.sota_benchmarks],
+            "kpi_history": [
+                asdict(kpi) for kpi in self.kpi_history[-50:]
+            ],  # Last 50 readings
+            "sota_benchmarks": [
+                asdict(benchmark) for benchmark in self.sota_benchmarks
+            ],
             "thresholds": self.kpi_thresholds,
             "final_metrics": {
                 "total_readings": len(self.kpi_history),
-                "current_performance": self.kpi_history[-1].performance_score if self.kpi_history else 0,
-                "current_accuracy": self.kpi_history[-1].accuracy if self.kpi_history else 0,
-                "sota_improvement": self._calculate_sota_improvement(self.kpi_history[-1]) if self.kpi_history else 0
-            }
+                "current_performance": (
+                    self.kpi_history[-1].performance_score if self.kpi_history else 0
+                ),
+                "current_accuracy": (
+                    self.kpi_history[-1].accuracy if self.kpi_history else 0
+                ),
+                "sota_improvement": (
+                    self._calculate_sota_improvement(self.kpi_history[-1])
+                    if self.kpi_history
+                    else 0
+                ),
+            },
         }
 
         filename = f"demo_kpi_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        with open(filename, 'w') as f:
+        with open(filename, "w") as f:
             json.dump(results, f, indent=2, default=str)
 
         self.logger.info(f"Demo results exported to {filename}")

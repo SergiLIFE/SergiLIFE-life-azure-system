@@ -18,14 +18,15 @@ The white paper framework includes:
 import asyncio
 import logging
 import re
-from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
+from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
 
 
 @dataclass
 class Citation:
     """Academic citation structure"""
+
     citation_id: str
     authors: List[str]
     title: str
@@ -39,6 +40,7 @@ class Citation:
 @dataclass
 class ScientificSection:
     """Scientific paper section"""
+
     section_id: str
     title: str
     content: str
@@ -51,6 +53,7 @@ class ScientificSection:
 @dataclass
 class PeerReview:
     """Peer review structure"""
+
     review_id: str
     reviewer_name: str
     institution: str
@@ -64,6 +67,7 @@ class PeerReview:
 @dataclass
 class LIFEWhitePaper:
     """Complete L.I.F.E. theory white paper"""
+
     paper_id: str
     title: str
     authors: List[str]
@@ -87,7 +91,7 @@ class LIFEWhitePaperFramework:
         # Setup logging
         logging.basicConfig(
             level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         )
 
         # White paper state
@@ -98,7 +102,7 @@ class LIFEWhitePaperFramework:
         self.citation_styles = {
             "APA": self._format_apa_citation,
             "IEEE": self._format_ieee_citation,
-            "MLA": self._format_mla_citation
+            "MLA": self._format_mla_citation,
         }
 
         # Standard paper structure
@@ -111,10 +115,12 @@ class LIFEWhitePaperFramework:
             "discussion",
             "conclusion",
             "references",
-            "appendices"
+            "appendices",
         ]
 
-    async def create_white_paper(self, title: str, authors: List[str]) -> LIFEWhitePaper:
+    async def create_white_paper(
+        self, title: str, authors: List[str]
+    ) -> LIFEWhitePaper:
         """Create a new L.I.F.E. theory white paper"""
         paper_id = f"life_wp_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 
@@ -128,7 +134,7 @@ class LIFEWhitePaperFramework:
                 word_count=0,
                 references=[],
                 figures=[],
-                last_modified=datetime.now()
+                last_modified=datetime.now(),
             )
             sections.append(section)
 
@@ -137,14 +143,19 @@ class LIFEWhitePaperFramework:
             title=title,
             authors=authors,
             abstract="",
-            keywords=["L.I.F.E.", "neuroadaptive learning", "EEG", "artificial intelligence"],
+            keywords=[
+                "L.I.F.E.",
+                "neuroadaptive learning",
+                "EEG",
+                "artificial intelligence",
+            ],
             sections=sections,
             citations=[],
             peer_reviews=[],
             submission_history=[],
             publication_status="draft",
             created_date=datetime.now(),
-            last_modified=datetime.now()
+            last_modified=datetime.now(),
         )
 
         self.current_paper = paper
@@ -158,29 +169,25 @@ class LIFEWhitePaperFramework:
 a revolutionary approach to neuroadaptive learning systems. Through real-time EEG analysis
 and adaptive algorithms, L.I.F.E. enables personalized learning experiences that adapt
 to individual cognitive states and learning patterns.""",
-
             "introduction": """The field of artificial intelligence has made significant advances in machine
 learning and neural networks. However, traditional approaches often fail to account for
 individual learning differences and cognitive states. The L.I.F.E. (Learning Individually
 from Experience) theory addresses this gap by introducing a neuroadaptive framework
 that personalizes learning experiences based on real-time EEG data.""",
-
             "methodology": """The L.I.F.E. methodology combines EEG signal processing with adaptive
 algorithms. Real-time EEG data is processed through three Venturi gates implementing
 fluid dynamics principles for ultra-low latency processing. The system adapts learning
 content and pacing based on cognitive load, attention levels, and neural efficiency
 metrics.""",
-
             "results": """Experimental results demonstrate significant improvements in learning
 outcomes. The L.I.F.E. system achieved 78-82% accuracy in neuroadaptive scenarios,
 with sub-millisecond (0.38-0.45ms) processing latency. Cross-validation across multiple
 EEG datasets confirmed the robustness and reproducibility of the approach.""",
-
             "conclusion": """The L.I.F.E. theory represents a breakthrough in personalized learning
 systems. By integrating real-time EEG analysis with adaptive algorithms, the framework
 provides individualized learning experiences that optimize cognitive performance and
 knowledge retention. Future work will focus on expanding the system to additional
-cognitive domains and clinical applications."""
+cognitive domains and clinical applications.""",
         }
 
         return templates.get(section_name, f"Content for {section_name} section.")
@@ -211,9 +218,9 @@ cognitive domains and clinical applications."""
         """Extract citation references from content"""
         # Simple regex to find citation patterns like (Author, Year) or [1]
         citation_patterns = [
-            r'\([A-Za-z\s]+, \d{4}\)',  # (Author, Year)
-            r'\[(\d+)\]',                # [1]
-            r'\[([A-Za-z\s]+ et al\., \d{4})\]'  # [Author et al., Year]
+            r"\([A-Za-z\s]+, \d{4}\)",  # (Author, Year)
+            r"\[(\d+)\]",  # [1]
+            r"\[([A-Za-z\s]+ et al\., \d{4})\]",  # [Author et al., Year]
         ]
 
         references = []
@@ -232,8 +239,7 @@ cognitive domains and clinical applications."""
         # Check for duplicate
         for existing in self.current_paper.citations:
             if existing.citation_id == citation.citation_id:
-                self.logger.warning("Citation already exists: %s",
-                                   citation.citation_id)
+                self.logger.warning("Citation already exists: %s", citation.citation_id)
                 return False
 
         self.current_paper.citations.append(citation)
@@ -251,7 +257,11 @@ cognitive domains and clinical applications."""
 
     def _format_apa_citation(self, citation: Citation) -> str:
         """Format citation in APA style"""
-        authors_str = ", ".join(citation.authors) if len(citation.authors) <= 2 else f"{citation.authors[0]} et al."
+        authors_str = (
+            ", ".join(citation.authors)
+            if len(citation.authors) <= 2
+            else f"{citation.authors[0]} et al."
+        )
         year_str = f" ({citation.year})" if citation.year else ""
 
         reference = f"{authors_str}{year_str}. {citation.title}. {citation.publication}"
@@ -265,7 +275,7 @@ cognitive domains and clinical applications."""
         authors_str = ", ".join(citation.authors)
         year_str = f", {citation.year}" if citation.year else ""
 
-        reference = f"[{len(self.citation_database) + 1}] {authors_str}, \"{citation.title},\" {citation.publication}{year_str}"
+        reference = f'[{len(self.citation_database) + 1}] {authors_str}, "{citation.title}," {citation.publication}{year_str}'
         if citation.doi:
             reference += f", doi: {citation.doi}"
 
@@ -287,13 +297,18 @@ cognitive domains and clinical applications."""
 
         references_content = "References\n\n"
 
-        for citation in sorted(self.current_paper.citations, key=lambda x: x.authors[0] if x.authors else "Unknown"):
+        for citation in sorted(
+            self.current_paper.citations,
+            key=lambda x: x.authors[0] if x.authors else "Unknown",
+        ):
             formatted_ref = self.format_citation(citation)
             references_content += f"{formatted_ref}\n\n"
 
         return references_content
 
-    async def submit_for_peer_review(self, target_journals: List[str]) -> Dict[str, Any]:
+    async def submit_for_peer_review(
+        self, target_journals: List[str]
+    ) -> Dict[str, Any]:
         """Submit paper for peer review"""
         if not self.current_paper:
             self.logger.error("No active white paper to submit")
@@ -304,7 +319,7 @@ cognitive domains and clinical applications."""
             "target_journals": target_journals,
             "submission_date": datetime.now().isoformat(),
             "paper_version": self.current_paper.paper_id,
-            "status": "submitted"
+            "status": "submitted",
         }
 
         self.current_paper.submission_history.append(submission_record)
@@ -318,11 +333,14 @@ cognitive domains and clinical applications."""
             "submission_id": submission_record["submission_id"],
             "journals_targeted": target_journals,
             "peer_reviews_received": len(reviews),
-            "average_rating": sum(r.overall_rating for r in reviews) / len(reviews) if reviews else 0
+            "average_rating": (
+                sum(r.overall_rating for r in reviews) / len(reviews) if reviews else 0
+            ),
         }
 
-        self.logger.info("Paper submitted for peer review to %d journals",
-                        len(target_journals))
+        self.logger.info(
+            "Paper submitted for peer review to %d journals", len(target_journals)
+        )
         return result
 
     async def _simulate_peer_review(self) -> List[PeerReview]:
@@ -330,7 +348,7 @@ cognitive domains and clinical applications."""
         reviewers = [
             {"name": "Dr. Sarah Chen", "institution": "MIT Media Lab"},
             {"name": "Prof. Michael Rodriguez", "institution": "Stanford AI Lab"},
-            {"name": "Dr. Emily Watson", "institution": "Oxford Neuroscience"}
+            {"name": "Dr. Emily Watson", "institution": "Oxford Neuroscience"},
         ]
 
         reviews: List[PeerReview] = []
@@ -339,11 +357,11 @@ cognitive domains and clinical applications."""
                 review_id=f"review_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{len(reviews)}",
                 reviewer_name=reviewer["name"],
                 institution=reviewer["institution"],
-                review_date=datetime.now() - timedelta(days=len(reviews)*7),
+                review_date=datetime.now() - timedelta(days=len(reviews) * 7),
                 overall_rating=int(4 + (0.5 * len(reviews))),  # Progressive improvement
                 comments=self._generate_review_comments(len(reviews)),
                 recommendations=self._generate_review_recommendations(len(reviews)),
-                confidentiality_score=0.95
+                confidentiality_score=0.95,
             )
             reviews.append(review)
 
@@ -359,16 +377,14 @@ cognitive domains and clinical applications."""
 of real-time EEG data with adaptive algorithms is innovative. The methodology is sound,
 and the results are promising. The authors should consider expanding the validation
 to additional datasets.""",
-
             """The L.I.F.E. theory shows significant potential for personalized learning systems.
 The Venturi gate architecture is particularly interesting. More detailed statistical
 analysis of the results would strengthen the conclusions. The clinical applications
 mentioned are worth exploring further.""",
-
             """An excellent contribution to the field of neuroadaptive AI. The combination of
 EEG processing with fluid dynamics principles is creative and well-executed. The
 performance metrics are impressive. I recommend publication with minor revisions
-regarding the theoretical framework clarification."""
+regarding the theoretical framework clarification.""",
         ]
 
         return comment_templates[review_index % len(comment_templates)]
@@ -376,9 +392,18 @@ regarding the theoretical framework clarification."""
     def _generate_review_recommendations(self, review_index: int) -> List[str]:
         """Generate peer review recommendations"""
         recommendations = [
-            ["Expand validation to additional EEG datasets", "Include more detailed statistical analysis"],
-            ["Clarify theoretical foundations", "Add discussion of clinical applications"],
-            ["Strengthen methodology section", "Include comparison with additional baselines"]
+            [
+                "Expand validation to additional EEG datasets",
+                "Include more detailed statistical analysis",
+            ],
+            [
+                "Clarify theoretical foundations",
+                "Add discussion of clinical applications",
+            ],
+            [
+                "Strengthen methodology section",
+                "Include comparison with additional baselines",
+            ],
         ]
 
         return recommendations[review_index % len(recommendations)]
@@ -422,7 +447,7 @@ regarding the theoretical framework clarification."""
 
         # Export to file
         filename = f"life_white_paper_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
-        with open(filename, 'w', encoding='utf-8') as f:
+        with open(filename, "w", encoding="utf-8") as f:
             f.write(markdown)
 
         self.logger.info("Paper exported to %s", filename)
@@ -452,7 +477,7 @@ regarding the theoretical framework clarification."""
         latex += "\\end{document}\n"
 
         filename = f"life_white_paper_{datetime.now().strftime('%Y%m%d_%H%M%S')}.tex"
-        with open(filename, 'w', encoding='utf-8') as f:
+        with open(filename, "w", encoding="utf-8") as f:
             f.write(latex)
 
         return filename
@@ -462,15 +487,18 @@ regarding the theoretical framework clarification."""
         if not self.current_paper:
             return {"error": "No active paper"}
 
-        total_words = sum(section.word_count
-                          for section in self.current_paper.sections)
+        total_words = sum(section.word_count for section in self.current_paper.sections)
         total_citations = len(self.current_paper.citations)
         total_reviews = len(self.current_paper.peer_reviews)
 
         avg_rating = (
-            sum(review.overall_rating
-                for review in self.current_paper.peer_reviews) /
-            total_reviews) if total_reviews > 0 else 0
+            (
+                sum(review.overall_rating for review in self.current_paper.peer_reviews)
+                / total_reviews
+            )
+            if total_reviews > 0
+            else 0
+        )
 
         return {
             "paper_id": self.current_paper.paper_id,
@@ -481,7 +509,7 @@ regarding the theoretical framework clarification."""
             "total_peer_reviews": total_reviews,
             "average_review_rating": round(avg_rating, 2),
             "publication_status": self.current_paper.publication_status,
-            "last_modified": self.current_paper.last_modified.isoformat()
+            "last_modified": self.current_paper.last_modified.isoformat(),
         }
 
 
@@ -499,7 +527,7 @@ async def main():
         print("📝 Creating L.I.F.E. theory white paper...")
         paper = await framework.create_white_paper(
             "Learning Individually from Experience: A Neuroadaptive Framework",
-            ["Sergio Paya Borrull"]
+            ["Sergio Paya Borrull"],
         )
 
         print(f"   Paper ID: {paper.paper_id}")
@@ -517,10 +545,12 @@ async def main():
                 year=2025,
                 doi="10.1000/life.2025.001",
                 citation_style="APA",
-                full_reference=("Paya Borrull, S. (2025). L.I.F.E.: Learning "
-                                "Individually from Experience. Journal of "
-                                "Neuroadaptive Systems, 1(1), 1-25. "
-                                "https://doi.org/10.1000/life.2025.001")
+                full_reference=(
+                    "Paya Borrull, S. (2025). L.I.F.E.: Learning "
+                    "Individually from Experience. Journal of "
+                    "Neuroadaptive Systems, 1(1), 1-25. "
+                    "https://doi.org/10.1000/life.2025.001"
+                ),
             )
         ]
 
@@ -531,11 +561,13 @@ async def main():
 
         # Submit for peer review
         print("\n🔬 Submitting for peer review...")
-        submission = await framework.submit_for_peer_review([
-            "Nature Machine Intelligence",
-            "IEEE Transactions on Neural Systems",
-            "Journal of Neural Engineering"
-        ])
+        submission = await framework.submit_for_peer_review(
+            [
+                "Nature Machine Intelligence",
+                "IEEE Transactions on Neural Systems",
+                "Journal of Neural Engineering",
+            ]
+        )
 
         print(f"   Submission ID: {submission['submission_id']}")
         print(f"   Journals: {len(submission['journals_targeted'])}")
