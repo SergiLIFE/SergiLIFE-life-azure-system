@@ -71,7 +71,7 @@ jobs:
           fi
 
       - name: 📊 Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           file: ./coverage.xml
           flags: unittests
@@ -137,7 +137,7 @@ jobs:
           echo "MARKETPLACE_OFFER_ID=${{ env.AZURE_MARKETPLACE_OFFER_ID }}" >> deployment/build-info.env
 
       - name: 📦 Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: life-platform-build
           path: deployment/
@@ -151,13 +151,13 @@ jobs:
 
     steps:
       - name: 📥 Download build artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: life-platform-build
           path: ./deployment
 
       - name: 🔑 Azure Login
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
@@ -173,7 +173,7 @@ jobs:
             location=${{ secrets.AZURE_LOCATION }}
 
       - name: 🚀 Deploy to Azure App Service
-        uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ secrets.AZURE_WEBAPP_NAME_STAGING }}
           package: ./deployment
@@ -192,13 +192,13 @@ jobs:
 
     steps:
       - name: 📥 Download build artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: life-platform-build
           path: ./deployment
 
       - name: 🔑 Azure Login
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
@@ -214,7 +214,7 @@ jobs:
             location=${{ secrets.AZURE_LOCATION }}
 
       - name: 🚀 Deploy to Azure App Service
-        uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ secrets.AZURE_WEBAPP_NAME_PRODUCTION }}
           package: ./deployment
@@ -269,7 +269,7 @@ jobs:
           echo "- 🏪 Marketplace: Ready" >> deployment-report.md
 
       - name: 📦 Upload deployment report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: deployment-report
           path: deployment-report.md
