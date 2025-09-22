@@ -8,6 +8,37 @@
   "python.analysis.typeCheckingMode": "basic",
   "python.linting.enabled": true,
   "python.linting.pylintEnabled": true,
+  "python.linting.pylintArgs": [
+    "--rcfile=${workspaceFolder}/pylintrc"
+  ],
+  "python.analysis.include": [
+    "${workspaceFolder}/**/*.py"
+  ],
+  "python.analysis.exclude": [
+    "**/node_modules",
+    "**/__pycache__",
+    "**/.mypy_cache",
+    "**/backups",
+    "**/logs",
+    "**/tests/__pycache__",
+    "**/.git",
+    "**/.github",
+    "**/.vscode",
+    "**/docs",
+    "**/infra",
+    "**/life-functions-app",
+    "**/*.pyc"
+  ],
+  "python.analysis.extraPaths": [],
+  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.indexing": true,
+  "python.analysis.packageIndexDepths": [
+    {
+      "name": "",
+      "depth": 2,
+      "includeAllSymbols": true
+    }
+  ],
   "editor.formatOnSave": true,
   "python.formatting.provider": "black",
   "[python]": {
