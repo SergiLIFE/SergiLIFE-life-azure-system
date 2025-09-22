@@ -31,17 +31,36 @@ from typing import Any, Dict, List, Optional
 
 import requests
 
-# Ensure directories exist
-os.makedirs("logs", exist_ok=True)
-os.makedirs("results", exist_ok=True)
-os.makedirs("data", exist_ok=True)
+# Ensure directories exist with absolute paths
+script_dir = os.getcwd()  # Use cwd since we run from project root
+logs_dir = os.path.join(script_dir, "logs")
+results_dir = os.path.join(script_dir, "results")
+data_dir = os.path.join(script_dir, "data")
+
+# Create directories with error handling
+try:
+    os.makedirs(logs_dir, exist_ok=True)
+    os.makedirs(results_dir, exist_ok=True)
+    os.makedirs(data_dir, exist_ok=True)
+except OSError as e:
+    print(f"Warning: Could not create directories: {e}")
+    # Try alternative approach
+    import tempfile
+
+    temp_dir = tempfile.gettempdir()
+    logs_dir = os.path.join(temp_dir, "life_logs")
+    results_dir = os.path.join(temp_dir, "life_results")
+    data_dir = os.path.join(temp_dir, "life_data")
+    os.makedirs(logs_dir, exist_ok=True)
+    os.makedirs(results_dir, exist_ok=True)
+    os.makedirs(data_dir, exist_ok=True)
 
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler("logs/production_deployment_test.log"),
+        logging.FileHandler(os.path.join(logs_dir, "production_deployment_test.log")),
         logging.StreamHandler(),
     ],
 )
@@ -69,7 +88,7 @@ class ProductionDeploymentTester:
                 "location": "East US 2",
             }
         except Exception as e:
-            logger.warning(f"Azure config mock used: {e}")
+            logger.warning("Azure config mock used: %s", e)
             return {
                 "subscription_id": "5c88cef6-f243-497d-98af-6c6086d575ca",
                 "resource_group": "life-platform-rg",
@@ -79,7 +98,8 @@ class ProductionDeploymentTester:
 
     async def run_comprehensive_test_suite(self) -> Dict[str, Any]:
         """Run complete production deployment test suite"""
-        logger.info("🚀 Starting L.I.F.E. Platform Production " "Deployment Test Suite")
+        logger.info("🚀 Starting L.I.F.E. Platform Production")
+        logger.info("   Deployment Test Suite")
         logger.info("=" * 70)
 
         results = {
@@ -163,7 +183,7 @@ class ProductionDeploymentTester:
                 "details": "100-cycle EEG test completed successfully",
             }
         except Exception as e:
-            logger.error(f"Core algorithm test failed: {e}")
+            logger.error("Core algorithm test failed: %s", e)
             return {
                 "test_name": "Core Algorithm Validation",
                 "status": "FAILED",
@@ -206,7 +226,8 @@ class ProductionDeploymentTester:
                 ),
             }
         except Exception as e:
-            logger.warning("Azure Functions test limited " f"(SDK not available): {e}")
+            logger.warning("Azure Functions test limited")
+            logger.warning("(SDK not available): %s", e)
             return {
                 "test_name": "Azure Functions Deployment",
                 "status": "SIMULATED",
@@ -245,7 +266,7 @@ class ProductionDeploymentTester:
                     "details": "EEG pipeline ready - data download simulated for testing",
                 }
         except Exception as e:
-            logger.error(f"EEG pipeline test failed: {e}")
+            logger.error("EEG pipeline test failed: %s", e)
             return {
                 "test_name": "EEG Data Pipeline",
                 "status": "FAILED",
@@ -277,7 +298,7 @@ class ProductionDeploymentTester:
                 "details": "Enterprise analytics and reporting functional",
             }
         except Exception as e:
-            logger.error(f"Enterprise analytics test failed: {e}")
+            logger.error("Enterprise analytics test failed: %s", e)
             return {
                 "test_name": "Enterprise Analytics",
                 "status": "FAILED",
@@ -323,7 +344,7 @@ class ProductionDeploymentTester:
                 "details": f"Compliance status - HIPAA: {hipaa_status}, GDPR: {gdpr_status}",
             }
         except Exception as e:
-            logger.warning(f"Security compliance test limited: {e}")
+            logger.warning("Security compliance test limited: %s", e)
             return {
                 "test_name": "Security & Compliance",
                 "status": "SIMULATED",
@@ -359,7 +380,7 @@ class ProductionDeploymentTester:
                 "details": "Performance benchmarks completed successfully",
             }
         except Exception as e:
-            logger.warning(f"Performance test limited: {e}")
+            logger.warning("Performance test limited: %s", e)
             return {
                 "test_name": "Performance Benchmarking",
                 "status": "SIMULATED",
@@ -443,7 +464,7 @@ class ProductionDeploymentTester:
             }
 
         except ImportError as e:
-            logger.warning(f"Venturi system test limited (import issue): {e}")
+            logger.warning("Venturi system test limited (import issue): %s", e)
             return {
                 "test_name": "Venturi System Integration",
                 "status": "SIMULATED",
@@ -453,7 +474,7 @@ class ProductionDeploymentTester:
                 ),
             }
         except Exception as e:
-            logger.error(f"Venturi system test failed: {e}")
+            logger.error("Venturi system test failed: %s", e)
             return {
                 "test_name": "Venturi System Integration",
                 "status": "FAILED",
@@ -472,7 +493,7 @@ class ProductionDeploymentTester:
                 return [1]  # Placeholder for successful data access
             else:
                 return None
-        except:
+        except Exception:
             return None
 
     def _generate_test_summary(self, results: Dict[str, Any]) -> Dict[str, Any]:
@@ -546,12 +567,14 @@ class ProductionDeploymentTester:
     def _save_test_results(self, results: Dict[str, Any]):
         """Save test results to file"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"results/production_deployment_test_{timestamp}.json"
+        filename = os.path.join(
+            results_dir, f"production_deployment_test_{timestamp}.json"
+        )
 
-        with open(filename, "w") as f:
+        with open(filename, "w", encoding="utf-8") as f:
             json.dump(results, f, indent=2, default=str)
 
-        logger.info(f"📊 Test results saved to {filename}")
+        logger.info("📊 Test results saved to %s", filename)
 
 
 async def main():

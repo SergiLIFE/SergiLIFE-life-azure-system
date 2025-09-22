@@ -49,7 +49,9 @@ class VenturiGate:
 
         logger.info(f"Venturi Gate {config.gate_id} initialized: {config.gate_type}")
 
-    def process_signal(self, signal: Any, context: Dict[str, Any] = None) -> Any:
+    def process_signal(
+        self, signal: Any, context: Optional[Dict[str, Any]] = None
+    ) -> Any:
         """Apply Venturi effect to signal processing"""
         if context is None:
             context = {}
@@ -239,7 +241,7 @@ class VenturiGate:
 class VenturiGatesSystem:
     """Complete Venturi Gates System - Revolutionary Control Architecture"""
 
-    def __init__(self, gate_configs: List[VenturiGateConfig] = None):
+    def __init__(self, gate_configs: Optional[List[VenturiGateConfig]] = None):
         if gate_configs is None:
             gate_configs = self._create_default_gates()
 
@@ -276,7 +278,7 @@ class VenturiGatesSystem:
         ]
 
     def process_through_gates(
-        self, signal: List[float], context: Dict[str, Any] = None
+        self, signal: List[float], context: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """Process signal through complete Venturi gate system"""
         if context is None:
@@ -314,7 +316,7 @@ class VenturiGatesSystem:
         return results
 
     def process_parallel_gates(
-        self, signal: List[float], context: Dict[str, Any] = None
+        self, signal: List[float], context: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """Process signal through gates in parallel configuration"""
         if context is None:
