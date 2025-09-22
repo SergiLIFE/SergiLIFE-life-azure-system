@@ -45,6 +45,13 @@ param enableCosmosDB bool = true
 @description('Enable Key Vault')
 param enableKeyVault bool = true
 
+@description('Enable Venturi Orchestrator (3-Venturi Gate System)')
+param enableVenturiOrchestrator bool = true
+
+@description('Venturi Orchestrator SKU')
+@allowed(['B1', 'B2', 'B3', 'S1', 'S2', 'S3', 'P1v2', 'P2v2', 'P3v2'])
+param venturiOrchestratorSku string = 'P2v2'
+
 // Variables
 var resourceBaseName = '${appName}-${environment}-${resourceToken}'
 var tags = {
@@ -258,6 +265,164 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = if (ena
       defaultAction: 'Allow'
     }
   }
+}
+
+// Venturi Orchestrator App Service Plan (Dedicated for 3-Venturi Gate System)
+resource venturiOrchestratorPlan 'Microsoft.Web/serverfarms@2022-09-01' = if (enableVenturiOrchestrator) {
+  name: '${resourceBaseName}-venturi-plan'
+  location: location
+  tags: union(tags, {
+    'venturi-system': '3-gate-orchestrator'
+    'fluid-dynamics': 'ultra-low-latency'
+  })
+  sku: {
+    name: venturiOrchestratorSku
+    capacity: 1
+  }
+  kind: 'linux'
+  properties: {
+    reserved: true
+  }
+}
+
+// Venturi Orchestrator Function App (3-Venturi Gate System)
+resource venturiOrchestrator 'Microsoft.Web/sites@2022-09-01' = if (enableVenturiOrchestrator) {
+  name: '${resourceBaseName}-venturi-orchestrator'
+  location: location
+  kind: 'functionapp,linux'
+  tags: union(tags, {
+    'venturi-system': '3-gate-orchestrator'
+    'fluid-dynamics': 'ultra-low-latency'
+    'gate-types': 'signal-acceleration,pressure-differential,flow-recovery'
+  })
+  identity: {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '${userAssignedIdentity.id}': {}
+    }
+  }
+  properties: {
+    serverFarmId: venturiOrchestratorPlan.id
+    httpsOnly: true
+    siteConfig: {
+      linuxFxVersion: 'PYTHON|3.11'
+      functionAppScaleLimit: 50
+      minimumElasticInstanceCount: 1
+      cors: {
+        allowedOrigins: ['*']
+        supportCredentials: false
+      }
+      appSettings: [
+        {
+          name: 'AzureWebJobsStorage'
+          value: 'UseDevelopmentStorage=true'
+        }
+        {
+          name: 'FUNCTIONS_EXTENSION_VERSION'
+          value: '~4'
+        }
+        {
+          name: 'FUNCTIONS_WORKER_RUNTIME'
+          value: 'python'
+        }
+        {
+          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+          value: enableApplicationInsights ? 'placeholder-connection-string' : ''
+        }
+        {
+          name: 'AZURE_MARKETPLACE_OFFER_ID'
+          value: marketplaceOfferId
+        }
+        {
+          name: 'VENTURI_SYSTEM_ENABLED'
+          value: 'true'
+        }
+        {
+          name: 'VENTURI_GATES_COUNT'
+          value: '3'
+        }
+        {
+          name: 'VENTURI_SIGNAL_ACCELERATION_FACTOR'
+          value: '3.5'
+        }
+        {
+          name: 'VENTURI_PRESSURE_DIFFERENTIAL_FACTOR'
+          value: '2.8'
+        }
+        {
+          name: 'VENTURI_FLOW_RECOVERY_FACTOR'
+          value: '4.2'
+        }
+        {
+          name: 'VENTURI_LATENCY_TARGET_MS'
+          value: '0.41'
+        }
+        {
+          name: 'VENTURI_THROUGHPUT_TARGET_OPS_SEC'
+          value: '80'
+        }
+        {
+          name: 'WEBSITE_RUN_FROM_PACKAGE'
+          value: '1'
+        }
+        {
+          name: 'FUNCTIONS_WORKER_PROCESS_COUNT'
+          value: '2'
+        }
+        {
+          name: 'FUNCTIONS_WORKER_RUNTIME_VERSION'
+          value: '3.11'
+        }
+      ]
+    }
+  }
+}
+
+// Venturi State Storage Account (Dedicated for fluid dynamics state)
+resource venturiStorageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = if (enableVenturiOrchestrator) {
+  name: '${replace(resourceBaseName, '-', '')}venturi'
+  location: location
+  tags: union(tags, {
+    'venturi-system': 'state-storage'
+    'fluid-dynamics': 'gate-state-persistence'
+  })
+  sku: {
+    name: 'Premium_LRS'
+  }
+  kind: 'StorageV2'
+  properties: {
+    supportsHttpsTrafficOnly: true
+    minimumTlsVersion: 'TLS1_2'
+    allowBlobPublicAccess: false
+    networkAcls: {
+      defaultAction: 'Allow'
+    }
+    isHnsEnabled: true // Hierarchical namespace for optimized access
+  }
+}
+
+// Venturi State Table Storage (for gate status and metrics)
+resource venturiTableService 'Microsoft.Storage/storageAccounts/tableServices@2022-09-01' = if (enableVenturiOrchestrator) {
+  parent: venturiStorageAccount
+  name: 'default'
+}
+
+resource venturiTable 'Microsoft.Storage/storageAccounts/tableServices/tables@2022-09-01' = if (enableVenturiOrchestrator) {
+  parent: venturiTableService
+  name: 'venturiState'
+  properties: {}
+}
+
+// Venturi Metrics Queue (for inter-gate communication)
+resource venturiQueueService 'Microsoft.Storage/storageAccounts/queueServices@2022-09-01' = if (enableVenturiOrchestrator) {
+  parent: venturiStorageAccount
+  name: 'default'
+}
+
+resource venturiQueue 'Microsoft.Storage/storageAccounts/queueServices/queues@2022-09-01' = if (enableVenturiOrchestrator) {
+  parent: venturiQueueService
+  name: 'venturi-metrics'
+  properties: {}
 }
 
 // Container Apps Environment (if enabled)
@@ -577,3 +742,18 @@ output cosmosDBAccountName string = enableCosmosDB ? cosmosDBAccount.name : ''
 
 @description('Key Vault Name')
 output keyVaultName string = enableKeyVault ? keyVault.name : ''
+
+@description('Venturi Orchestrator Function App Name')
+output venturiOrchestratorName string = enableVenturiOrchestrator ? venturiOrchestrator.name : ''
+
+@description('Venturi Orchestrator URL')
+output venturiOrchestratorUrl string = enableVenturiOrchestrator ? 'https://placeholder-venturi-url' : ''
+
+@description('Venturi Storage Account Name')
+output venturiStorageAccountName string = enableVenturiOrchestrator ? venturiStorageAccount.name : ''
+
+@description('Venturi State Table Name')
+output venturiTableName string = enableVenturiOrchestrator ? 'venturiState' : ''
+
+@description('Venturi Metrics Queue Name')
+output venturiQueueName string = enableVenturiOrchestrator ? 'venturi-metrics' : ''

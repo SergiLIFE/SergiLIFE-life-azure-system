@@ -35,15 +35,131 @@
 | **Confidence** | 75-85% | 80-90% | Validated |
 
 ### 💳 **Pricing Tiers**
+
 - **Basic:** $15/user/month - Core learning + basic analytics
-- **Professional:** $30/user/month - Advanced features + priority support  
+- **Professional:** $30/user/month - Advanced features + priority support
 - **Enterprise:** $50/user/month - Full platform + dedicated support + SLA
+
+## 📋 **Prerequisites**
+
+Before deploying the L.I.F.E. Platform, ensure you have:
+
+### **System Requirements**
+
+- **Azure Subscription:** Active Azure account with Contributor or Owner role
+- **Python Version:** Python 3.11+ (production environment)
+- **Memory:** Minimum 4GB RAM (8GB recommended for development)
+- **Storage:** 10GB available disk space
+- **Network:** Stable internet connection for Azure deployment
+
+### **Azure Permissions**
+
+- **Subscription Access:** Owner or Contributor role on target subscription
+- **Resource Group:** Permission to create resource groups in East US 2 region
+- **Marketplace:** Access to publish offers (for marketplace deployment)
+
+### **Development Tools** (Optional)
+
+- **Visual Studio Code:** Recommended IDE with Python extensions
+- **Azure CLI:** Version 2.50+ for command-line deployment
+- **Azure Developer CLI:** For streamlined Azure deployments
+- **Git:** Version control system
+
+## 🚀 **Installation & Deployment**
+
+### **Quick Start (Azure Marketplace)**
+
+1. **Find L.I.F.E. Platform** in Azure Marketplace (Offer ID: `9a600d96-fe1e-420b-902a-a0c42c561adb`)
+2. **Select Plan:** Choose Basic ($15/user), Professional ($30/user), or Enterprise ($50/user)
+3. **Configure:** Set up your Azure subscription and resource group
+4. **Deploy:** Click "Create" to deploy the full L.I.F.E. infrastructure
+5. **Access:** Use the provided URLs to access your L.I.F.E. instance
+
+### **Manual Installation (Development)**
+
+#### **1. Clone Repository**
+
+```bash
+git clone https://github.com/SergiLIFE/SergiLIFE-life-azure-system.git
+cd SergiLIFE-life-azure-system
+```
+
+#### **2. Setup Python Environment**
+
+```bash
+# Create virtual environment
+python -m venv venv
+
+# Activate environment
+# Windows:
+venv\Scripts\activate
+# Linux/Mac:
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+#### **3. Configure Azure Authentication**
+
+```powershell
+# Setup OIDC authentication (Windows)
+.\setup-azure-oidc.ps1
+
+# Or configure manually with Azure CLI
+az login
+az account set --subscription "5c88cef6-f243-497d-98af-6c6086d575ca"
+```
+
+#### **4. Deploy to Azure**
+
+```powershell
+# Using Azure Developer CLI (recommended)
+azd up
+
+# Or using Azure CLI
+az deployment group create \
+  --resource-group life-platform-rg \
+  --template-file infra/main.bicep \
+  --parameters infra/main.parameters.json
+```
+
+#### **5. Validate Deployment**
+
+```powershell
+# Run production validation tests
+python production_deployment_test.py
+
+# Check Azure resources
+az resource list --resource-group life-platform-rg --output table
+```
+
+### **Post-Installation Configuration**
+
+#### **EEG Data Setup**
+
+- Configure PhysioNet dataset access for validation
+- Set up EEG device integration endpoints
+- Configure data retention policies
+
+#### **User Management**
+
+- Create administrator accounts
+- Configure institutional access controls
+- Set up multi-factor authentication
+
+#### **Monitoring Setup**
+
+- Configure Azure Monitor alerts
+- Set up Application Insights dashboards
+- Enable log analytics workspace
 
 ## 🧠 **L.I.F.E Algorithm - Core Technology**
 
 Revolutionary neural processing system that adapts learning experiences based on real-time EEG analysis:
 
 ### ✨ **Key Features**
+
 - **Real-time EEG Processing** - 256 Hz sampling, 64-channel support
 - **Adaptive Learning Engine** - Individual neural pattern optimization
 - **Enterprise Analytics** - Comprehensive learning insights
@@ -51,6 +167,7 @@ Revolutionary neural processing system that adapts learning experiences based on
 - **100-Cycle Validated** - Production-ready accuracy (95.8%)
 
 ### 🔬 **Neural Processing Capabilities**
+
 ```python
 # Core L.I.F.E Algorithm Features
 neural_accuracy = 95.8%        # Validated through 100-cycle testing
@@ -63,6 +180,7 @@ enterprise_ready = True         # Production validated
 ## 🚀 **Quick Start**
 
 ### **1. Development Setup**
+
 ```powershell
 # Clone and setup
 git clone https://github.com/SergiLIFE/SergiLIFE-life-azure-system.git
@@ -78,6 +196,7 @@ python experimentP2L.I.F.E-Learning-Individually-from-Experience-Theory-Algorith
 ```
 
 ### **2. Azure Deployment**
+
 ```powershell
 # Setup Azure OIDC authentication
 .\setup-azure-oidc.ps1
@@ -87,6 +206,7 @@ azd up
 ```
 
 ### **3. Enterprise Validation**
+
 ```powershell
 # Run 100-cycle EEG validation test
 python -c "from experimentP2L import LIFEAlgorithmCore; import asyncio; life = LIFEAlgorithmCore(); asyncio.run(life.run_100_cycle_eeg_test())"
@@ -111,18 +231,20 @@ SergiLIFE-life-azure-system/
 └── 📚 Documentation files
 ```
 
-## � **Venturi System Architecture**
+## 🌀 **Venturi System Architecture**
 
 The L.I.F.E. Platform features a revolutionary **3-Venturi Gate System** that applies fluid dynamics principles to neural processing, enabling ultra-low latency signal optimization and adaptive learning acceleration.
 
 ### **Core Components**
 
 **🎯 3 Venturi Gates:**
+
 1. **Signal Processing Gate** - Real-time neural signal conditioning
 2. **Pattern Recognition Gate** - Dynamic feature extraction and analysis
 3. **Adaptive Learning Gate** - Individual optimization and feedback loops
 
 **🔧 5 Venturi System Modules:**
+
 - [`venturi_gates_system.py`](./venturi_gates_system.py) - Core fluid dynamics processing
 - [`venturi_batching.py`](./venturi_batching.py) - Dynamic batch optimization
 - [`venturi_resilience_tests.py`](./venturi_resilience_tests.py) - Fault tolerance testing
@@ -130,21 +252,24 @@ The L.I.F.E. Platform features a revolutionary **3-Venturi Gate System** that ap
 - [`venturi_integration_summary.py`](./venturi_integration_summary.py) - Performance analytics
 
 ### **Key Features**
+
 - 🚀 **Ultra-Low Latency:** Sub-millisecond processing (0.37ms achieved)
 - 🔄 **Adaptive Processing:** Self-optimizing gate configurations
 - 🛡️ **Fault Tolerance:** Comprehensive resilience testing
 - 📊 **Scientific Validation:** Research-backed performance claims
 
-## �🏢 **Enterprise Features**
+## 🏢 **Enterprise Features**
 
 ### **Azure Integration**
+
 - ✅ **OIDC Authentication** - Secure, secret-free deployment
-- ✅ **Auto-scaling** - Handle 10,000+ concurrent users  
+- ✅ **Auto-scaling** - Handle 10,000+ concurrent users
 - ✅ **Compliance** - HIPAA, SOC2, GDPR ready
 - ✅ **Monitoring** - Comprehensive enterprise analytics
 - ✅ **Backup & DR** - Multi-region redundancy
 
 ### **Neural Processing**
+
 - ✅ **Real-time EEG Analysis** - 64-channel, 256 Hz sampling
 - ✅ **Adaptive Learning** - Individual neural optimization
 - ✅ **Machine Learning** - Advanced pattern recognition
@@ -152,6 +277,7 @@ The L.I.F.E. Platform features a revolutionary **3-Venturi Gate System** that ap
 - ✅ **Batch Processing** - High-throughput analytics
 
 ### **Business Intelligence**
+
 - ✅ **Executive Dashboard** - Real-time KPIs
 - ✅ **Revenue Analytics** - Detailed financial insights
 - ✅ **User Engagement** - Learning effectiveness metrics
@@ -161,6 +287,7 @@ The L.I.F.E. Platform features a revolutionary **3-Venturi Gate System** that ap
 ## 🔧 **Development Workflow**
 
 ### **VS Code Tasks**
+
 - `Setup L.I.F.E Development Environment` - Initialize Python venv
 - `Install L.I.F.E Dependencies` - Install all requirements
 - `Run L.I.F.E Algorithm Tests` - Execute test suite
@@ -169,13 +296,15 @@ The L.I.F.E. Platform features a revolutionary **3-Venturi Gate System** that ap
 - `Generate Enterprise Report` - Create business analytics
 
 ### **Debug Configurations**
+
 - `L.I.F.E: Core Algorithm` - Debug main neural processing
-- `L.I.F.E: Azure Integration Test` - Test cloud connectivity  
+- `L.I.F.E: Azure Integration Test` - Test cloud connectivity
 - `L.I.F.E: EEG Validation Suite` - Validate neural accuracy
 
 ## ✅ **Recent Optimizations & Validations (September 2025)**
 
 ### **Production Readiness Achievements**
+
 - ✅ **Component Import Issues Resolved** - All core modules validated for correct imports
 - ✅ **Full Integration Tests** - Comprehensive testing with real Azure resources completed
 - ✅ **Production Deployment Validation** - Azure infrastructure fully operational and validated
@@ -184,7 +313,8 @@ The L.I.F.E. Platform features a revolutionary **3-Venturi Gate System** that ap
 - ✅ **Enterprise Security** - RBAC, encryption, and compliance configurations active
 
 ### **Performance Metrics (Latest Validation)**
-```
+
+```text
 ✅ Production Deployment Test Results
    ├── Core Algorithm Test: PASSED
    ├── Azure Functions Test: PASSED
@@ -199,8 +329,9 @@ The L.I.F.E. Platform features a revolutionary **3-Venturi Gate System** that ap
 ## 📈 **Roadmap & Milestones**
 
 ### **September 2025 - Launch Phase**
+
 - ✅ Core L.I.F.E algorithm completed
-- ✅ Azure integration validated  
+- ✅ Azure integration validated
 - ✅ Enterprise features implemented
 - ✅ Azure Marketplace certification (9/9 complete)
 - ✅ Production deployment validation completed
@@ -210,12 +341,14 @@ The L.I.F.E. Platform features a revolutionary **3-Venturi Gate System** that ap
 - 🚀 **Production Launch - September 27th**
 
 ### **Q4 2025 - Growth Phase**
+
 - 🎯 Reach $345K quarterly revenue
 - 📊 Onboard 150 institutions
 - 🔬 Customer discovery (50+ interviews)
 - 📋 Pilot program (8-12 institutions)
 
 ### **2026-2029 - Scale Phase**
+
 - 💰 Series A preparation (Q1 2026)
 - 📈 Scale to 1,720 institutions
 - 🎯 Achieve $50.7M annual revenue (2029)
@@ -224,12 +357,14 @@ The L.I.F.E. Platform features a revolutionary **3-Venturi Gate System** that ap
 ## 🛡️ **Security & Compliance**
 
 ### **Certifications**
+
 - ✅ **HIPAA Compliant** - Healthcare data protection
 - 🔄 **SOC2 Type II** - Security controls (in progress)
 - ✅ **GDPR Ready** - EU data protection compliance
 - ✅ **Azure Security** - Premium tier protection
 
 ### **Data Protection**
+
 - 🔐 **Encryption at Rest** - AES-256
 - 🔐 **Encryption in Transit** - TLS 1.3
 - 🔑 **Key Management** - Azure Key Vault
@@ -239,7 +374,8 @@ The L.I.F.E. Platform features a revolutionary **3-Venturi Gate System** that ap
 ## 🧪 **Validation & Testing**
 
 ### **Neural Algorithm Validation**
-```
+
+```text
 ✅ 100-Cycle EEG Test Suite
    ├── Success Rate: 98.7%
    ├── Processing Time: 127ms avg
@@ -254,6 +390,7 @@ The L.I.F.E. Platform features a revolutionary **3-Venturi Gate System** that ap
 ```
 
 ### **Business Validation**
+
 - ✅ Market research completed (1,720 target institutions identified)
 - ✅ Revenue model validated (75-85% confidence)
 - ✅ Customer interviews conducted (preliminary validation)
@@ -270,6 +407,7 @@ The L.I.F.E. Platform is validated using a transparent, evidence-based workflow 
 - **Auditability:** Logging is robust, Unicode-safe, and free of non-ASCII characters, ensuring compatibility across platforms and for regulatory review.
 
 **Example Output:**
+
 - Performance Score: 0.708
 - Best Latency: 4.38 ms
 - Trait Evolution: {'focus': 0.77, 'resilience': 0.63, 'adaptability': 0.72}
@@ -280,11 +418,13 @@ This approach ensures that all claims are backed by transparent, repeatable evid
 ## 🤝 **Support & Resources**
 
 ### **Documentation**
+
 - 📖 [Azure OIDC Setup Guide](./AZURE_OIDC_SETUP.md)
 - ⚡ [Quick Start Guide](./QUICK_START.md)
 - 🔧 [Migration Instructions](./migrate-life-platform.ps1)
 
 ### **Contact & Support**
+
 - 👨‍💻 **Developer:** Sergi Paya Borrull
 - 📧 **Enterprise Sales:** [Contact via Azure Marketplace]
 - 🎯 **Azure Marketplace:** Offer ID `9a600d96-fe1e-420b-902a-a0c42c561adb`
@@ -296,13 +436,13 @@ This approach ensures that all claims are backed by transparent, repeatable evid
 
 The L.I.F.E platform represents a breakthrough in personalized neural learning technology. With production-ready Azure integration, comprehensive enterprise features, and validated business model, we're positioned to revolutionize educational neuroscience.
 
-**🧠 Production-ready, clinically-validated neuroscience platform ready for global launch! ✨**
+### 🧠 Production-ready, clinically-validated neuroscience platform ready for global launch! ✨
 
 ---
 
 ## Azure Marketplace Solution Summary
 
-**L.I.F.E. Platform: Neuroadaptive Learning & Enterprise-Ready Azure Integration**
+### L.I.F.E. Platform: Neuroadaptive Learning & Enterprise-Ready Azure Integration
 
 The L.I.F.E. Platform delivers a breakthrough in personalized neural learning, combining advanced neuroadaptive modeling with robust Azure-native deployment. Designed for educational, clinical, and enterprise environments, L.I.F.E. leverages real-time EEG analysis, adaptive learning algorithms, and seamless Azure integration to deliver measurable outcomes at scale.
 
@@ -326,4 +466,4 @@ The L.I.F.E. Platform delivers a breakthrough in personalized neural learning, c
 
 ---
 
-*Copyright 2025 - Sergio Paya Borrull | Azure Marketplace Launch: September 27, 2025*
+Copyright 2025 - Sergio Paya Borrull | Azure Marketplace Launch: September 27, 2025
