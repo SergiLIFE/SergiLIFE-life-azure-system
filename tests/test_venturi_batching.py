@@ -21,4 +21,3 @@ def test_venturi_placeholder():
     """Placeholder for future Venturi tests"""
     # This test will be expanded when Venturi components are available
     assert 2 + 2 == 4
-
