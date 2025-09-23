@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L.I.F.E. Platform Dashboard - Local Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #fff, #e3f2fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .metric-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        
+        .status-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .live-dot {
+            width: 10px;
+            height: 10px;
+            background: #4caf50;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+        }
+        
+        .api-test {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .api-response {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.85em;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        button {
+            background: linear-gradient(45deg, #2196f3, #21cbf3);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(33, 150, 243, 0.4);
+        }
+        
+        .error {
+            color: #ff5252;
+        }
+        
+        .success {
+            color: #4caf50;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>🧠 L.I.F.E. Platform Dashboard</h1>
+            <p>Learning Individually from Experience - Enterprise Dashboard Test</p>
+            <p><small>Version 2025.1.0-PRODUCTION | Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb</small></p>
+        </div>
+        
+        <div class="live-indicator">
+            <div class="live-dot"></div>
+            <span>Dashboard Active - Real-time Data Stream</span>
+        </div>
+        
+        <div class="metrics-grid" id="metricsGrid">
+            <!-- Metrics will be populated by JavaScript -->
+        </div>
+        
+        <div class="status-section">
+            <h3>🚀 System Status</h3>
+            <div id="statusInfo">
+                <p>Initializing dashboard components...</p>
+            </div>
+        </div>
+        
+        <div class="api-test">
+            <h3>🔧 API Testing Console</h3>
+            <p>Test the Azure Functions Dashboard API endpoints:</p>
+            
+            <button onclick="testAPI('metrics')">📊 Test Metrics API</button>
+            <button onclick="testAPI('health')">🏥 Test Health API</button>
+            <button onclick="testAPI('neural')">🧠 Test Neural API</button>
+            <button onclick="testAPI('eeg')">⚡ Test EEG API</button>
+            <button onclick="testAPI('venturi')">🌪️ Test Venturi API</button>
+            <button onclick="clearResponse()">🗑️ Clear</button>
+            
+            <div id="apiResponse" class="api-response"></div>
+        </div>
+    </div>
+
+    <script>
+        // API base URL - adjust based on your Azure Functions deployment
+        const API_BASE_URL = 'http://localhost:7071/api/dashboard';
+        
+        // Mock data for when API is not available
+        const mockData = {
+            metrics: {
+                timestamp: new Date().toISOString(),
+                platform_info: {
+                    name: "L.I.F.E. Platform",
+                    version: "2025.1.0-PRODUCTION",
+                    status: "operational"
+                },
+                learning_metrics: {
+                    accuracy: 82.3,
+                    response_time: 0.42,
+                    patterns_learned: 1247,
+                    confidence: 91
+                },
+                neural_sphere: {
+                    active_nodes: 94,
+                    health: "excellent",
+                    processing_state: "ADAPTIVE_LEARNING"
+                }
+            },
+            health: {
+                overall_status: "healthy",
+                uptime: "72h 34m",
+                azure_services: {
+                    functions: { status: "operational", success_rate: 99.2 },
+                    storage: { status: "synchronized", usage: 67.3 }
+                }
+            }
+        };
+        
+        // Initialize dashboard
+        function initDashboard() {
+            updateMetrics(mockData.metrics);
+            updateStatus(mockData.health);
+            
+            // Update every 5 seconds
+            setInterval(() => {
+                updateMetrics(generateMockMetrics());
+            }, 5000);
+        }
+        
+        function generateMockMetrics() {
+            return {
+                ...mockData.metrics,
+                timestamp: new Date().toISOString(),
+                learning_metrics: {
+                    accuracy: (82 + Math.random() * 6).toFixed(1),
+                    response_time: (0.38 + Math.random() * 0.1).toFixed(2),
+                    patterns_learned: Math.floor(1240 + Math.random() * 20),
+                    confidence: Math.floor(88 + Math.random() * 8)
+                },
+                neural_sphere: {
+                    active_nodes: Math.floor(90 + Math.random() * 8),
+                    health: "excellent",
+                    processing_state: "ADAPTIVE_LEARNING"
+                }
+            };
+        }
+        
+        function updateMetrics(data) {
+            const grid = document.getElementById('metricsGrid');
+            grid.innerHTML = `
+                <div class="metric-card">
+                    <div class="metric-value">${data.learning_metrics.accuracy}%</div>
+                    <div class="metric-label">Neural Accuracy</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">${data.learning_metrics.response_time}ms</div>
+                    <div class="metric-label">Response Time</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">${data.learning_metrics.patterns_learned}</div>
+                    <div class="metric-label">Patterns Learned</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">${data.neural_sphere.active_nodes}</div>
+                    <div class="metric-label">Active Neural Nodes</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">${data.learning_metrics.confidence}%</div>
+                    <div class="metric-label">System Confidence</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">${data.neural_sphere.health}</div>
+                    <div class="metric-label">Neural Health</div>
+                </div>
+            `;
+        }
+        
+        function updateStatus(data) {
+            const statusInfo = document.getElementById('statusInfo');
+            statusInfo.innerHTML = `
+                <p><strong>Overall Status:</strong> <span class="success">${data.overall_status}</span></p>
+                <p><strong>Uptime:</strong> ${data.uptime}</p>
+                <p><strong>Azure Functions:</strong> <span class="success">${data.azure_services.functions.status}</span> (${data.azure_services.functions.success_rate}% success)</p>
+                <p><strong>Storage:</strong> <span class="success">${data.azure_services.storage.status}</span> (${data.azure_services.storage.usage}% used)</p>
+                <p><strong>Last Update:</strong> ${new Date().toLocaleTimeString()}</p>
+            `;
+        }
+        
+        async function testAPI(endpoint) {
+            const responseDiv = document.getElementById('apiResponse');
+            responseDiv.innerHTML = `Testing ${endpoint} endpoint...\n`;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/${endpoint}`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    responseDiv.innerHTML = `✅ ${endpoint.toUpperCase()} API Response:\n\n` + JSON.stringify(data, null, 2);
+                    responseDiv.className = 'api-response success';
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                responseDiv.innerHTML = `❌ API Error for ${endpoint}:\n\n${error.message}\n\nFalling back to mock data:\n\n` + JSON.stringify(mockData[endpoint] || {error: 'No mock data'}, null, 2);
+                responseDiv.className = 'api-response error';
+            }
+        }
+        
+        function clearResponse() {
+            document.getElementById('apiResponse').innerHTML = '';
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('load', initDashboard);
+        
+        // Add some console info
+        console.log('🧠 L.I.F.E. Platform Dashboard Test Console');
+        console.log('Version: 2025.1.0-PRODUCTION');
+        console.log('Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb');
+        console.log('Copyright 2025 - Sergio Paya Borrull');
+    </script>
+</body>
+</html>

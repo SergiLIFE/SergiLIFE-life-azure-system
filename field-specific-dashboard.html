@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L.I.F.E. Platform - Field-Specific Azure Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0078D4 0%, #005A9E 25%, #004578 50%, #003366 75%, #001122 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #0078D4, #00BCF2, #40E0D0);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: logoShimmer 3s ease-in-out infinite;
+        }
+
+        .azure-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #0078D4;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        .azure-icon {
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0078D4;
+            font-weight: bold;
+        }
+
+        /* Tab Navigation */
+        .tab-navigation {
+            display: flex;
+            gap: 15px;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(45deg, #0078D4, #00BCF2);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 120, 212, 0.4);
+        }
+
+        .tab-button.coming-soon {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .tab-button.coming-soon:hover {
+            transform: none;
+        }
+
+        /* Content Areas */
+        .content-area {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .content-area.active {
+            display: block;
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            text-align: center;
+            padding: 60px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            margin: 30px 0;
+        }
+
+        .welcome-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ffffff, #e3f2fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        .field-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .field-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .field-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .field-card.available {
+            border-color: #00BCF2;
+            box-shadow: 0 4px 20px rgba(0, 188, 242, 0.3);
+        }
+
+        .field-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .field-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .field-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .field-status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-available {
+            background: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
+            border: 1px solid #00ff00;
+        }
+
+        .status-coming-soon {
+            background: rgba(255, 165, 0, 0.2);
+            color: #ffa500;
+            border: 1px solid #ffa500;
+        }
+
+        /* Education Dashboard */
+        .education-dashboard {
+            padding: 30px 0;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #00BCF2;
+        }
+
+        .dashboard-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .metric-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .metric-icon {
+            font-size: 2rem;
+        }
+
+        .metric-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #00BCF2;
+            margin-bottom: 8px;
+        }
+
+        .metric-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00BCF2, #0078D4);
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        /* Azure Features Section */
+        .azure-features {
+            background: rgba(0, 120, 212, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 1px solid rgba(0, 120, 212, 0.3);
+        }
+
+        .azure-features h3 {
+            color: #00BCF2;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .feature-checkmark {
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        /* Subscription Plans */
+        .subscription-plans {
+            margin: 40px 0;
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .plan-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .plan-card:hover {
+            border-color: #00BCF2;
+            box-shadow: 0 8px 30px rgba(0, 188, 242, 0.3);
+        }
+
+        .plan-card.recommended {
+            border-color: #00BCF2;
+            background: rgba(0, 188, 242, 0.1);
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #00BCF2;
+            margin-bottom: 5px;
+        }
+
+        .plan-period {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .plan-features li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #0078D4, #00BCF2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 120, 212, 0.4);
+        }
+
+        /* Animations */
+        @keyframes logoShimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .tab-navigation {
+                flex-direction: column;
+            }
+            
+            .welcome-title {
+                font-size: 2rem;
+            }
+            
+            .field-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-top">
+                <div class="logo">🧠 L.I.F.E. Platform</div>
+                <div class="azure-badge">
+                    <div class="azure-icon">⊞</div>
+                    <span>Azure Marketplace Partner</span>
+                </div>
+            </div>
+
+            <!-- Tab Navigation -->
+            <nav class="tab-navigation">
+                <button class="tab-button active" onclick="showTab('welcome')">
+                    🏠 Overview
+                </button>
+                <button class="tab-button" onclick="showTab('education')">
+                    📚 Education
+                </button>
+                <button class="tab-button coming-soon" onclick="showComingSoon('research')">
+                    🔬 Research
+                    <small>(Coming Soon)</small>
+                </button>
+                <button class="tab-button coming-soon" onclick="showComingSoon('enterprise')">
+                    🏢 Enterprise
+                    <small>(Coming Soon)</small>
+                </button>
+                <button class="tab-button coming-soon" onclick="showComingSoon('production')">
+                    ⚙️ Production
+                    <small>(Coming Soon)</small>
+                </button>
+                <button class="tab-button coming-soon" onclick="showComingSoon('industry')">
+                    🏭 Industry
+                    <small>(Coming Soon)</small>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Welcome/Overview Content -->
+        <div id="welcome" class="content-area active">
+            <div class="welcome-screen">
+                <h1 class="welcome-title">Learning Individually from Experience</h1>
+                <p class="welcome-subtitle">
+                    Revolutionary neuroadaptive learning platform powered by Microsoft Azure.<br>
+                    Choose your field-specific application to get started with tailored solutions.
+                </p>
+
+                <div class="field-cards">
+                    <div class="field-card available" onclick="showTab('education')">
+                        <div class="field-icon">📚</div>
+                        <h3 class="field-title">Education</h3>
+                        <p class="field-description">
+                            Personalized learning experiences with real-time neuroadaptive feedback for students and educators.
+                        </p>
+                        <span class="field-status status-available">✅ Available Now</span>
+                    </div>
+
+                    <div class="field-card" onclick="showComingSoon('research')">
+                        <div class="field-icon">🔬</div>
+                        <h3 class="field-title">Research</h3>
+                        <p class="field-description">
+                            Advanced neuroscience research tools with EEG analysis and cognitive pattern recognition.
+                        </p>
+                        <span class="field-status status-coming-soon">🚧 Coming Q4 2025</span>
+                    </div>
+
+                    <div class="field-card" onclick="showComingSoon('enterprise')">
+                        <div class="field-icon">🏢</div>
+                        <h3 class="field-title">Enterprise</h3>
+                        <p class="field-description">
+                            Corporate training solutions with performance analytics and team optimization insights.
+                        </p>
+                        <span class="field-status status-coming-soon">🚧 Coming Q1 2026</span>
+                    </div>
+
+                    <div class="field-card" onclick="showComingSoon('healthcare')">
+                        <div class="field-icon">🏥</div>
+                        <h3 class="field-title">Healthcare</h3>
+                        <p class="field-description">
+                            FDA-approved medical cognitive assessment and rehabilitation programs.
+                        </p>
+                        <span class="field-status status-coming-soon">🏥 Q2 2026 (Post-FDA)</span>
+                    </div>
+
+                    <div class="field-card" onclick="showComingSoon('production')">
+                        <div class="field-icon">⚙️</div>
+                        <h3 class="field-title">Production</h3>
+                        <p class="field-description">
+                            Manufacturing efficiency optimization through worker cognitive state monitoring.
+                        </p>
+                        <span class="field-status status-coming-soon">🚧 Coming Q3 2026</span>
+                    </div>
+
+                    <div class="field-card" onclick="showComingSoon('industry')">
+                        <div class="field-icon">�</div>
+                        <h3 class="field-title">Industry</h3>
+                        <p class="field-description">
+                            Industrial applications including safety monitoring and operational excellence.
+                        </p>
+                        <span class="field-status status-coming-soon">🚧 Coming Q4 2026</span>
+                    </div>
+                </div>
+
+                <!-- Azure Features -->
+                <div class="azure-features">
+                    <h3>🔵 Powered by Microsoft Azure</h3>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <span class="feature-checkmark">✅</span>
+                            <span>Enterprise-grade Security</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-checkmark">✅</span>
+                            <span>Global Scalability</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-checkmark">✅</span>
+                            <span>99.9% Uptime SLA</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-checkmark">✅</span>
+                            <span>GDPR Compliant</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-checkmark">✅</span>
+                            <span>Real-time Analytics</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-checkmark">✅</span>
+                            <span>AI/ML Integration</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Education Dashboard -->
+        <div id="education" class="content-area">
+            <div class="education-dashboard">
+                <div class="dashboard-header">
+                    <h2 class="dashboard-title">📚 Education Dashboard</h2>
+                    <p class="dashboard-subtitle">
+                        Neuroadaptive learning solutions for educational institutions
+                    </p>
+                </div>
+
+                <!-- Education Metrics -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon">👥</div>
+                            <div class="metric-title">Active Students</div>
+                        </div>
+                        <div class="metric-value">2,847</div>
+                        <div class="metric-description">Currently engaged in adaptive learning</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%"></div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon">📈</div>
+                            <div class="metric-title">Learning Efficiency</div>
+                        </div>
+                        <div class="metric-value">94.2%</div>
+                        <div class="metric-description">Average improvement in retention</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 94%"></div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon">🧠</div>
+                            <div class="metric-title">Cognitive Patterns</div>
+                        </div>
+                        <div class="metric-value">156,832</div>
+                        <div class="metric-description">Neural patterns analyzed today</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 78%"></div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon">⚡</div>
+                            <div class="metric-title">Response Time</div>
+                        </div>
+                        <div class="metric-value">0.42ms</div>
+                        <div class="metric-description">Real-time EEG processing latency</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 96%"></div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon">🎯</div>
+                            <div class="metric-title">Focus Score</div>
+                        </div>
+                        <div class="metric-value">8.7/10</div>
+                        <div class="metric-description">Average student attention level</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 87%"></div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon">📊</div>
+                            <div class="metric-title">Success Rate</div>
+                        </div>
+                        <div class="metric-value">91.5%</div>
+                        <div class="metric-description">Students meeting learning objectives</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 91%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education Subscription Plans -->
+                <div class="subscription-plans">
+                    <h3 style="text-align: center; font-size: 2rem; margin-bottom: 20px; color: #00BCF2;">
+                        📚 Education Subscription Plans
+                    </h3>
+
+                    <div class="plans-grid">
+                        <div class="plan-card">
+                            <h4 class="plan-name">🎓 Classroom Basic</h4>
+                            <div class="plan-price">$15</div>
+                            <div class="plan-period">per student/month</div>
+                            <ul class="plan-features">
+                                <li><span class="feature-checkmark">✅</span> Real-time EEG processing</li>
+                                <li><span class="feature-checkmark">✅</span> Basic learning analytics</li>
+                                <li><span class="feature-checkmark">✅</span> Up to 30 students</li>
+                                <li><span class="feature-checkmark">✅</span> Standard support</li>
+                                <li><span class="feature-checkmark">✅</span> Weekly reports</li>
+                            </ul>
+                            <button class="cta-button">Start Free Trial</button>
+                        </div>
+
+                        <div class="plan-card recommended">
+                            <h4 class="plan-name">🏫 School Professional</h4>
+                            <div class="plan-price">$30</div>
+                            <div class="plan-period">per student/month</div>
+                            <ul class="plan-features">
+                                <li><span class="feature-checkmark">✅</span> Advanced neuroadaptive algorithms</li>
+                                <li><span class="feature-checkmark">✅</span> Detailed cognitive insights</li>
+                                <li><span class="feature-checkmark">✅</span> Up to 200 students</li>
+                                <li><span class="feature-checkmark">✅</span> Priority support</li>
+                                <li><span class="feature-checkmark">✅</span> Daily analytics</li>
+                                <li><span class="feature-checkmark">✅</span> Custom curricula integration</li>
+                            </ul>
+                            <button class="cta-button">Most Popular</button>
+                        </div>
+
+                        <div class="plan-card">
+                            <h4 class="plan-name">🏛️ University Enterprise</h4>
+                            <div class="plan-price">$50</div>
+                            <div class="plan-period">per student/month</div>
+                            <ul class="plan-features">
+                                <li><span class="feature-checkmark">✅</span> Full research capabilities</li>
+                                <li><span class="feature-checkmark">✅</span> API access & integrations</li>
+                                <li><span class="feature-checkmark">✅</span> Unlimited students</li>
+                                <li><span class="feature-checkmark">✅</span> 24/7 dedicated support</li>
+                                <li><span class="feature-checkmark">✅</span> Real-time dashboards</li>
+                                <li><span class="feature-checkmark">✅</span> Advanced research tools</li>
+                                <li><span class="feature-checkmark">✅</span> White-label options</li>
+                            </ul>
+                            <button class="cta-button">Contact Sales</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Azure Integration Features -->
+                <div class="azure-features">
+                    <h3>🔵 Azure-Powered Education Features</h3>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <span class="feature-checkmark">✅</span>
+                            <span>Azure Cognitive Services Integration</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-checkmark">✅</span>
+                            <span>Microsoft Teams Education Integration</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-checkmark">✅</span>
+                            <span>Azure Machine Learning Analytics</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-checkmark">✅</span>
+                            <span>Office 365 Education Sync</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-checkmark">✅</span>
+                            <span>Azure Security Center Protection</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-checkmark">✅</span>
+                            <span>Power BI Education Dashboards</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        function showTab(tabName) {
+            // Hide all content areas
+            const contentAreas = document.querySelectorAll('.content-area');
+            contentAreas.forEach(area => area.classList.remove('active'));
+
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => button.classList.remove('active'));
+
+            // Show selected content area
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked tab button
+            event.target.classList.add('active');
+        }
+
+        // Coming soon notification
+        function showComingSoon(fieldName) {
+            alert(`🚧 ${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} field applications are coming soon!\n\nWe're working hard to bring you specialized solutions for this field. Stay tuned for updates!`);
+        }
+
+        // Initialize dashboard with some animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate progress bars
+            setTimeout(() => {
+                const progressBars = document.querySelectorAll('.progress-fill');
+                progressBars.forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0%';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
+                });
+            }, 500);
+
+            // Animate metric values
+            const metricValues = document.querySelectorAll('.metric-value');
+            metricValues.forEach(value => {
+                const finalValue = value.textContent;
+                value.style.opacity = '0';
+                setTimeout(() => {
+                    value.style.opacity = '1';
+                    value.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        value.style.transform = 'scale(1)';
+                    }, 200);
+                }, Math.random() * 1000 + 500);
+            });
+        });
+
+        // Real-time data simulation (for demo purposes)
+        function updateMetrics() {
+            const activeStudents = document.querySelector('.metric-card:nth-child(1) .metric-value');
+            const efficiency = document.querySelector('.metric-card:nth-child(2) .metric-value');
+            const patterns = document.querySelector('.metric-card:nth-child(3) .metric-value');
+            
+            // Simulate small changes in metrics
+            if (activeStudents) {
+                const current = parseInt(activeStudents.textContent.replace(',', ''));
+                const variation = Math.floor(Math.random() * 20) - 10;
+                activeStudents.textContent = (current + variation).toLocaleString();
+            }
+            
+            if (efficiency) {
+                const current = parseFloat(efficiency.textContent);
+                const variation = (Math.random() * 2 - 1).toFixed(1);
+                efficiency.textContent = (current + parseFloat(variation)).toFixed(1) + '%';
+            }
+            
+            if (patterns) {
+                const current = parseInt(patterns.textContent.replace(',', ''));
+                const variation = Math.floor(Math.random() * 1000);
+                patterns.textContent = (current + variation).toLocaleString();
+            }
+        }
+
+        // Update metrics every 5 seconds for demo
+        setInterval(updateMetrics, 5000);
+    </script>
+</body>
+</html>

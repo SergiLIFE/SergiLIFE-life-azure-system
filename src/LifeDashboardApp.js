@@ -2,7 +2,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { initializeIcons } from "@fluentui/react";
-import { Stack, CommandBar, Panel, Card, ProgressIndicator, Text, PrimaryButton } from "@fluentui/react";
+import { Stack, CommandBar, Panel, Card, ProgressIndicator, Text, PrimaryButton, Dropdown, Toggle } from "@fluentui/react";
 import { FontWeights, mergeStyleSets } from "@fluentui/react";
 import { NeuralBrainVisualization } from "./components/NeuralBrainVisualization";
 import { EEGWaveform } from "./components/EEGWaveform";
@@ -206,17 +206,34 @@ function useLifeMetrics() {
 }
 
 // Main L.I.F.E. Platform Dashboard Component
-export function LifeEnterpriseDashboard({ user = { name: "Demo User", tier: "Professional", initials: "DU" } }) {
+export function LifeEnterpriseDashboard({ user = { name: "Demo User", tier: "Professional", initials: "DU", role: "student" } }) {
+  const [userRole, setUserRole] = useState(user.role || "student");
+  const [showVenturiSystem, setShowVenturiSystem] = useState(userRole !== "student");
   const metrics = useLifeMetrics();
   const [selectedView, setSelectedView] = useState("dashboard");
   const [learningRate, setLearningRate] = useState(0.005);
   const [venturiSensitivity, setVenturiSensitivity] = useState(1.2);
   const [neuralThreshold, setNeuralThreshold] = useState(0.7);
 
+  // Role options for dropdown
+  const roleOptions = [
+    { key: "student", text: "👨‍🎓 Student View" },
+    { key: "educator", text: "👩‍🏫 Educator View" },
+    { key: "researcher", text: "🔬 Researcher View" }
+  ];
+
+  // Update Venturi visibility when role changes
+  useEffect(() => {
+    setShowVenturiSystem(userRole !== "student");
+  }, [userRole]);
+
   const navigationItems = [
     { key: "dashboard", icon: "Home", label: "Dashboard" },
     { key: "analytics", icon: "BarChartVertical", label: "Analytics" },
     { key: "neural", icon: "Brain", label: "Neural Processing" },
+    ...(userRole === "researcher" ? [{ key: "neuroplasticity", icon: "Medical", label: "Neuroplasticity" }] : []),
+    ...(userRole === "educator" ? [{ key: "classroom", icon: "People", label: "Classroom" }] : []),
+    ...(userRole === "student" ? [{ key: "learning", icon: "Education", label: "My Learning" }] : []),
     { key: "settings", icon: "Settings", label: "Settings" },
     { key: "support", icon: "ContactInfo", label: "Support" },
   ];
@@ -227,7 +244,24 @@ export function LifeEnterpriseDashboard({ user = { name: "Demo User", tier: "Pro
       <div className={styles.headerBar}>
         <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
           <div className={styles.logo}>L.I.F.E. Theory SaaS</div>
-          <Stack horizontal tokens={{ childrenGap: 20 }}>
+          
+          {/* Role Selector in Header */}
+          <Stack horizontal tokens={{ childrenGap: 20 }} verticalAlign="center">
+            <Dropdown
+              placeholder="Select Role"
+              options={roleOptions}
+              selectedKey={userRole}
+              onChange={(event, option) => {
+                if (option) {
+                  setUserRole(option.key);
+                }
+              }}
+              styles={{
+                dropdown: { width: 160 },
+                title: { backgroundColor: '#f3f2f1', border: '1px solid #d1d1d1' }
+              }}
+            />
+            
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <div style={{ 
                 width: 16, 
@@ -248,7 +282,7 @@ export function LifeEnterpriseDashboard({ user = { name: "Demo User", tier: "Pro
               borderRadius: "20px", 
               fontSize: "0.9rem" 
             }}>
-              {user.tier} Plan
+              {user.tier} Plan • {userRole.charAt(0).toUpperCase() + userRole.slice(1)}
             </div>
           </Stack>
         </Stack>
