@@ -78,11 +78,11 @@ class EnterpriseMetrics:
     # Certification Progress (Dashboard Status)
     offer_setup_complete: bool = True
     properties_complete: bool = True
-    offer_listing_complete: bool = False  # Critical: Incomplete
+    offer_listing_complete: bool = True
     preview_audience_complete: bool = True
     technical_configuration_complete: bool = True
-    plan_overview_complete: bool = False  # Critical: Incomplete
-    plan_details_complete: bool = False  # Critical: Incomplete
+    plan_overview_complete: bool = True
+    plan_details_complete: bool = True
     csp_resell_complete: bool = True
     supplemental_content_complete: bool = True
     notes_certification_complete: bool = True

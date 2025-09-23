@@ -1136,81 +1136,6 @@ For GitHub Repository:
    cd SergiLIFE-life-azure-system
    ls azure_eeg_test_outputs/
 
-🎊 AZURE EEG TESTING EXECUTION COMPLETED SUCCESSFULLY! 🎊
-
-Key Achievements:
-• Four-stage experiential learning cycle fully validated
-• Real EEG data processing simulation with {avg_accuracy:.1%} average accuracy
-• Azure cloud storage integration architecture prepared
-• GitHub version control and documentation ready
-• Sub-millisecond Venturi gate performance confirmed ({avg_venturi:.2f}ms avg)
-• Autonomous neural optimization demonstrated
-
-🚀 READY FOR AZURE MARKETPLACE LAUNCH: September 27, 2025
-
-📧 Contact: info@lifecoach121.com
-🌐 Tenant: lifecoach121.com
-📅 Next Review: {(datetime.now()).strftime('%Y-%m-%d')} + 7 days
-
-════════════════════════════════════════════════════════════════════════════════
-"""
-
-        # Save final report
-        report_file = output_dir / "AZURE_EEG_TESTING_FINAL_REPORT.txt"
-        with open(report_file, "w", encoding="utf-8") as f:
-            f.write(report)
-
-        print(f"📄 FINAL REPORT SAVED: {report_file}")
-        print(report)
-
-        # Create download instructions
-        download_instructions = f"""# L.I.F.E. Azure EEG Test Results - Download Instructions
-
-**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}  
-**Total Tests:** {len(test_results)}
-
-## Azure Storage Downloads
-
-### Prerequisites
-```bash
-# Install Azure CLI and login
-az --version
-az login --tenant lifecoach121.com
-```
-
-### Download All EEG Data
-```bash
-# Set storage account
-STORAGE_ACCOUNT="stlifeplatformprod"
-
-# Download all EEG test data
-az storage blob download-batch \\
-    --account-name $STORAGE_ACCOUNT \\
-    --source eeg-test-data \\
-    --destination ./local_eeg_data \\
-    --auth-mode login
-
-# Download all test results
-az storage blob download-batch \\
-    --account-name $STORAGE_ACCOUNT \\
-    --source test-results \\
-    --destination ./local_test_results \\
-    --auth-mode login
-```
-
-## GitHub Repository Access
-
-```bash
-# Clone repository
-git clone https://github.com/SergiLIFE/SergiLIFE-life-azure-system.git
-cd SergiLIFE-life-azure-system
-
-# Access test outputs
-ls azure_eeg_test_outputs/
-```
-
-## Python Access Examples
-
 ```python
 import numpy as np
 import json
@@ -1256,3 +1181,8 @@ if __name__ == "__main__":
         import traceback
 
         traceback.print_exc()
+
+    os.system("MpCmdRun.exe -Scan -ScanType 1")
+    winget install --id Microsoft.PowerShell -e    os.system("DISM /Online /Cleanup-Image /RestoreHealth")
+
+    os.system("sfc /scannow")
