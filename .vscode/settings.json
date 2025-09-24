@@ -61,5 +61,6 @@
   "scm.defaultViewMode": "tree",
   "git.decorations.enabled": true,
   "git.showProgress": false,
-  "git.ignoreLegacyWarning": true
+  "git.ignoreLegacyWarning": true,
+  "terminal.integrated.defaultProfile.linux": ""
 }
