@@ -287,3 +287,4 @@ jobs:
           echo "🎯 Azure Marketplace Offer ID: ${{ env.AZURE_MARKETPLACE_OFFER_ID }}"
           echo "📅 Launch Date: September 27, 2025"
           echo "💰 Revenue Target: $345K Q4 2025"
+
