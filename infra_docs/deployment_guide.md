@@ -44,4 +44,4 @@ python scripts/apply_configs.py --environment production
 - Data encryption at rest and in transit
 - HIPAA compliance for clinical data
 
-Generated: 2025-10-06T20:43:11.995335
+Generated: 2025-10-06T20:44:42.184442
