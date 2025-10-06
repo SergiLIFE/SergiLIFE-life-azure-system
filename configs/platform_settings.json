@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "environment": "production",
+  "debug_mode": false,
+  "logging_level": "INFO",
+  "max_concurrent_users": 2000,
+  "session_timeout": 3600
+}
