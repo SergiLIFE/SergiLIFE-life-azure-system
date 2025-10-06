@@ -1,0 +1,29 @@
+{
+  "timestamp": "2025-10-06T20:41:48.815384",
+  "overall_health": "good",
+  "checks": {
+    "repository_status": {
+      "name": "SergiLIFE-life-azure-system",
+      "branch": "copilot/fix-dac50eed-2812-499b-b651-299053d5216f",
+      "last_commit": "a9780b1a30d03e1c124497a7541d748dd6101ec7",
+      "last_commit_date": "2025-10-06 20:40:45+00:00",
+      "is_clean": false,
+      "pending_changes": 2,
+      "remote_status": "synchronized",
+      "health_score": 0.7
+    },
+    "large_files": [],
+    "security": [],
+    "code_quality": {
+      "total_files": 387,
+      "python_files": 124,
+      "total_lines": 68845,
+      "average_complexity": 10,
+      "overall_score": 0.8
+    }
+  },
+  "recommendations": [
+    "Commit or stash pending changes to clean working directory",
+    "Code complexity is high - consider refactoring"
+  ]
+}

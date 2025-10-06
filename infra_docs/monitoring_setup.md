@@ -40,4 +40,4 @@ Use the integrated dashboard system for real-time monitoring:
 - Technical dashboard for system health
 - Clinical dashboard for patient monitoring
 
-Generated: 2025-10-06T20:40:06.158480
+Generated: 2025-10-06T20:42:36.272992
