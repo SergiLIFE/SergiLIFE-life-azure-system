@@ -2,6 +2,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "PowerShell Interactive Session",
+            "type": "PowerShell",
+            "request": "launch",
+            "cwd": "${cwd}"
+        },
+        {
+            "name": "Debug Autonomous Optimizer",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/autonomous_optimizer.py",
@@ -17,7 +24,6 @@
             "subProcess": true
         },
         {
-            "name": "⚡ Debug Model Optimizer",
             "name": "Debug Model Optimizer",
             "type": "python",
             "request": "launch",
@@ -33,6 +39,7 @@
             "showReturnValue": true
         },
         {
+            "name": "Debug SOTA Benchmarks",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/sota_benchmark.py",
@@ -47,6 +54,7 @@
             "showReturnValue": true
         },
         {
+            "name": "Debug Test Suite",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/test_autonomous_optimizer.py",
@@ -62,6 +70,7 @@
             "showReturnValue": true
         },
         {
+            "name": "Debug Current File",
             "type": "python",
             "request": "launch",
             "program": "${file}",
@@ -76,6 +85,7 @@
             "showReturnValue": true
         },
         {
+            "name": "Debug Azure Integration",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/azure_config.py",
@@ -93,6 +103,7 @@
             "showReturnValue": true
         },
         {
+            "name": "Debug Performance Monitor",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/autonomous_optimizer.py",
