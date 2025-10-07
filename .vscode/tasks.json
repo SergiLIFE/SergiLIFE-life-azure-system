@@ -1,154 +1,448 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "🧠 Run Autonomous Optimizer",
-            "type": "shell",
-            "command": "python",
-            "args": ["autonomous_optimizer.py"],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new",
-                "showReuseMessage": true,
-                "clear": false
-            },
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": [],
-            "detail": "Run the L.I.F.E. Autonomous Optimizer with full neural processing"
-        },
-        {
-            "label": "🧪 Test Autonomous Optimizer",
-            "type": "shell",
-            "command": "python",
-            "args": ["test_autonomous_optimizer.py"],
-            "group": "test",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": [],
-            "detail": "Run comprehensive tests for the autonomous optimization system"
-        },
-        {
-            "label": "⚡ Run Model Optimizer",
-            "type": "shell",
-            "command": "python",
-            "args": ["model_optimizer.py"],
-            "group": "build",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": [],
-            "detail": "Run the L.I.F.E. Model Optimization Suite"
-        },
-        {
-            "label": "🏆 Run SOTA Benchmarks",
-            "type": "shell",
-            "command": "python",
-            "args": ["sota_benchmark.py"],
-            "group": "build",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": [],
-            "detail": "Run SOTA performance benchmarks for neural processing"
-        },
-        {
-            "label": "🔬 Run All Tests",
-            "type": "shell",
-            "command": "python",
-            "args": ["-m", "pytest", "-v", "--tb=short"],
-            "group": "test",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": [],
-            "detail": "Run all test suites for L.I.F.E. Platform optimization"
-        },
-        {
-            "label": "🚀 Azure Deploy Prep",
-            "type": "shell",
-            "command": "python",
-            "args": ["-c", "import azure_config; print('Azure deployment validation...')"],
-            "group": "build",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": [],
-            "detail": "Prepare and validate Azure deployment configuration"
-        },
-        {
-            "label": "📊 Performance Monitor",
-            "type": "shell",
-            "command": "python",
-            "args": ["-c", "import psutil; import time; [print(f'CPU: {psutil.cpu_percent()}%, Memory: {psutil.virtual_memory().percent}%') or time.sleep(1) for _ in range(10)]"],
-            "group": "build",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": [],
-            "detail": "Monitor system performance during optimization"
-        },
-        {
-            "label": "🔧 Install Dependencies",
-            "type": "shell",
-            "command": "pip",
-            "args": ["install", "-r", "requirements.txt"],
-            "group": "build",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "new"
-            },
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": [],
-            "detail": "Install all required Python dependencies"
-        }
-    ]
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "🧠 Run Autonomous Optimizer",
+			"type": "shell",
+			"command": "cmd",
+			"args": [
+				"/c",
+				"python",
+				"autonomous_optimizer.py"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "new",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"detail": "Run the L.I.F.E. Autonomous Optimizer with full neural processing"
+		},
+		{
+			"label": "🧪 Test Autonomous Optimizer",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"test_autonomous_optimizer.py"
+			],
+			"group": "test",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "new"
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"detail": "Run comprehensive tests for the autonomous optimization system"
+		},
+		{
+			"label": "⚡ Run Model Optimizer",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"model_optimizer.py"
+			],
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "new"
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"detail": "Run the L.I.F.E. Model Optimization Suite"
+		},
+		{
+			"label": "🏆 Run SOTA Benchmarks",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"sota_benchmark.py"
+			],
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "new"
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"detail": "Run SOTA performance benchmarks for neural processing"
+		},
+		{
+			"label": "🔬 Run All Tests",
+			"type": "shell",
+			"command": "cmd",
+			"args": [
+				"/c",
+				"python",
+				"-m",
+				"pytest",
+				"-v",
+				"--tb=short"
+			],
+			"group": "test",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "new"
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"detail": "Run all test suites for L.I.F.E. Platform optimization"
+		},
+		{
+			"label": "🚀 Azure Deploy Prep",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-c",
+				"import azure_config; print('Azure deployment validation...')"
+			],
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "new"
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"detail": "Prepare and validate Azure deployment configuration"
+		},
+		{
+			"label": "📊 Performance Monitor",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-c",
+				"import psutil; import time; [print(f'CPU: {psutil.cpu_percent()}%, Memory: {psutil.virtual_memory().percent}%') or time.sleep(1) for _ in range(10)]"
+			],
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "new"
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"detail": "Monitor system performance during optimization"
+		},
+		{
+			"label": "🔧 Install Dependencies",
+			"type": "shell",
+			"command": "pip",
+			"args": [
+				"install",
+				"-r",
+				"requirements.txt"
+			],
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "new"
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"detail": "Install all required Python dependencies"
+		},
+		{
+			"label": "🎯 L.I.F.E Theory Target Tracker",
+			"type": "shell",
+			"command": "cmd",
+			"args": [
+				"/c",
+				"python",
+				"LIFE_THEORY_TARGET_TRACKER.py"
+			],
+			"group": "build"
+		},
+		{
+			"label": "✅ Validate L.I.F.E. Environment",
+			"type": "shell",
+			"command": "cmd",
+			"args": [
+				"/c",
+				"python",
+				"validate_environment.py"
+			],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "new",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"group": "build",
+			"detail": "Validate all L.I.F.E. Platform dependencies and components"
+		},
+		{
+			"label": "🧠 Test Fixed L.I.F.E. Algorithm",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"experimentP2L.I.F.E-Learning-Individually-from-Experience-Theory-Algorithm-Code-2025-Copyright-Se.py"
+			],
+			"group": "test"
+		},
+		{
+			"label": "🔧 Validate KeyError Fix",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"test_fixed_algorithm.py"
+			],
+			"group": "test"
+		},
+		{
+			"label": "🏥 Clinical Scenario Demo",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"clinical_scenario_simulation.py"
+			],
+			"group": "test"
+		},
+		{
+			"label": "🏥 Hospital EEG Demo",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"clinical_scenario_simulation.py"
+			],
+			"isBackground": false,
+			"group": "test"
+		},
+		{
+			"label": "🎓 Educational Demo",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"educational_scenario_simulation.py"
+			],
+			"isBackground": false,
+			"group": "test"
+		},
+		{
+			"label": "🎓 Education K-12 University",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"educational_scenario_simulation.py"
+			],
+			"isBackground": false,
+			"group": "test"
+		},
+		{
+			"label": "🏢 Enterprise AI Transformation Demo",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"enterprise_ai_transformation_demo.py"
+			],
+			"isBackground": false,
+			"group": "test"
+		},
+		{
+			"label": "🤖 Microsoft OpenAI L.I.F.E. Analysis",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"microsoft_openai_life_strategic_analysis.py"
+			],
+			"isBackground": false,
+			"group": "test"
+		},
+		{
+			"label": "🤝 Microsoft Partnership Package",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"microsoft_partnership_package_generator.py"
+			],
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "🏢 Azure Marketplace Microsoft Offer",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"azure_marketplace_microsoft_offer.py"
+			],
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "📞 Microsoft Executive Contact",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"microsoft_executive_contact_strategy.py"
+			],
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "🚀 Microsoft Executive Outreach - Priority 1 Execution",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"microsoft_executive_outreach_automation.py"
+			],
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "✅ Final Microsoft Partnership Confirmation",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"microsoft_partnership_execution_confirmation.py"
+			],
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "� Flawless Connection Validator",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"FLAWLESS_CONNECTION_VALIDATOR.py"
+			],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "new"
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"group": "build",
+			"detail": "Run the Flawless Azure Connection Validator with current sponsorship metadata"
+		},
+		{
+			"label": "�🚀 EXECUTE Microsoft Partnership Priority 1",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"execute_microsoft_partnership_priority1.py"
+			],
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "🎆 DIRECT Microsoft Partnership Execution",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"direct_microsoft_partnership_execution.py"
+			],
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "🔐 Create Azure Backup Record",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"simple_azure_backup.py"
+			],
+			"group": "build"
+		},
+		{
+			"label": "🔍 Empty File Detector",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"empty_file_detector.py"
+			],
+			"group": "build"
+		},
+		{
+			"label": "🔗 Flawless Connection Validator",
+			"type": "shell",
+			"command": "python FLAWLESS_CONNECTION_VALIDATOR.py",
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "✅ Azure Sponsorship Validation",
+			"type": "shell",
+			"command": "python azure_sponsorship_validation.py",
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "✅ Quick Sponsorship Validation",
+			"type": "shell",
+			"command": "python azure_sponsorship_validation.py",
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "✅ Azure Sponsorship Check",
+			"type": "shell",
+			"command": "python azure_sponsorship_validation.py",
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "✅ Azure Sponsorship Validation",
+			"type": "shell",
+			"command": "python azure_sponsorship_validation.py",
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "🧪 October 7th Campaign Mock Test",
+			"type": "shell",
+			"command": "python oct7_campaign_mock_test.py",
+			"group": "test"
+		},
+		{
+			"label": "🧪 Oct 7 Campaign Test (Fixed)",
+			"type": "shell",
+			"command": "python oct7_campaign_mock_test.py",
+			"group": "test"
+		}
+	]
 }

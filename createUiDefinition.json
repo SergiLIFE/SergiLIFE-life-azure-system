@@ -1,0 +1,109 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/0.1.2-preview/CreateUIDefinition.MultiVm.json#",
+  "handler": "Microsoft.Azure.CreateUIDef",
+  "version": "0.1.2-preview",
+  "parameters": {
+    "basics": [
+      {
+        "name": "lifePlatformName",
+        "type": "Microsoft.Common.TextBox",
+        "label": "L.I.F.E Platform Name",
+        "defaultValue": "life-platform",
+        "toolTip": "Enter a unique name for your L.I.F.E Platform deployment",
+        "constraints": {
+          "required": true,
+          "regex": "^[a-z0-9-]{3,24}$",
+          "validationMessage": "Must be 3-24 characters, lowercase letters, numbers, and hyphens only"
+        }
+      }
+    ],
+    "steps": [
+      {
+        "name": "lifePlatformConfig",
+        "label": "L.I.F.E Platform Configuration",
+        "subLabel": {
+          "preValidation": "Configure your neuroadaptive learning platform",
+          "postValidation": "Done"
+        },
+        "bladeTitle": "Platform Configuration",
+        "elements": [
+          {
+            "name": "pricingTier",
+            "type": "Microsoft.Common.DropDown",
+            "label": "Pricing Tier",
+            "defaultValue": "professional",
+            "toolTip": "Select your L.I.F.E Platform pricing tier",
+            "constraints": {
+              "allowedValues": [
+                {
+                  "label": "Basic - $15/user/month",
+                  "value": "basic"
+                },
+                {
+                  "label": "Professional - $30/user/month", 
+                  "value": "professional"
+                },
+                {
+                  "label": "Enterprise - $50/user/month (JIT Security)",
+                  "value": "enterprise"
+                }
+              ],
+              "required": true
+            }
+          },
+          {
+            "name": "complianceMode",
+            "type": "Microsoft.Common.DropDown",
+            "label": "Compliance Mode",
+            "defaultValue": "hipaa",
+            "toolTip": "Select your primary compliance requirement",
+            "constraints": {
+              "allowedValues": [
+                {
+                  "label": "Standard (SOC 2)",
+                  "value": "soc2"
+                },
+                {
+                  "label": "Healthcare (HIPAA)",
+                  "value": "hipaa"
+                },
+                {
+                  "label": "Education (FERPA)",
+                  "value": "ferpa"
+                },
+                {
+                  "label": "Government (FedRAMP)",
+                  "value": "fedramp"
+                }
+              ],
+              "required": true
+            }
+          }
+        ]
+      },
+      {
+        "name": "jitConfiguration",
+        "label": "JIT Security Configuration",
+        "subLabel": {
+          "preValidation": "Configure Just-in-Time access for enterprise security",
+          "postValidation": "JIT configured"
+        },
+        "bladeTitle": "Just-in-Time Access Configuration",
+        "elements": [
+          {
+            "name": "jitConfigurationControl",
+            "type": "Microsoft.Solutions.JitConfigurator",
+            "label": "JIT Access Control"
+          }
+        ]
+      }
+    ],
+    "outputs": {
+      "lifePlatformName": "[basics('lifePlatformName')]",
+      "location": "[location()]",
+      "pricingTier": "[steps('lifePlatformConfig').pricingTier]",
+      "complianceMode": "[steps('lifePlatformConfig').complianceMode]",
+      "jitAccessPolicy": "[steps('jitConfiguration').jitConfigurationControl]"
+    }
+  }
+}

@@ -1,28 +1,29 @@
 # Copyright 2025 - Sergio Paya Borrull
-# L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
+# L.I.F.E. Platform Microsoft Partnership Demo - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
 
-name: life-platform
+name: microsoft-life-partnership-demo
 version: 1.0.0
 
 metadata:
-  template: python@1.0.0
+  template: microsoft-life-partnership-demo@1.0.0
 
 infra:
   provider: bicep
   path: ./infra
+  main: microsoft-demo
 
 services:
-  api:
+  web:
     project: .
     language: python
     host: containerapp
-    
-    env:
-      - AZURE_TENANT_ID
-      - AZURE_SUBSCRIPTION_ID
-      - AZURE_CLIENT_ID
-      - LIFE_PLATFORM_VERSION=2025.1.0-PRODUCTION
-      - AZURE_MARKETPLACE_OFFER_ID=9a600d96-fe1e-420b-902a-a0c42c561adb
+    docker:
+      path: ./Dockerfile.microsoft
+      
+  api:
+    project: .
+    language: python
+    host: function
       
 hooks:
   preprovision:

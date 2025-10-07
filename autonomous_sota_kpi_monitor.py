@@ -40,11 +40,16 @@ class KPICategory(Enum):
     RELIABILITY = "reliability"
     EFFICIENCY = "efficiency"
     COMPLIANCE = "compliance"
+    DOCUMENT_INTEGRITY = "document_integrity"
+    MARKETPLACE_READINESS = "marketplace_readiness"
+    NAKEDAI_INTEGRATION = "nakedai_integration"  # Phase 2 preparation
+    FLOW_MOMENTUM = "flow_momentum"  # Seamless transition tracking
 
 
 class KPIMetric(Enum):
-    """Specific KPI metrics"""
+    """Specific KPI metrics - Enhanced with NAKEDai Integration Targets"""
 
+    # L.I.F.E THEORY PLATFORM METRICS (Phase 1)
     PROCESSING_LATENCY = "processing_latency_ms"
     ACCURACY_RATE = "accuracy_rate"
     THROUGHPUT_REQ_PER_SEC = "throughput_req_per_sec"
@@ -53,6 +58,18 @@ class KPIMetric(Enum):
     ERROR_RATE_PERCENT = "error_rate_percent"
     UPTIME_PERCENT = "uptime_percent"
     COMPLIANCE_SCORE = "compliance_score"
+    DOCUMENT_INTEGRITY_SCORE = "document_integrity_score"
+    MARKETPLACE_READINESS_SCORE = "marketplace_readiness_score"
+
+    # NAKEDai 2026 REVOLUTIONARY DEVELOPMENT TARGETS (13-Month Timeline)
+    NAKEDAI_HARDWARE_INTEGRATION = "nakedai_hardware_integration_percent"
+    NAKEDAI_ALGORITHM_DEVELOPMENT = "nakedai_algorithm_development_percent"
+    NAKEDAI_MANUFACTURING_READINESS = "nakedai_manufacturing_readiness_percent"
+    EXPONENTIAL_LEARNING_PROGRESS = "exponential_learning_progress_percent"
+    NAKEDAI_VISUAL_DESIGN_PERFECTION = "nakedai_visual_design_perfection_percent"
+    NAKEDAI_AESTHETIC_APPEAL_SCORE = "nakedai_aesthetic_appeal_score"
+    REVOLUTIONARY_BREAKTHROUGH_SCORE = "revolutionary_breakthrough_score"
+    CONSCIOUSNESS_EVOLUTION_READINESS = "consciousness_evolution_readiness_percent"
 
 
 class AlertSeverity(Enum):

@@ -1,0 +1,23 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=stlifeplatformprod;AccountKey=<STORAGE_KEY>;EndpointSuffix=core.windows.net",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "FUNCTIONS_EXTENSION_VERSION": "~4",
+    "APPLICATIONINSIGHTS_CONNECTION_STRING": "InstrumentationKey=<APP_INSIGHTS_KEY>;IngestionEndpoint=https://eastus2-3.in.applicationinsights.azure.com/",
+    "ServiceBusConnection": "Endpoint=sb://sb-life-platform-prod.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=<SERVICE_BUS_KEY>",
+    "KeyVaultUrl": "https://kv-life-platform-prod.vault.azure.net/",
+    "LIFE_PLATFORM_VERSION": "2025.1.0-PRODUCTION",
+    "LIFE_ALGORITHM_MODE": "SOTA_CHAMPION",
+    "EEG_PROCESSING_SPEED": "880x",
+    "TARGET_ACCURACY": "95.8",
+    "MAX_CONCURRENT_SESSIONS": "50000",
+    "CAMPAIGN_LAUNCH_DATE": "2025-10-07",
+    "TARGET_INSTITUTIONS": "1720",
+    "AZURE_MARKETPLACE_OFFER_ID": "9a600d96-fe1e-420b-902a-a0c42c561adb"
+  },
+  "ConnectionStrings": {
+    "LifePlatformStorage": "DefaultEndpointsProtocol=https;AccountName=stlifeplatformprod;AccountKey=<STORAGE_KEY>;EndpointSuffix=core.windows.net",
+    "ServiceBus": "Endpoint=sb://sb-life-platform-prod.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=<SERVICE_BUS_KEY>"
+  }
+}

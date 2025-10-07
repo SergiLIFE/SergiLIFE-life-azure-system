@@ -1,0 +1,15 @@
+# L.I.F.E. Platform - Development Environment Quick Test
+# Use Command Prompt (cmd) instead of PowerShell to avoid .NET issues
+
+# Option 1: Run this in Command Prompt (cmd.exe)
+cd "c:\Users\Sergio Paya Borrull\OneDrive\Documents\GitHub\.vscode\New folder\SergiLIFE-life-azure-system\SergiLIFE-life-azure-system"
+python validate_environment.py
+
+# Option 2: Test core imports directly
+python -c "import numpy, pandas, tensorflow, torch; print('✅ Core imports successful!')"
+
+# Option 3: Run the L.I.F.E. optimizer
+python autonomous_optimizer.py
+
+# Option 4: Run the test suite
+python -m pytest -v --tb=short

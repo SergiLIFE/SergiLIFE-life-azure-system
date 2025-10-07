@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>L&period;I&period;F&period;E&period; Platform - Manual Azure Portal Deployment Guide</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="life-platform---manual-azure-portal-deployment-guide">L.I.F.E. Platform - Manual Azure Portal Deployment Guide</h1>
+<h1 id="when-terminals-dont-work---use-azure-portal-directly">When Terminals Don't Work - Use Azure Portal Directly!</h1>
+<h2 id="-option-1-deploy-via-azure-portal-no-terminal-needed">🌐 Option 1: Deploy via Azure Portal (No Terminal Needed!)</h2>
+<p>Since your terminal isn't working, you can deploy everything directly through the Azure Portal web interface:</p>
+<h3 id="step-1-login-to-azure-portal">Step 1: Login to Azure Portal</h3>
+<ol>
+<li><strong>Open your web browser</strong></li>
+<li><strong>Go to:</strong> <a href="https://portal.azure.com">https://portal.azure.com</a></li>
+<li><strong>Login with:</strong> <a href="mailto:sergiomiguelpaya@sergiomiguelpayaborrullmsn.onmicrosoft.com">sergiomiguelpaya@sergiomiguelpayaborrullmsn.onmicrosoft.com</a></li>
+<li><strong>Verify subscription:</strong> 5c88cef6-f243-497d-98af-6c6086d575ca</li>
+</ol>
+<h3 id="step-2-create-storage-account-manual">Step 2: Create Storage Account (Manual)</h3>
+<ol>
+<li><strong>In Azure Portal, click:</strong> &quot;+ Create a resource&quot;</li>
+<li><strong>Search for:</strong> &quot;Storage account&quot;</li>
+<li><strong>Click:</strong> &quot;Storage account&quot; → &quot;Create&quot;</li>
+<li><strong>Fill in:</strong>
+<ul>
+<li><strong>Subscription:</strong> 5c88cef6-f243-497d-98af-6c6086d575ca</li>
+<li><strong>Resource group:</strong> life-platform-rg (create if needed)</li>
+<li><strong>Storage account name:</strong> stlifeplatformprod</li>
+<li><strong>Region:</strong> East US 2</li>
+<li><strong>Performance:</strong> Standard</li>
+<li><strong>Redundancy:</strong> Zone-redundant storage (ZRS)</li>
+</ul>
+</li>
+<li><strong>Click:</strong> &quot;Review + create&quot; → &quot;Create&quot;</li>
+</ol>
+<h3 id="step-3-create-blob-containers">Step 3: Create Blob Containers</h3>
+<p>After storage account is created:</p>
+<ol>
+<li><strong>Go to:</strong> Storage account → Containers</li>
+<li><strong>Create these containers:</strong>
+<ul>
+<li><code>life-repository-backup</code> (Private access)</li>
+<li><code>life-repository-versions</code> (Private access)</li>
+<li><code>life-metadata</code> (Private access)</li>
+</ul>
+</li>
+</ol>
+<h3 id="step-4-upload-files-via-azure-portal">Step 4: Upload Files via Azure Portal</h3>
+<ol>
+<li><strong>Click on:</strong> <code>life-repository-backup</code> container</li>
+<li><strong>Click:</strong> &quot;Upload&quot; button</li>
+<li><strong>Select files:</strong> Choose your L.I.F.E. Platform files</li>
+<li><strong>Click:</strong> &quot;Upload&quot;</li>
+</ol>
+<h2 id="️-option-2-use-azure-storage-explorer-gui-app">🖱️ Option 2: Use Azure Storage Explorer (GUI App)</h2>
+<p>Since terminals aren't working, use the graphical Azure Storage Explorer:</p>
+<h3 id="download--install">Download &amp; Install</h3>
+<ol>
+<li><strong>Go to:</strong> <a href="https://azure.microsoft.com/features/storage-explorer/">https://azure.microsoft.com/features/storage-explorer/</a></li>
+<li><strong>Download:</strong> Azure Storage Explorer for Windows</li>
+<li><strong>Install:</strong> Run the installer (no terminal needed!)</li>
+</ol>
+<h3 id="connect-to-your-storage">Connect to Your Storage</h3>
+<ol>
+<li><strong>Open:</strong> Azure Storage Explorer</li>
+<li><strong>Sign in:</strong> Use your Azure credentials</li>
+<li><strong>Select subscription:</strong> 5c88cef6-f243-497d-98af-6c6086d575ca</li>
+<li><strong>Find:</strong> stlifeplatformprod storage account</li>
+</ol>
+<h3 id="upload-your-repository">Upload Your Repository</h3>
+<ol>
+<li><strong>Right-click:</strong> on a container</li>
+<li><strong>Select:</strong> &quot;Upload Files&quot; or &quot;Upload Folder&quot;</li>
+<li><strong>Choose:</strong> Your L.I.F.E. Platform repository folder</li>
+<li><strong>Click:</strong> &quot;Upload&quot;</li>
+</ol>
+<h2 id="-option-3-use-azure-mobile-app">📱 Option 3: Use Azure Mobile App</h2>
+<p>You can even manage backups from your phone!</p>
+<h3 id="download-azure-mobile-app">Download Azure Mobile App</h3>
+<ol>
+<li><strong>iOS:</strong> App Store → &quot;Microsoft Azure&quot;</li>
+<li><strong>Android:</strong> Google Play → &quot;Microsoft Azure&quot;</li>
+</ol>
+<h3 id="access-your-storage">Access Your Storage</h3>
+<ol>
+<li><strong>Login:</strong> with your Azure credentials</li>
+<li><strong>Navigate:</strong> Storage Accounts → stlifeplatformprod</li>
+<li><strong>View/Download:</strong> your backed up files</li>
+</ol>
+<h2 id="-option-4-fix-terminal-issues">🔧 Option 4: Fix Terminal Issues</h2>
+<p>If you want to fix your terminal issues:</p>
+<h3 id="powershell-issues">PowerShell Issues</h3>
+<ol>
+<li><strong>Press:</strong> Windows + R</li>
+<li><strong>Type:</strong> powershell</li>
+<li><strong>Press:</strong> Ctrl + Shift + Enter (Run as Administrator)</li>
+<li><strong>If still not working:</strong> Try Windows Terminal from Microsoft Store</li>
+</ol>
+<h3 id="command-prompt-alternative">Command Prompt Alternative</h3>
+<ol>
+<li><strong>Press:</strong> Windows + R</li>
+<li><strong>Type:</strong> cmd</li>
+<li><strong>Press:</strong> Enter</li>
+<li><strong>Navigate to your project:</strong> <code>cd &quot;C:\Users\Sergio Paya Borrull\OneDrive\Documents\GitHub\.vscode\New folder\SergiLIFE-life-azure-system\SergiLIFE-life-azure-system&quot;</code></li>
+<li><strong>Run:</strong> <code>deploy-backup.bat</code></li>
+</ol>
+<h3 id="vs-code-terminal-fix">VS Code Terminal Fix</h3>
+<ol>
+<li><strong>In VS Code:</strong> Press Ctrl + Shift + `</li>
+<li><strong>If not working:</strong> View → Terminal</li>
+<li><strong>Try different shells:</strong> Click dropdown arrow next to terminal</li>
+<li><strong>Select:</strong> Command Prompt, PowerShell, or Git Bash</li>
+</ol>
+<h2 id="-manual-backup-checklist-no-terminal-required">📋 Manual Backup Checklist (No Terminal Required)</h2>
+<h3 id="using-azure-portal-web-interface">Using Azure Portal Web Interface:</h3>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> ✅ Login to <a href="http://portal.azure.com">portal.azure.com</a></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> ✅ Create storage account: stlifeplatformprod</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> ✅ Create containers: life-repository-backup, life-repository-versions</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> ✅ Upload all your .py files</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> ✅ Upload all your .md files</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> ✅ Upload requirements.txt, azure.yaml, Dockerfile</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> ✅ Create a ZIP of entire repository and upload</li>
+</ul>
+<h3 id="using-azure-storage-explorer">Using Azure Storage Explorer:</h3>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> ✅ Download and install Storage Explorer</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> ✅ Connect to subscription: 5c88cef6-f243-497d-98af-6c6086d575ca</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> ✅ Upload entire repository folder</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> ✅ Verify all files are uploaded</li>
+</ul>
+<h3 id="verification-steps">Verification Steps:</h3>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> ✅ Can see files in Azure Portal</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> ✅ Can download a test file successfully</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> ✅ All important files are backed up</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> ✅ Repository is safe in Azure!</li>
+</ul>
+<h2 id="-emergency-file-upload-drag--drop">🆘 Emergency File Upload (Drag &amp; Drop)</h2>
+<p>If nothing else works, you can drag and drop files directly in Azure Portal:</p>
+<ol>
+<li><strong>Open:</strong> <a href="https://portal.azure.com">https://portal.azure.com</a></li>
+<li><strong>Navigate:</strong> Storage accounts → stlifeplatformprod → Containers → life-repository-backup</li>
+<li><strong>Drag files:</strong> from Windows Explorer directly into the browser</li>
+<li><strong>Drop files:</strong> Azure will upload them automatically!</li>
+</ol>
+<h2 id="-alternative-upload-methods">📞 Alternative Upload Methods</h2>
+<h3 id="onedrive-sync-you-already-have-onedrive">OneDrive Sync (You already have OneDrive!)</h3>
+<ol>
+<li><strong>Create folder:</strong> OneDrive/L.I.F.E-Platform-Backup</li>
+<li><strong>Copy all files:</strong> to this folder</li>
+<li><strong>They auto-sync</strong> to Microsoft cloud</li>
+<li><strong>Download link:</strong> Share from OneDrive to access anywhere</li>
+</ol>
+<h3 id="email-backup-for-critical-files">Email Backup (For critical files)</h3>
+<ol>
+<li><strong>Zip important files:</strong> autonomous_optimizer.py, <a href="http://README.html">README.md</a>, etc.</li>
+<li><strong>Email to yourself:</strong> Keep in email for backup</li>
+<li><strong>Large files:</strong> Use OneDrive/Google Drive sharing links</li>
+</ol>
+<h3 id="github-already-exists">GitHub (Already exists!)</h3>
+<ol>
+<li><strong>Your repo:</strong> <a href="https://github.com/SergiLIFE/life-azure-system">https://github.com/SergiLIFE/life-azure-system</a></li>
+<li><strong>Already backed up</strong> on GitHub</li>
+<li><strong>Can access</strong> from anywhere with internet</li>
+</ol>
+<h2 id="-recommended-approach-no-terminal">🎯 Recommended Approach (No Terminal)</h2>
+<p><strong>Best Option: Azure Storage Explorer</strong></p>
+<ol>
+<li>Download Storage Explorer (no terminal needed)</li>
+<li>Connect to your subscription</li>
+<li>Upload all files via drag &amp; drop</li>
+<li>Set up automatic sync if available</li>
+</ol>
+<p><strong>Backup Option: Azure Portal Web</strong></p>
+<ol>
+<li>Manual upload via web browser</li>
+<li>Drag &amp; drop files directly</li>
+<li>Create multiple containers for organization</li>
+<li>Download files anytime from anywhere</li>
+</ol>
+<h2 id="-success-verification">✅ Success Verification</h2>
+<p>After uploading files (by any method):</p>
+<ol>
+<li><strong>Check:</strong> Can you see files in Azure Portal?</li>
+<li><strong>Test:</strong> Download one file successfully?</li>
+<li><strong>Verify:</strong> All important files uploaded?</li>
+<li><strong>Confirm:</strong> Can access from different device?</li>
+</ol>
+<p>If YES to all → <strong>Your work is SAFE!</strong> 🎉</p>
+<hr>
+<h2 id="-summary">💡 Summary</h2>
+<p><strong>Don't worry about terminals not working!</strong> You have multiple ways to backup your L.I.F.E. Platform:</p>
+<ol>
+<li><strong>Azure Portal</strong> (Web browser - always works)</li>
+<li><strong>Azure Storage Explorer</strong> (Desktop app - no terminal)</li>
+<li><strong>Azure Mobile App</strong> (Phone/tablet access)</li>
+<li><strong>OneDrive</strong> (Already syncing)</li>
+<li><strong>GitHub</strong> (Already backed up)</li>
+<li><strong>Email</strong> (For critical files)</li>
+</ol>
+<p><strong>Your work is NOT lost and WILL be safe!</strong> 🛡️</p>
+<p>Choose any method above and your L.I.F.E. Platform repository will be safely backed up to Azure! 🚀</p>
+
+            
+            
+        </body>
+        </html>

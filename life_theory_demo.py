@@ -417,7 +417,8 @@ class LIFEDemonstrationEngine:
 
 async def main():
     """Main demonstration function"""
-    print("🧠 L.I.F.E. Theory Demonstration - Learning Individually from Experience")
+    print("L.I.F.E. Theory Demonstration")
+    print("Learning Individually from Experience")
     print("=" * 75)
     print("Copyright 2025 - Sergio Paya Borrull")
     print()
@@ -426,10 +427,10 @@ async def main():
 
     try:
         # Run comprehensive demonstration
-        print("🔬 Running comprehensive L.I.F.E. principles demonstration...")
+        print("Running comprehensive L.I.F.E. principles demonstration...")
         results = await engine.demonstrate_life_principles()
 
-        print("\n📊 Demonstration Summary:")
+        print("\nDemonstration Summary:")
         print(f"   Scenarios Completed: {results['scenarios_run']}")
         print(f"   EEG Data Points: {results['total_eeg_data_points']}")
         print(f"   Learning Outcomes: {results['total_learning_outcomes']}")
@@ -437,17 +438,16 @@ async def main():
         print(f"   Adaptation Events: {results['total_adaptation_events']}")
         print(f"   Learning Efficiency: {results['average_learning_efficiency']:.3f}")
 
-        print("\n🎯 L.I.F.E. Principles Demonstrated:")
+        print("\nL.I.F.E. Principles Demonstrated:")
         for principle in results["life_principles_demonstrated"]:
-            print(f"   ✓ {principle}")
+            print(f"   - {principle}")
 
-        print("\n💾 Results exported to JSON files")
-        print("🎉 L.I.F.E. Theory demonstration completed successfully!")
+        print("\nResults exported to JSON files")
+        print("L.I.F.E. Theory demonstration completed successfully!")
 
     except Exception as e:
-        print(f"❌ Demonstration failed: {e}")
+        print(f"Demonstration failed: {e}")
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
     asyncio.run(main())

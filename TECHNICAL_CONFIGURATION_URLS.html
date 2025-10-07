@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x1f527; Technical Configuration - SaaS Integration URLs</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="-technical-configuration---saas-integration-urls">🔧 Technical Configuration - SaaS Integration URLs</h1>
+<h2 id="-current-technical-configuration">📊 <strong>Current Technical Configuration</strong></h2>
+<p><strong>Section:</strong> LIFE Coach 121 Professional | Technical Configuration</p>
+<h3 id="current-urls-azure-container-apps"><strong>Current URLs (Azure Container Apps):</strong></h3>
+<ul>
+<li><strong>Landing Page:</strong> <code>https://life-app-ozjafmtimm6os.bravepond-4b4b0778.eastus.azurecontainerapps.io/marketplace/landing</code></li>
+<li><strong>Connection Webhook:</strong> <code>https://life-app-ozjafmtimm6os.bravepond-4b4b0778.eastus.azurecontainerapps.io/marketplace/webhook</code></li>
+<li><strong>Microsoft Entra Tenant ID:</strong> <code>ec3bf5ff-5304-4ac8-aec4-4dc38538251e</code></li>
+<li><strong>Microsoft Entra Application ID:</strong> <code>42ac6047-6219-4a88-8073-dcc6e11d8b0b</code></li>
+</ul>
+<hr>
+<h2 id="-analysis-your-current-setup">🎯 <strong>Analysis: Your Current Setup</strong></h2>
+<h3 id="-whats-working"><strong>✅ What's Working:</strong></h3>
+<ul>
+<li><strong>Azure Container Apps deployment</strong> - Modern, scalable hosting ✅</li>
+<li><strong>Proper URL structure</strong> - <code>/marketplace/landing</code> and <code>/webhook</code> endpoints ✅</li>
+<li><strong>Different Entra Application ID</strong> - <code>42ac6047-6219-4a88-8073-dcc6e11d8b0b</code> (different from Graph API one) ✅</li>
+<li><strong>Different Tenant ID</strong> - <code>ec3bf5ff-5304-4ac8-aec4-4dc38538251e</code> (different from your main tenant) ✅</li>
+</ul>
+<h3 id="-questions-to-consider"><strong>🤔 Questions to Consider:</strong></h3>
+<ol>
+<li><strong>Are these Azure Container Apps still running?</strong></li>
+<li><strong>Do you prefer to use your main domain</strong> (<code>lifecoach-121.com</code>)?</li>
+<li><strong>Should we align the Tenant ID</strong> with your main tenant (<code>e716161a-5e85-4d6d-82f9-96bcdd2e65ac</code>)?</li>
+</ol>
+<hr>
+<h2 id="-recommended-updates">🚀 <strong>Recommended Updates</strong></h2>
+<h3 id="option-1-keep-azure-container-apps-if-still-running"><strong>Option 1: Keep Azure Container Apps (If Still Running)</strong></h3>
+<p><strong>Pros:</strong> Already configured, professional Azure hosting
+<strong>Cons:</strong> Complex URLs, different tenant</p>
+<p><strong>Keep current URLs if:</strong></p>
+<ul>
+<li>Your Azure Container Apps are still deployed and running</li>
+<li>The marketplace endpoints are functional</li>
+<li>You prefer the Azure Container Apps architecture</li>
+</ul>
+<h3 id="option-2-update-to-your-main-domain-professional"><strong>Option 2: Update to Your Main Domain (Professional)</strong></h3>
+<pre><code>Landing Page URL: https://lifecoach-121.com/marketplace/landing
+Connection Webhook: https://lifecoach-121.com/marketplace/webhook
+Microsoft Entra Tenant ID: e716161a-5e85-4d6d-82f9-96bcdd2e65ac
+Microsoft Entra Application ID: 80b95267-64a9-49b0-926c-289ed8b3312f
+</code></pre>
+<p><strong>Pros:</strong> Clean domain, aligned with your main Azure AD, consistent branding
+<strong>Cons:</strong> Need to implement the endpoints</p>
+<h3 id="option-3-use-azure-functions-your-production-setup"><strong>Option 3: Use Azure Functions (Your Production Setup)</strong></h3>
+<pre><code>Landing Page URL: https://life-functions-app.azurewebsites.net/marketplace/landing
+Connection Webhook: https://life-functions-app.azurewebsites.net/marketplace/webhook
+Microsoft Entra Tenant ID: e716161a-5e85-4d6d-82f9-96bcdd2e65ac
+Microsoft Entra Application ID: 80b95267-64a9-49b0-926c-289ed8b3312f
+</code></pre>
+<hr>
+<h2 id="-what-these-urls-do">💡 <strong>What These URLs Do</strong></h2>
+<h3 id="landing-page-url"><strong>Landing Page URL:</strong></h3>
+<ul>
+<li><strong>Purpose:</strong> Where customers go after purchasing from Azure Marketplace</li>
+<li><strong>Function:</strong> Customer onboarding, account setup, welcome experience</li>
+<li><strong>Must:</strong> Handle SaaS fulfillment API integration</li>
+</ul>
+<h3 id="connection-webhook"><strong>Connection Webhook:</strong></h3>
+<ul>
+<li><strong>Purpose:</strong> Microsoft calls this when subscription changes occur</li>
+<li><strong>Function:</strong> Purchase notifications, cancellations, upgrades</li>
+<li><strong>Must:</strong> Handle SaaS fulfillment API webhooks</li>
+</ul>
+<h3 id="microsoft-entra-ids"><strong>Microsoft Entra IDs:</strong></h3>
+<ul>
+<li><strong>Tenant ID:</strong> Your Azure AD directory identifier</li>
+<li><strong>Application ID:</strong> The app registration for SaaS fulfillment (different from Graph API app)</li>
+</ul>
+<hr>
+<h2 id="-my-recommendation-option-2-clean-domain">🔧 <strong>My Recommendation: Option 2 (Clean Domain)</strong></h2>
+<h3 id="update-to"><strong>Update to:</strong></h3>
+<pre><code>Landing Page URL: https://lifecoach-121.com/marketplace/landing
+Connection Webhook: https://lifecoach-121.com/marketplace/webhook
+Microsoft Entra Tenant ID: e716161a-5e85-4d6d-82f9-96bcdd2e65ac
+Microsoft Entra Application ID: 80b95267-64a9-49b0-926c-289ed8b3312f
+</code></pre>
+<h3 id="why-this-is-best"><strong>Why This Is Best:</strong></h3>
+<p>✅ <strong>Professional branding</strong> - Uses your clean domain<br>
+✅ <strong>Consistent identity</strong> - Matches your main Azure AD tenant<br>
+✅ <strong>Unified application</strong> - Uses your &quot;Sergi Paya&quot; app registration<br>
+✅ <strong>Customer trust</strong> - <a href="http://lifecoach-121.com">lifecoach-121.com</a> looks more professional than long Azure URL<br>
+✅ <strong>Future flexibility</strong> - Easy to implement endpoints later</p>
+<hr>
+<h2 id="-important-considerations">🚨 <strong>Important Considerations</strong></h2>
+<h3 id="before-changing-urls"><strong>Before Changing URLs:</strong></h3>
+<ol>
+<li><strong>Test current URLs</strong> - Do they still work?</li>
+<li><strong>Check Azure Container Apps</strong> - Are they still deployed?</li>
+<li><strong>Verify functionality</strong> - Can customers access the landing page?</li>
+</ol>
+<h3 id="if-current-urls-work"><strong>If Current URLs Work:</strong></h3>
+<ul>
+<li><strong>Keep them for now</strong> to avoid breaking existing functionality</li>
+<li><strong>Update after marketplace approval</strong> to avoid certification delays</li>
+<li><strong>Focus on completing and submitting the offer</strong></li>
+</ul>
+<h3 id="if-current-urls-dont-work"><strong>If Current URLs Don't Work:</strong></h3>
+<ul>
+<li><strong>Update to <a href="http://lifecoach-121.com">lifecoach-121.com</a> URLs</strong> immediately</li>
+<li><strong>Note:</strong> You'll need to implement these endpoints post-launch</li>
+<li><strong>Microsoft allows updates</strong> after initial certification</li>
+</ul>
+<hr>
+<h2 id="-immediate-action-plan">📋 <strong>Immediate Action Plan</strong></h2>
+<h3 id="quick-test-5-minutes"><strong>Quick Test (5 minutes):</strong></h3>
+<ol>
+<li>
+<p><strong>Open browser tabs:</strong></p>
+<ul>
+<li><code>https://life-app-ozjafmtimm6os.bravepond-4b4b0778.eastus.azurecontainerapps.io/marketplace/landing</code></li>
+<li><code>https://life-app-ozjafmtimm6os.bravepond-4b4b0778.eastus.azurecontainerapps.io/marketplace/webhook</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Check if they load:</strong></p>
+<ul>
+<li>✅ <strong>If they work:</strong> Keep current URLs for now</li>
+<li>❌ <strong>If they don't work:</strong> Update to <a href="http://lifecoach-121.com">lifecoach-121.com</a> URLs</li>
+</ul>
+</li>
+</ol>
+<h3 id="decision-matrix"><strong>Decision Matrix:</strong></h3>
+<ul>
+<li><strong>Current URLs work</strong> → Keep them, submit offer, update later</li>
+<li><strong>Current URLs broken</strong> → Update to <a href="http://lifecoach-121.com">lifecoach-121.com</a>, implement later</li>
+<li><strong>Want professional branding</strong> → Update to <a href="http://lifecoach-121.com">lifecoach-121.com</a> now</li>
+</ul>
+<hr>
+<h2 id="-my-strong-recommendation">🎯 <strong>My Strong Recommendation</strong></h2>
+<h3 id="for-launch-day-success"><strong>For Launch Day Success:</strong></h3>
+<ol>
+<li><strong>Keep current Azure Container Apps URLs</strong> if they're working</li>
+<li><strong>Submit your marketplace offer</strong> with existing configuration</li>
+<li><strong>Get approved first</strong> (don't risk delays with URL changes)</li>
+<li><strong>Update to <a href="http://lifecoach-121.com">lifecoach-121.com</a></strong> after approval</li>
+</ol>
+<h3 id="post-launch-enhancement"><strong>Post-Launch Enhancement:</strong></h3>
+<ul>
+<li>Implement professional landing page at <a href="http://lifecoach-121.com">lifecoach-121.com</a></li>
+<li>Build webhook handler for subscription management</li>
+<li>Migrate from Azure Container Apps to your preferred architecture</li>
+<li>Update marketplace configuration with new URLs</li>
+</ul>
+<hr>
+<h2 id="-action-decision">🚀 <strong>Action Decision</strong></h2>
+<p><strong>Choose your path:</strong></p>
+<h3 id="path-a-keep-current-safest-for-launch"><strong>Path A: Keep Current (Safest for Launch)</strong></h3>
+<ul>
+<li>Don't change anything</li>
+<li>Submit offer immediately</li>
+<li>Focus on getting approved</li>
+<li>Enhance later</li>
+</ul>
+<h3 id="path-b-update-to-professional-domain"><strong>Path B: Update to Professional Domain</strong></h3>
+<ul>
+<li>Change to <a href="http://lifecoach-121.com">lifecoach-121.com</a> URLs</li>
+<li>Use your main tenant and app IDs</li>
+<li>Professional branding from day one</li>
+<li>Need to implement endpoints</li>
+</ul>
+<p><strong>What do those Azure Container Apps URLs show when you visit them?</strong> That will determine the best approach! 🎯</p>
+
+            
+            
+        </body>
+        </html>

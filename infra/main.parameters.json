@@ -1,22 +1,12 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
-  "metadata": {
-    "template": "./main.bicep",
-    "description": "L.I.F.E Platform - Azure Marketplace Production Parameters",
-    "author": "Sergio Paya Borrull",
-    "offer_id": "9a600d96-fe1e-420b-902a-a0c42c561adb",
-    "launch_date": "2025-09-27",
-    "revenue_target_q4_2025": "$345K",
-    "revenue_projection_2029": "$50.7M",
-    "target_institutions": 1720
-  },
   "parameters": {
     "environmentName": {
-      "value": "life-platform-prod"
+      "value": "${AZURE_ENV_NAME}"
     },
     "location": {
-      "value": "East US 2"
+      "value": "${AZURE_LOCATION}"
     },
     "principalId": {
       "value": ""

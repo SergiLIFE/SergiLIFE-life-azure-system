@@ -219,9 +219,22 @@ class AzureIntegrationManager:
         logger.info("Azure Integration Manager initialized for L.I.F.E platform")
 
     def _default_azure_config(self) -> Dict[str, Any]:
-        """Default Azure configuration for enterprise deployment"""
+        """Sergio's Complete Azure Subscription Configuration - September 27, 2025"""
         return {
+            # 🔐 SERGIO'S AZURE SUBSCRIPTION DETAILS
             "subscription_id": "5c88cef6-f243-497d-98af-6c6086d575ca",  # Production subscription ID
+            "tenant_id": "e716161a-5e85-4d6d-82f9-96bcdd2e65ac",  # Parent management group
+            "subscription_name": "Microsoft Azure Sponsorship",
+            "primary_account": "sergiomiguelpaya@sergiomiguelpayaborrullmsn.onmicrosoft.com",
+            "directory_name": "Sergio Paya Borrull (lifecoach-121.com)",
+            "tenant_domain": "lifecoach-121.com",
+            "account_role": "Account admin",  # Full control
+            "offer_type": "Azure Sponsorship",
+            "offer_id": "MS-AZR-0036P",
+            "currency": "GBP",  # British Pounds
+            "billing_period": "9/11/2025-10/10/2025",
+            "status": "Active",  # ✅ Operational
+            "secure_score": "61%",  # Active monitoring
             "resource_group": "life-platform-rg",
             "storage_account": "stlifeplatformprod",
             "keyvault_name": "kv-life-platform-prod",

@@ -1,65 +1,44 @@
+// main.bicep - L.I.F.E. Theory Platform Microsoft Partnership Demo Infrastructure
+// Copyright 2025 - Sergio Paya Borrull
+// Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
+
 targetScope = 'resourceGroup'
 
-// Parameters
-@description('Application name prefix')
-param appName string = 'life-platform'
+@minLength(1)
+@maxLength(64)
+@description('Name of the environment that can be used as part of naming resource convention')
+param environmentName string
 
-@description('Environment name (dev, staging, prod)')
-@allowed(['dev', 'staging', 'prod'])
-param environment string = 'prod'
+@minLength(1)
+@description('Primary location for all resources')
+param location string
 
-@description('Azure region for deployment')
-param location string = resourceGroup().location
+@description('Name of the resource group')
+param resourceGroupName string = 'rg-${environmentName}'
 
-@description('Resource token for unique naming')
-param resourceToken string = uniqueString(resourceGroup().id)
+// Generate unique token for resource naming
+var resourceToken = uniqueString(subscription().id, resourceGroup().id, location, environmentName)
 
-@description('Azure Marketplace Offer ID')
-param marketplaceOfferId string = '9a600d96-fe1e-420b-902a-a0c42c561adb'
-
-@description('Pricing tier for App Service')
-@allowed(['B1', 'B2', 'B3', 'S1', 'S2', 'S3', 'P1v2', 'P2v2', 'P3v2'])
-param appServicePlanSku string = 'B2'
-
-@description('Enable Application Insights')
-param enableApplicationInsights bool = true
-
-@description('Enable Container Apps')
-param enableContainerApps bool = true
-
-@description('Enable Azure Functions')
-param enableFunctions bool = true
-
-@description('Enable Event Hub for EEG streaming')
-param enableEventHub bool = true
-
-@description('Enable Azure Quantum')
-param enableQuantum bool = true
-
-@description('Enable Azure Machine Learning')
-param enableML bool = true
-
-@description('Enable Cosmos DB')
-param enableCosmosDB bool = true
-
-@description('Enable Key Vault')
-param enableKeyVault bool = true
-
-@description('Enable Venturi Orchestrator (3-Venturi Gate System)')
-param enableVenturiOrchestrator bool = true
-
-@description('Venturi Orchestrator SKU')
-@allowed(['B1', 'B2', 'B3', 'S1', 'S2', 'S3', 'P1v2', 'P2v2', 'P3v2'])
-param venturiOrchestratorSku string = 'P2v2'
+// Resource prefixes
+var containerRegistryPrefix = 'acr'
+var containerAppPrefix = 'ca'
+var functionAppPrefix = 'func'
+var storagePrefix = 'st'
+var keyVaultPrefix = 'kv'
+var openAIPrefix = 'oai'
+var logAnalyticsPrefix = 'log'
+var appInsightsPrefix = 'ai'
+var managedIdentityPrefix = 'id'
 
 // Variables
-var resourceBaseName = '${appName}-${environment}-${resourceToken}'
+var resourcePrefix = 'life'
+var resourceBaseName = '${resourcePrefix}-${environmentName}-${resourceToken}'
 var tags = {
-  'azd-env-name': environment
-  'life-platform': 'neural-processing'
-  'marketplace-offer': marketplaceOfferId
+  'azd-env-name': environmentName
+  'life-platform': 'backup-infrastructure'
+  'marketplace-offer': '9a600d96-fe1e-420b-902a-a0c42c561adb'
   'cost-center': 'life-platform'
-  'architecture-layer': 'quantum-neuroadaptive'
+  'architecture-layer': 'backup-system'
 }
 
 // User-assigned managed identity
@@ -150,7 +129,7 @@ resource appService 'Microsoft.Web/sites@2022-09-01' = {
         }
         {
           name: 'LIFE_PLATFORM_ENVIRONMENT'
-          value: environment
+          value: environmentName
         }
         {
           name: 'SCM_DO_BUILD_DURING_DEPLOYMENT'
@@ -465,12 +444,14 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = if (enableConta
           allowCredentials: false
         }
       }
-      secrets: [
-        {
-          name: 'application-insights-connection-string'
-          value: enableApplicationInsights ? applicationInsights.properties.ConnectionString : ''
-        }
-      ]
+      secrets: enableApplicationInsights
+        ? [
+            {
+              name: 'application-insights-connection-string'
+              value: applicationInsights.properties.ConnectionString
+            }
+          ]
+        : []
     }
     template: {
       containers: [
@@ -492,7 +473,7 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = if (enableConta
             }
             {
               name: 'LIFE_PLATFORM_ENVIRONMENT'
-              value: environment
+              value: environmentName
             }
           ]
         }
@@ -720,7 +701,7 @@ output logAnalyticsWorkspaceId string = logAnalyticsWorkspace.id
 output marketplaceOfferId string = marketplaceOfferId
 
 @description('Environment Name')
-output environmentName string = environment
+output environmentName string = environmentName
 
 @description('Resource Token')
 output resourceToken string = resourceToken
@@ -757,3 +738,7 @@ output venturiTableName string = enableVenturiOrchestrator ? 'venturiState' : ''
 
 @description('Venturi Metrics Queue Name')
 output venturiQueueName string = enableVenturiOrchestrator ? 'venturi-metrics' : ''
+
+// Required AZD output
+@description('Resource Group ID for AZD')
+output RESOURCE_GROUP_ID string = resourceGroup().id
