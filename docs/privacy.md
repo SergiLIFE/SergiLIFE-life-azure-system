@@ -1,6 +1,6 @@
 # L.I.F.E. Platform — Privacy Policy
 
-_Last updated: October 7, 2025_
+**Last updated:** October 7, 2025
 
 ## Introduction
 
@@ -20,7 +20,7 @@ The L.I.F.E. Platform is committed to protecting your privacy and ensuring compl
 
 ## Data Rights
 
-- Access, correction, and deletion requests via [privacy@lifecoach-121.com](mailto:privacy@lifecoach-121.com)
+- Access, correction, and deletion requests via [sergi@lifecoach-121.com](mailto:sergi@lifecoach-121.com)
 - Data export available on request
 
 ## Security
@@ -30,5 +30,4 @@ The L.I.F.E. Platform is committed to protecting your privacy and ensuring compl
 
 ## Contact
 
-For privacy inquiries, contact [privacy@lifecoach-121.com](mailto:privacy@lifecoach-121.com).
-
+For privacy inquiries, contact [sergi@lifecoach-121.com](mailto:sergi@lifecoach-121.com).
