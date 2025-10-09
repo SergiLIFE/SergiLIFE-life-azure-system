@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - L.I.F.E. Platform</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { color: #003d82; border-bottom: 2px solid #0066cc; padding-bottom: 10px; }
+        h2 { color: #0066cc; margin-top: 2rem; }
+        .back-link { display: inline-block; background: #003d82; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-bottom: 2rem; }
+        .back-link:hover { background: #0066cc; }
+        .step-box { background: #f8f9fa; border-left: 4px solid #0066cc; padding: 1rem; margin: 1rem 0; }
+        .code-block { background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 5px; overflow-x: auto; font-family: 'Courier New', monospace; }
+        .highlight-box { background: #e8f4fd; padding: 1rem; border-radius: 5px; margin: 1rem 0; }
+        .warning-box { background: #fff3cd; border: 1px solid #ffeaa7; padding: 1rem; border-radius: 5px; margin: 1rem 0; }
+        .success-box { background: #d4edda; border: 1px solid #c3e6cb; padding: 1rem; border-radius: 5px; margin: 1rem 0; }
+        .quick-start { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 10px; margin: 2rem 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to L.I.F.E. Platform</a>
+        
+        <h1>Getting Started with L.I.F.E. Platform</h1>
+        
+        <div class="quick-start">
+            <h2 style="color: white; border: none; margin-top: 0;">🚀 5-Minute Quick Start</h2>
+            <p>Get your neuroadaptive learning platform running in under 5 minutes with 880x faster processing and 95.8% accuracy.</p>
+            <p><strong>Prerequisites:</strong> EEG device, stable internet, Azure Marketplace subscription</p>
+        </div>
+
+        <h2>Step 1: Azure Marketplace Setup</h2>
+        <div class="step-box">
+            <h3>1.1 Subscribe to L.I.F.E. Platform</h3>
+            <ol>
+                <li>Visit the <a href="https://azuremarketplace.microsoft.com/marketplace/apps/sergiopayaborrull1697037969894.life-platform-neuroadaptive-learning">Azure Marketplace</a></li>
+                <li>Search for "L.I.F.E. Platform" or use Offer ID: <code>9a600d96-fe1e-420b-902a-a0c42c561adb</code></li>
+                <li>Select your subscription tier:
+                    <ul>
+                        <li><strong>Educational:</strong> K-12, Universities, Research ($99/month)</li>
+                        <li><strong>Healthcare:</strong> Hospitals, Clinics, Rehabilitation ($299/month)</li>
+                        <li><strong>Enterprise:</strong> Corporate training, HR development ($599/month)</li>
+                        <li><strong>Developer:</strong> API access, custom integration ($199/month)</li>
+                    </ul>
+                </li>
+                <li>Complete the subscription process</li>
+            </ol>
+        </div>
+
+        <h2>Step 2: EEG Hardware Setup</h2>
+        <div class="step-box">
+            <h3>2.1 Compatible Devices</h3>
+            <p>L.I.F.E. Platform supports the following EEG devices:</p>
+            <ul>
+                <li><strong>OpenBCI:</strong> Cyton (8-channel), Daisy (16-channel), Ganglion (4-channel)</li>
+                <li><strong>Emotiv:</strong> EPOC X, Insight, EPOC Flex</li>
+                <li><strong>NeuroSky:</strong> MindWave, ThinkGear modules</li>
+                <li><strong>g.tec:</strong> g.Nautilus, g.HIamp, g.USBamp</li>
+            </ul>
+        </div>
+
+        <div class="step-box">
+            <h3>2.2 Hardware Configuration</h3>
+            <div class="highlight-box">
+                <strong>Minimum Requirements:</strong>
+                <ul>
+                    <li>4 EEG channels (Fp1, Fp2, C3, C4)</li>
+                    <li>250 Hz sampling rate</li>
+                    <li>Impedance < 5kΩ</li>
+                    <li>Stable wireless/USB connection</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Step 3: Software Installation</h2>
+        <div class="step-box">
+            <h3>3.1 Python SDK Installation</h3>
+            <div class="code-block">
+# Install the L.I.F.E. Platform SDK
+pip install life-platform-sdk
+
+# Install additional dependencies
+pip install numpy scipy matplotlib pandas
+            </div>
+        </div>
+
+        <div class="step-box">
+            <h3>3.2 Quick Test Script</h3>
+            <div class="code-block">
+from life_platform import LIFEClient
+import numpy as np
+
+# Initialize client with your API key
+client = LIFEClient(api_key="your_api_key_from_dashboard")
+
+# Test connection
+status = client.get_system_status()
+print(f"Connection successful! Status: {status}")
+
+# Generate test EEG data
+test_data = np.random.randn(8, 1000)  # 8 channels, 1000 samples
+channels = ["Fp1", "Fp2", "C3", "C4", "P3", "P4", "O1", "O2"]
+
+# Process test data
+result = client.process_eeg(
+    eeg_data=test_data,
+    channels=channels,
+    sampling_rate=1000
+)
+
+print(f"Attention level: {result.neural_metrics.attention_level:.2f}")
+print(f"Processing time: {result.processing_time_ms:.2f}ms")
+            </div>
+        </div>
+
+        <h2>Step 4: First Learning Session</h2>
+        <div class="step-box">
+            <h3>4.1 Create Learning Session</h3>
+            <div class="code-block">
+# Create a new learning session
+session = client.create_session(
+    user_id="student_001",
+    session_type="adaptive_learning",
+    learning_context={
+        "subject": "mathematics",
+        "topic": "algebra",
+        "difficulty_level": 5
+    }
+)
+
+print(f"Session created: {session.id}")
+            </div>
+        </div>
+
+        <h2>Step 5: Production Deployment</h2>
+        <div class="step-box">
+            <h3>5.1 Azure Infrastructure</h3>
+            <div class="highlight-box">
+                <p>L.I.F.E. Platform runs on Microsoft Azure with enterprise-grade infrastructure:</p>
+                <ul>
+                    <li><strong>Compute:</strong> Azure Functions (serverless), Container Apps</li>
+                    <li><strong>Storage:</strong> Blob Storage (EEG data), Table Storage (metrics)</li>
+                    <li><strong>Security:</strong> Key Vault, Managed Identity, Private Endpoints</li>
+                    <li><strong>Monitoring:</strong> Application Insights, Log Analytics</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Troubleshooting</h2>
+        <div class="step-box">
+            <h3>Common Issues</h3>
+            <div class="warning-box">
+                <strong>EEG Signal Quality Problems:</strong>
+                <ul>
+                    <li>Check electrode impedance (should be < 5kΩ)</li>
+                    <li>Ensure proper electrode placement using 10-20 system</li>
+                    <li>Minimize electrical interference</li>
+                    <li>Use conductive gel for better electrode contact</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Next Steps</h2>
+        <div class="success-box">
+            <h3>🎉 Congratulations! Your L.I.F.E. Platform is ready!</h3>
+            <p>Now you can:</p>
+            <ul>
+                <li>📊 <a href="/api-docs">Explore the full API documentation</a></li>
+                <li>🔧 <a href="/support">Access technical support resources</a></li>
+                <li>📈 Monitor your usage and analytics</li>
+                <li>🚀 Scale to production with enterprise features</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            <h3>📞 Need Help?</h3>
+            <ul>
+                <li><strong>Technical Support:</strong> support@lifecoach121.com</li>
+                <li><strong>Phone Support:</strong> +44 7384 742042</li>
+                <li><strong>Community Forum:</strong> community.lifecoach121.com</li>
+            </ul>
+        </div>
+
+        <p><strong>Azure Marketplace Offer ID:</strong> 9a600d96-fe1e-420b-902a-a0c42c561adb</p>
+        <p><strong>Publisher:</strong> Sergio Paya Borrull</p>
+        <p>© 2025 L.I.F.E. Platform. All Rights Reserved.</p>
+    </div>
+</body>
+</html>

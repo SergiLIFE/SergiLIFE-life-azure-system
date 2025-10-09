@@ -1,0 +1,16 @@
+RewriteEngine On
+
+# Redirect /privacy-policy/ to privacy-policy.html
+RewriteRule ^privacy-policy/?$ privacy-policy.html [L]
+
+# Redirect /terms-of-service/ to terms-of-service.html  
+RewriteRule ^terms-of-service/?$ terms-of-service.html [L]
+
+# Redirect /support/ to support.html
+RewriteRule ^support/?$ support.html [L]
+
+# Redirect /api-docs/ to api-docs.html
+RewriteRule ^api-docs/?$ api-docs.html [L]
+
+# Redirect /getting-started/ to getting-started.html
+RewriteRule ^getting-started/?$ getting-started.html [L]

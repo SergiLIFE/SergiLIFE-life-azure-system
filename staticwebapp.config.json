@@ -1,0 +1,46 @@
+{
+  "routes": [
+    {
+      "route": "/privacy-policy/*",
+      "rewrite": "/privacy-policy.html"
+    },
+    {
+      "route": "/terms-of-service/*",
+      "rewrite": "/terms-of-service.html"
+    },
+    {
+      "route": "/support/*",
+      "rewrite": "/support.html"
+    },
+    {
+      "route": "/api-docs/*",
+      "rewrite": "/api-docs.html"
+    },
+    {
+      "route": "/getting-started/*",
+      "rewrite": "/getting-started.html"
+    }
+  ],
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/images/*.{png,jpg,gif,ico}", "/css/*", "/js/*"]
+  },
+  "responseOverrides": {
+    "404": {
+      "rewrite": "/404.html",
+      "statusCode": 404
+    }
+  },
+  "mimeTypes": {
+    ".html": "text/html",
+    ".css": "text/css",
+    ".js": "application/javascript",
+    ".json": "application/json"
+  },
+  "globalHeaders": {
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "X-XSS-Protection": "1; mode=block",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains"
+  }
+}
