@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "E:/venturi"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.py": "python",
+			"experimentP2L.I.F.E-Learning-Individually-from-Experience-Theory-Algorithm-Code-2025-Copyright-Se.py": "python"
+		},
+		"python.languageServer": "Pylance",
+		"terminal.integrated.defaultProfile.windows": "Command Prompt",
+		"git.confirmSync": false,
+		"git.decorations.enabled": true,
+		"git.ignoreLegacyWarning": true,
+		"terminal.integrated.defaultProfile.linux": "",
+		"breadcrumbs.filePath": "off"
+	}
+}
