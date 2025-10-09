@@ -31,7 +31,7 @@ Volume discounts and academic licensing are available upon request.
 
 ## Support channels
 
-- **Email:** [support@lifecoach-121.com](mailto:support@lifecoach-121.com)
+- **Email:** sergi@lifecoach-121.com](mailto:sergi@lifecoach-121.com)
 - **24/7 Incident Desk:** +1 (877) 555-1210 (North America) | +34 93 555 1210 (EMEA)
 - **Status page:** [https://status.lifecoach-121.com](https://status.lifecoach-121.com)
 - **Knowledge base:** Accessible via in-app Help → Documentation.
@@ -66,3 +66,4 @@ During the September 2025 launch window, our incident desk operates with elevate
 - **Venturi architecture labs:** Guided simulations demonstrating low-latency neural processing pipelines.
 
 For any additional documentation needs or partnership requests, please contact [partnerships@lifecoach-121.com](mailto:partnerships@lifecoach-121.com).
+
