@@ -1,6 +1,12 @@
 name: L.I.F.E. Platform - Azure Marketplace Campaign Launcher
 
 on:
+    # AUTOMATIC TRIGGERS DISABLED - AWAITING COMPREHENSIVE SYSTEM VALIDATION
+    # schedule:
+    #     - cron: "0 8 7 10 *" # October 7th, 8:00 UTC (9:00 BST) - MISSED
+    #     - cron: "0 9 * * 1" # Weekly on Mondays at 9:00 AM UTC (DISABLED UNTIL VALIDATION COMPLETE)
+
+    # Manual trigger for testing and validation only - CAMPAIGNS DISABLED UNTIL BCI/UI/PARTNER VALIDATION
     workflow_dispatch:
         inputs:
             campaign_type:

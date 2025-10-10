@@ -16,12 +16,16 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-# Configure logging
+# Configure logging with directory auto-creation
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+LOGS_DIR = os.path.join(SCRIPT_DIR, "logs")
+os.makedirs(LOGS_DIR, exist_ok=True)
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler("logs/campaign_manager.log"),
+        logging.FileHandler(os.path.join(LOGS_DIR, "campaign_manager.log")),
         logging.StreamHandler(),
     ],
 )

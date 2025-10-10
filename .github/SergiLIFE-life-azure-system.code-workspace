@@ -18,6 +18,7 @@
 		"git.decorations.enabled": true,
 		"git.ignoreLegacyWarning": true,
 		"terminal.integrated.defaultProfile.linux": "",
-		"breadcrumbs.filePath": "off"
+		"breadcrumbs.filePath": "off",
+		"powershell.cwd": "SergiLIFE-life-azure-system"
 	}
 }

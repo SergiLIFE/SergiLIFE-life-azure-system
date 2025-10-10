@@ -2,6 +2,33 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "🚀 Ultimate Full-Cycle Ecosystem Test",
+			"type": "shell",
+			"command": "cmd",
+			"args": [
+				"/c",
+				"python",
+				"ULTIMATE_FULL_CYCLE_ECOSYSTEM_TEST.py"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "new",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"detail": "🎯 Ultimate test: Azure + Partner Centre + Marketplace + SOTA + Optimizer + GitHub + Self-Calibration"
+		},
+		{
 			"label": "🧠 Run Autonomous Optimizer",
 			"type": "shell",
 			"command": "cmd",
@@ -10,10 +37,7 @@
 				"python",
 				"autonomous_optimizer.py"
 			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
+			"group": "build",
 			"presentation": {
 				"echo": true,
 				"reveal": "always",
