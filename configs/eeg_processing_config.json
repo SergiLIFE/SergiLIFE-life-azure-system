@@ -1,0 +1,7 @@
+{
+  "sampling_rate": 256,
+  "channels": 64,
+  "buffer_size": 1024,
+  "artifact_threshold": 100,
+  "real_time_processing": true
+}

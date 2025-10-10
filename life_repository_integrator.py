@@ -173,7 +173,11 @@ class LIFERepositoryIntegrator:
             score -= penalty
 
         # Penalize old commits
-        days_since_commit = (datetime.now() - last_commit_date).days
+        # Remove timezone info if present for comparison
+        now = datetime.now()
+        if last_commit_date.tzinfo is not None:
+            last_commit_date = last_commit_date.replace(tzinfo=None)
+        days_since_commit = (now - last_commit_date).days
         if days_since_commit > self.health_thresholds["max_days_since_commit"]:
             penalty = min(0.3, (days_since_commit / 30) * 0.3)
             score -= penalty
@@ -183,20 +187,30 @@ class LIFERepositoryIntegrator:
     async def _run_git_command(self, command: str) -> subprocess.CompletedProcess:
         """Run a git command and return the result"""
         full_command = f"git -C {self.repo_path} {command}"
-        result = await asyncio.create_subprocess_shell(
+        process = await asyncio.create_subprocess_shell(
             full_command,
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
-            text=True,
         )
-        stdout, stderr = await result.communicate()
+        stdout_bytes, stderr_bytes = await process.communicate()
+        
+        # Decode bytes to string
+        stdout = stdout_bytes.decode('utf-8') if stdout_bytes else ''
+        stderr = stderr_bytes.decode('utf-8') if stderr_bytes else ''
 
-        if result.returncode != 0:
+        if process.returncode != 0:
             raise subprocess.CalledProcessError(
-                result.returncode, full_command, stdout, stderr
+                process.returncode, full_command, stdout, stderr
             )
 
-        return result
+        # Create a CompletedProcess-like object with the results
+        class Result:
+            def __init__(self, returncode, stdout, stderr):
+                self.returncode = returncode
+                self.stdout = stdout
+                self.stderr = stderr
+        
+        return Result(process.returncode, stdout, stderr)
 
     async def create_commit(self, message: str, files: List[str] = None) -> bool:
         """Create a commit with the specified message"""

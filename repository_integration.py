@@ -146,6 +146,10 @@ class RepositoryIntegrator:
             "deployment_packages": 0,
         }
 
+        # Create artifacts directory
+        artifacts_dir = self.workspace_path / "artifacts"
+        artifacts_dir.mkdir(exist_ok=True)
+
         # Create L.I.F.E platform archive
         if hasattr(self.artifacts_manager, "archive_life_platform"):
             try:
@@ -289,6 +293,10 @@ class RepositoryIntegrator:
             "active_experiments": 0,
         }
 
+        # Create experiments directory
+        experiments_dir = self.workspace_path / "experiments"
+        experiments_dir.mkdir(exist_ok=True)
+
         # Create L.I.F.E platform experiments
         life_experiments = [
             {
@@ -353,6 +361,10 @@ class RepositoryIntegrator:
             "validation_completed": 0,
             "compliance_frameworks": 0,
         }
+
+        # Create evidence directory
+        evidence_dir = self.workspace_path / "evidence"
+        evidence_dir.mkdir(exist_ok=True)
 
         # Create L.I.F.E platform evidence
         life_evidence = [
