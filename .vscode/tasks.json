@@ -467,6 +467,16 @@
 			"type": "shell",
 			"command": "python oct7_campaign_mock_test.py",
 			"group": "test"
+		},
+		{
+			"label": "🤖 Validate Automation Systems",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"validate_automation_systems.py"
+			],
+			"isBackground": false,
+			"group": "test"
 		}
 	]
 }

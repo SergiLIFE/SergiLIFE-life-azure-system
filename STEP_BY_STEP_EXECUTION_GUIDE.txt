@@ -1,0 +1,213 @@
+📋 L.I.F.E. PLATFORM - OCTOBER 15 BOOKING EXECUTION GUIDE
+=========================================================
+Step-by-step instructions to find and execute all booking automation
+
+🎯 WHAT WE'RE DOING:
+===================
+Finding your 23 confirmed attendee contacts and automating October 15 demo bookings
+WITHOUT needing Google Meet - everything is automated with Microsoft Teams!
+
+🔍 STEP 1: LOCATE YOUR FILES
+============================
+
+1️⃣ Open Windows File Explorer (Windows key + E)
+   
+2️⃣ Navigate to this exact path:
+   C:\Users\Sergio Paya Borrull\OneDrive\Documents\GitHub\.vscode\New folder\SergiLIFE-life-azure-system\SergiLIFE-life-azure-system\
+   
+3️⃣ Look for these key files (should already exist):
+   ✅ october_15_booking_automation.py (The main automation script)
+   ✅ OCTOBER_15_BOOKING_AUTOMATION_SUMMARY.txt (The summary you're reading)
+   ✅ CAMPAIGN_INTEREST_EVENING_UPDATE_OCT10.txt (Your campaign performance data)
+
+📂 STEP 2: RUN THE AUTOMATION SYSTEM
+===================================
+
+OPTION A: Using VS Code (Recommended)
+--------------------------------------
+1️⃣ Open VS Code in your project folder
+   • Right-click in the folder → "Open with Code"
+   
+2️⃣ Open the integrated terminal:
+   • Press Ctrl + ` (backtick key)
+   • Or go to Terminal → New Terminal
+   
+3️⃣ Run the automation command:
+   python october_15_booking_automation.py
+   
+4️⃣ Wait for completion (should take 30-60 seconds)
+
+OPTION B: Using Command Prompt
+-------------------------------
+1️⃣ Press Windows key + R
+2️⃣ Type: cmd
+3️⃣ Press Enter
+4️⃣ Navigate to your folder:
+   cd "C:\Users\Sergio Paya Borrull\OneDrive\Documents\GitHub\.vscode\New folder\SergiLIFE-life-azure-system\SergiLIFE-life-azure-system"
+5️⃣ Run the automation:
+   python october_15_booking_automation.py
+
+📁 STEP 3: FIND YOUR GENERATED FILES
+===================================
+
+After running the automation, look for a NEW FOLDER called:
+📂 october_15_bookings
+
+Inside this folder, you'll find:
+
+📊 DASHBOARD FILE:
+   📄 october_15_booking_dashboard.html
+   → Double-click to open in your web browser
+   → Shows all 23 attendees and 7 demo sessions
+
+📧 CALENDAR INVITES (7 files):
+   📄 LIFE-OCT15-001_calendar_invite.ics (Oxford - 10:00 GMT)
+   📄 LIFE-OCT15-002_calendar_invite.ics (Cambridge - 11:30 GMT)
+   📄 LIFE-OCT15-003_calendar_invite.ics (NHS Healthcare - 09:00 GMT)
+   📄 LIFE-OCT15-004_calendar_invite.ics (Microsoft Research - 14:00 GMT)
+   📄 LIFE-OCT15-005_calendar_invite.ics (European Universities - 15:30 GMT)
+   📄 LIFE-OCT15-006_calendar_invite.ics (North American - 20:00 GMT)
+   📄 LIFE-OCT15-007_calendar_invite.ics (Asia-Pacific - 07:00 GMT)
+
+✉️ EMAIL TEMPLATES (23 files):
+   📄 [booking-id]_email_template.txt (One for each attendee)
+   → Contains personalized message for each institution
+
+📄 COMPLETE DATA:
+   📄 october_15_booking_summary.json (All attendee data in structured format)
+
+📧 STEP 4: SEND THE CALENDAR INVITES
+===================================
+
+FOR EACH OF THE 7 SESSIONS:
+
+1️⃣ Open your email client (Outlook recommended)
+   
+2️⃣ Create a new email
+   
+3️⃣ Add recipients for each session:
+
+   🕘 Session 1 (Oxford - 10:00 GMT):
+   • To: neuroscience.dept@ox.ac.uk
+   • Subject: L.I.F.E. Platform Demo - October 15, 10:00 GMT
+   • Attach: LIFE-OCT15-001_calendar_invite.ics
+   
+   🕘 Session 2 (Cambridge - 11:30 GMT):
+   • To: brain.sciences@cam.ac.uk  
+   • Subject: L.I.F.E. Platform Demo - October 15, 11:30 GMT
+   • Attach: LIFE-OCT15-002_calendar_invite.ics
+   
+   🕘 Session 3 (NHS Healthcare - 09:00 GMT):
+   • To: digital.health@nhs.uk
+   • Subject: L.I.F.E. Platform Healthcare Demo - October 15, 09:00 GMT
+   • Attach: LIFE-OCT15-003_calendar_invite.ics
+   
+   🕘 Session 4 (Microsoft Research - 14:00 GMT):
+   • To: partnerships@microsoft.com
+   • Subject: L.I.F.E. Platform Strategic Partnership - October 15, 14:00 GMT
+   • Attach: LIFE-OCT15-004_calendar_invite.ics
+   
+   🕘 Session 5 (European Universities - 15:30 GMT):
+   • To: Multiple European contacts (listed in generated email templates)
+   • Subject: L.I.F.E. Platform Group Demo - October 15, 15:30 GMT
+   • Attach: LIFE-OCT15-005_calendar_invite.ics
+   
+   🕘 Session 6 (North American - 20:00 GMT):
+   • To: Multiple US/Canada contacts (listed in generated email templates)
+   • Subject: L.I.F.E. Platform Group Demo - October 15, 3:00 PM EST
+   • Attach: LIFE-OCT15-006_calendar_invite.ics
+   
+   🕘 Session 7 (Asia-Pacific - 07:00 GMT):
+   • To: Multiple APAC contacts (listed in generated email templates)
+   • Subject: L.I.F.E. Platform Group Demo - October 15, Early Morning GMT
+   • Attach: LIFE-OCT15-007_calendar_invite.ics
+
+📝 STEP 5: USE THE EMAIL TEMPLATES
+=================================
+
+1️⃣ Go to the october_15_bookings folder
+   
+2️⃣ Find the email template files (23 files named with booking IDs)
+   
+3️⃣ Open each email template file
+   
+4️⃣ Copy the content into your email
+   
+5️⃣ The email already contains:
+   ✅ Personalized greeting for each institution
+   ✅ Meeting details and agenda
+   ✅ Microsoft Teams links
+   ✅ Revenue potential for their institution
+   ✅ Preparation instructions
+
+📊 STEP 6: MONITOR WITH THE DASHBOARD
+====================================
+
+1️⃣ Open october_15_booking_dashboard.html in your web browser
+   
+2️⃣ Bookmark this page for easy access
+   
+3️⃣ Use it to track:
+   ✅ Which emails you've sent
+   ✅ Which confirmations you've received
+   ✅ Session attendance numbers
+   ✅ Revenue pipeline progress
+
+🔧 STEP 7: TROUBLESHOOTING GUIDE
+===============================
+
+IF THE AUTOMATION DOESN'T RUN:
+-------------------------------
+Problem: "python is not recognized"
+Solution: 
+1. Check if Python is installed: python --version
+2. If not installed, download from python.org
+3. Make sure to check "Add Python to PATH" during installation
+
+Problem: "No module named 'asyncio'"
+Solution: 
+1. Update Python: python -m pip install --upgrade pip
+2. Asyncio should be built-in to Python 3.7+
+
+Problem: "Permission denied"
+Solution:
+1. Right-click Command Prompt → "Run as Administrator"
+2. Try the command again
+
+IF FILES AREN'T GENERATED:
+---------------------------
+1. Check if october_15_bookings folder was created
+2. Look in the logs folder for error messages
+3. Make sure you have write permissions to the directory
+
+🎯 QUICK EXECUTION SUMMARY
+=========================
+
+IMMEDIATE ACTIONS (Next 30 minutes):
+1. Open Command Prompt or VS Code terminal
+2. Run: python october_15_booking_automation.py
+3. Check october_15_bookings folder for generated files
+4. Open the dashboard to see all 23 attendees
+
+TODAY (October 11):
+1. Send calendar invites using .ics files
+2. Send personalized emails using generated templates
+3. Bookmark the dashboard for tracking
+
+OCTOBER 15 (Demo Day):
+1. Join Microsoft Teams meetings at scheduled times
+2. Present L.I.F.E. Platform demos
+3. Convert $771K+ pipeline to actual customers
+
+🚀 SUCCESS INDICATORS
+=====================
+✅ october_15_bookings folder created with files
+✅ Dashboard opens showing 23 attendees and 7 sessions  
+✅ Calendar invites (.ics) files ready to send
+✅ Email templates personalized for each institution
+✅ Microsoft Teams links configured for all sessions
+
+Your October 15 demo day is completely automated - no Google Meet needed!
+All 23 confirmed attendees organized across 7 strategic sessions.
+
+Need help with any specific step? Just ask! 🎯
