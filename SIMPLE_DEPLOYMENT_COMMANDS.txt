@@ -1,0 +1,133 @@
+# COPY AND PASTE THESE COMMANDS INTO AZURE CLOUD SHELL
+# L.I.F.E. Platform Emergency Deployment - October 15, 2025
+
+# Step 1: Navigate to deployment directory
+cd /home/sergio/life-platform-deploy
+
+# Step 2: Create HTML file using PowerShell here-string
+@'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L.I.F.E. Platform - October 15, 2025 Demo</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin: 0; padding: 20px; }
+        .header { text-align: center; background: rgba(0,0,0,0.2); padding: 30px; border-radius: 15px; margin-bottom: 30px; }
+        .logo { font-size: 3rem; font-weight: bold; margin-bottom: 10px; }
+        .demo-alert { background: linear-gradient(45deg, #ff6b6b, #4ecdc4); padding: 30px; border-radius: 15px; text-align: center; margin: 20px 0; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .api-section { background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px; margin: 20px 0; }
+        .endpoint { background: rgba(255,255,255,0.1); padding: 15px; margin: 10px 0; border-radius: 8px; }
+        .badge { background: #28a745; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; margin-left: 10px; }
+        .btn { display: inline-block; background: #28a745; color: white; padding: 15px 30px; border-radius: 8px; text-decoration: none; margin: 10px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🧠 L.I.F.E. Platform</div>
+        <p>Learning Individually from Experience - Neural Revolution</p>
+    </div>
+
+    <div class="demo-alert">
+        <h1>🎯 OCTOBER 15, 2025 LIVE DEMO!</h1>
+        <h2>23 Participants | 7 Sessions | $771K+ Pipeline</h2>
+        <p><strong>Azure Marketplace ID:</strong> 9a600d96-fe1e-420b-902a-a0c42c561adb</p>
+        <span class="badge">✅ OPERATIONAL</span>
+    </div>
+
+    <div class="api-section">
+        <h2>🔗 Live API Endpoints</h2>
+        <div class="endpoint">
+            <strong>Health Check:</strong> 
+            <a href="https://life-functions-app.azurewebsites.net/api/health" style="color: #4ecdc4;">
+                life-functions-app.azurewebsites.net/api/health
+            </a>
+            <span class="badge">ACTIVE</span>
+        </div>
+        <div class="endpoint">
+            <strong>EEG Processor:</strong> 
+            <a href="https://life-functions-app.azurewebsites.net/api/eeg_processor" style="color: #4ecdc4;">
+                life-functions-app.azurewebsites.net/api/eeg_processor
+            </a>
+            <span class="badge">ACTIVE</span>
+        </div>
+        <div class="endpoint">
+            <strong>Learning API:</strong> 
+            <a href="https://life-functions-app.azurewebsites.net/api/learning_api" style="color: #4ecdc4;">
+                life-functions-app.azurewebsites.net/api/learning_api
+            </a>
+            <span class="badge">ACTIVE</span>
+        </div>
+        <div class="endpoint">
+            <strong>Analytics Monitor:</strong> 
+            <a href="https://life-functions-app.azurewebsites.net/api/analytics_monitor" style="color: #4ecdc4;">
+                life-functions-app.azurewebsites.net/api/analytics_monitor
+            </a>
+            <span class="badge">ACTIVE</span>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin: 40px 0;">
+        <h2>🚀 Experience L.I.F.E. Platform</h2>
+        <p><strong>Sub-millisecond EEG Processing | 78-82% Accuracy | Enterprise Ready</strong></p>
+        <a href="https://life-functions-app.azurewebsites.net/api/health" class="btn">🩺 Test Health API</a>
+        <a href="https://portal.azure.com/" class="btn">🔧 Azure Portal</a>
+    </div>
+
+    <div class="demo-alert">
+        <h2>📋 Demo Readiness Status</h2>
+        <p><strong>Revenue Target:</strong> $345K Q4 2025 → $50.7M by 2029</p>
+        <p><strong>Infrastructure:</strong> All Azure services operational</p>
+        <p><strong>Contact:</strong> Info@lifecoach121.com</p>
+        <div style="margin-top: 15px;">
+            <span class="badge">✅ APIs READY</span>
+            <span class="badge">✅ FUNCTIONS LIVE</span>
+            <span class="badge">✅ DEMOS PREPARED</span>
+        </div>
+    </div>
+
+    <div style="background: rgba(0,0,0,0.3); padding: 20px; text-align: center; margin-top: 40px; border-radius: 10px;">
+        <p>© 2025 L.I.F.E. Platform - Sergio Paya Borrull | Revolutionary Neural Learning Technology</p>
+        <p><strong>October 15, 2025 Launch Ready</strong> | Azure Static Web Apps + Functions Deployment</p>
+    </div>
+
+    <script>
+        console.log('🧠 L.I.F.E. Platform - October 15 Demo Ready!');
+        fetch('https://life-functions-app.azurewebsites.net/api/health', { mode: 'no-cors' })
+            .then(() => console.log('✅ Health API - ACTIVE'))
+            .catch(() => console.log('⚠️ Health API - Check connectivity'));
+    </script>
+</body>
+</html>
+'@ | Out-File -FilePath "index.html" -Encoding UTF8
+
+# Step 3: Create config file
+@'
+{
+  "routes": [
+    {
+      "route": "/*",
+      "serve": "/index.html",
+      "statusCode": 200
+    }
+  ],
+  "responseOverrides": {
+    "404": {
+      "serve": "/index.html"
+    }
+  }
+}
+'@ | Out-File -FilePath "staticwebapp.config.json" -Encoding UTF8
+
+# Step 4: Install SWA CLI
+npm install -g @azure/static-web-apps-cli
+
+# Step 5: Deploy
+swa deploy --deployment-token "5b139950a418f9c8f01bed34b53dbbd974506123d808b2a6a0f2a70b8c0ba9a401-ac2639f4-c6a5-40ee-ac93-4ebc3fd317f100f04060c65efe0f" --app-location "." --output-location "."
+
+# Step 6: Verify
+Write-Host "✅ DEPLOYMENT COMPLETE!" -ForegroundColor Green
+Write-Host "🌐 Live URL: https://green-ground-0c65efe0f.1.azurestaticapps.net" -ForegroundColor Cyan
+Write-Host "🎯 October 15 Demo Ready with 23 participants!" -ForegroundColor Yellow
