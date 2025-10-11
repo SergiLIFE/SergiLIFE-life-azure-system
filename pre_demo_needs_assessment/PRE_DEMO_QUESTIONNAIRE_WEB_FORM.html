@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L.I.F.E. Platform Pre-Demo Questionnaire</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .demo-info {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .demo-info strong {
+            font-size: 1.2em;
+        }
+        
+        .form-content {
+            padding: 40px;
+        }
+        
+        .intro-text {
+            background: #f8f9fa;
+            padding: 25px;
+            border-left: 4px solid #3498db;
+            margin-bottom: 30px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .section {
+            margin-bottom: 35px;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 15px 25px;
+            font-size: 1.3em;
+            font-weight: 500;
+        }
+        
+        .section-content {
+            padding: 25px;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+        }
+        
+        .question label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+        
+        .required {
+            color: #e74c3c;
+        }
+        
+        .question input[type="radio"],
+        .question input[type="checkbox"] {
+            margin-right: 8px;
+            transform: scale(1.2);
+        }
+        
+        .option {
+            margin: 8px 0;
+            padding: 8px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .option:hover {
+            background: #f1f2f6;
+        }
+        
+        .question textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        .question textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .submit-section {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,184,148,0.3);
+        }
+        
+        .time-estimate {
+            background: #e8f4fd;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .benefits {
+            background: #d1ecf1;
+            border: 1px solid #b6d4da;
+            color: #0c5460;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .benefits ul {
+            list-style: none;
+            margin-top: 10px;
+        }
+        
+        .benefits li {
+            padding: 5px 0;
+        }
+        
+        .benefits li:before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .form-content {
+                padding: 20px;
+            }
+            
+            .section-content {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>L.I.F.E. Platform Pre-Demo Questionnaire</h1>
+            <div class="subtitle">Help us customize your demonstration experience</div>
+            <div class="demo-info">
+                <strong>Demo Date: October 15, 2025</strong><br>
+                Participants: 23 confirmed
+            </div>
+        </div>
+        
+        <div class="form-content">
+            <div class="time-estimate">
+                ⏱️ Estimated completion time: 3-5 minutes
+            </div>
+            
+            <div class="intro-text">
+                <p><strong>Thank you for registering for our L.I.F.E. Platform demonstration!</strong></p>
+                <p>To make the most of your time and provide the most relevant demonstration, please complete this brief questionnaire. This will help us focus on the features and applications most important to your needs.</p>
+            </div>
+            
+            <form id="preDemo Form" method="POST" action="#" onsubmit="submitForm(event)">
+                
+                <!-- Section 1: Organization Information -->
+                <div class="section">
+                    <div class="section-header">Organization Information</div>
+                    <div class="section-content">
+                        <div class="question">
+                            <label>What type of organization do you represent? <span class="required">*</span></label>
+                            <div class="option"><input type="radio" name="org_type" value="hospital" required> Hospital/Medical Center</div>
+                            <div class="option"><input type="radio" name="org_type" value="clinic"> Private Clinic</div>
+                            <div class="option"><input type="radio" name="org_type" value="university"> University/Research Institution</div>
+                            <div class="option"><input type="radio" name="org_type" value="k12"> K-12 School/District</div>
+                            <div class="option"><input type="radio" name="org_type" value="government"> Government Agency</div>
+                            <div class="option"><input type="radio" name="org_type" value="corporate"> Corporate/Enterprise</div>
+                            <div class="option"><input type="radio" name="org_type" value="individual"> Individual Practitioner</div>
+                            <div class="option"><input type="radio" name="org_type" value="other"> Other</div>
+                        </div>
+                        
+                        <div class="question">
+                            <label>What is the size of your organization? <span class="required">*</span></label>
+                            <div class="option"><input type="radio" name="org_size" value="solo" required> Individual/Solo practice</div>
+                            <div class="option"><input type="radio" name="org_size" value="small"> Small (2-50 people)</div>
+                            <div class="option"><input type="radio" name="org_size" value="medium"> Medium (51-500 people)</div>
+                            <div class="option"><input type="radio" name="org_size" value="large"> Large (501-5000 people)</div>
+                            <div class="option"><input type="radio" name="org_size" value="enterprise"> Enterprise (5000+ people)</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section 2: Field Specialization -->
+                <div class="section">
+                    <div class="section-header">Field of Specialization</div>
+                    <div class="section-content">
+                        <div class="question" id="healthcare_specialty" style="display:none;">
+                            <label>Healthcare Specialty:</label>
+                            <div class="option"><input type="radio" name="healthcare_specialty" value="neurology"> Neurology</div>
+                            <div class="option"><input type="radio" name="healthcare_specialty" value="psychiatry"> Psychiatry/Mental Health</div>
+                            <div class="option"><input type="radio" name="healthcare_specialty" value="rehabilitation"> Rehabilitation Medicine</div>
+                            <div class="option"><input type="radio" name="healthcare_specialty" value="pediatrics"> Pediatrics</div>
+                            <div class="option"><input type="radio" name="healthcare_specialty" value="geriatrics"> Geriatrics</div>
+                            <div class="option"><input type="radio" name="healthcare_specialty" value="research"> Clinical Research</div>
+                            <div class="option"><input type="radio" name="healthcare_specialty" value="general"> General Practice</div>
+                            <div class="option"><input type="radio" name="healthcare_specialty" value="other_medical"> Other Medical Specialty</div>
+                        </div>
+                        
+                        <div class="question" id="education_focus" style="display:none;">
+                            <label>Educational Focus:</label>
+                            <div class="option"><input type="radio" name="education_focus" value="k12_general"> K-12 General Education</div>
+                            <div class="option"><input type="radio" name="education_focus" value="special_ed"> Special Education</div>
+                            <div class="option"><input type="radio" name="education_focus" value="higher_ed"> Higher Education/University</div>
+                            <div class="option"><input type="radio" name="education_focus" value="adult_learning"> Adult Learning</div>
+                            <div class="option"><input type="radio" name="education_focus" value="professional_training"> Professional Training</div>
+                            <div class="option"><input type="radio" name="education_focus" value="research_ed"> Educational Research</div>
+                            <div class="option"><input type="radio" name="education_focus" value="other_ed"> Other Educational Focus</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section 3: Primary Needs -->
+                <div class="section">
+                    <div class="section-header">Primary Needs & Applications</div>
+                    <div class="section-content">
+                        <div class="question">
+                            <label>What is your primary challenge that you hope L.I.F.E. Platform can address? (Select up to 3) <span class="required">*</span></label>
+                            <div class="option"><input type="checkbox" name="primary_challenge" value="assessment_accuracy"> Improving patient/student assessment accuracy</div>
+                            <div class="option"><input type="checkbox" name="primary_challenge" value="personalization"> Personalizing treatment/learning approaches</div>
+                            <div class="option"><input type="checkbox" name="primary_challenge" value="monitoring"> Monitoring progress and outcomes</div>
+                            <div class="option"><input type="checkbox" name="primary_challenge" value="time_reduction"> Reducing assessment time</div>
+                            <div class="option"><input type="checkbox" name="primary_challenge" value="effectiveness"> Enhancing intervention effectiveness</div>
+                            <div class="option"><input type="checkbox" name="primary_challenge" value="research"> Supporting research and data collection</div>
+                            <div class="option"><input type="checkbox" name="primary_challenge" value="training"> Improving staff/teacher training</div>
+                            <div class="option"><input type="checkbox" name="primary_challenge" value="cost_reduction"> Cost reduction and efficiency</div>
+                            <div class="option"><input type="checkbox" name="primary_challenge" value="other_challenge"> Other</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section 4: Demo Focus -->
+                <div class="section">
+                    <div class="section-header">Demo Focus Areas</div>
+                    <div class="section-content">
+                        <div class="question">
+                            <label>Which aspects of L.I.F.E. Platform are you most interested in seeing during the demo? (Select up to 3) <span class="required">*</span></label>
+                            <div class="option"><input type="checkbox" name="demo_focus" value="eeg_processing"> Real-time EEG processing and analysis</div>
+                            <div class="option"><input type="checkbox" name="demo_focus" value="adaptive_learning"> Adaptive learning algorithms</div>
+                            <div class="option"><input type="checkbox" name="demo_focus" value="progress_tracking"> Progress tracking and analytics</div>
+                            <div class="option"><input type="checkbox" name="demo_focus" value="integration"> Integration with existing systems</div>
+                            <div class="option"><input type="checkbox" name="demo_focus" value="research_capabilities"> Research and data export capabilities</div>
+                            <div class="option"><input type="checkbox" name="demo_focus" value="user_interface"> User interface and ease of use</div>
+                            <div class="option"><input type="checkbox" name="demo_focus" value="pricing"> Pricing and implementation timeline</div>
+                            <div class="option"><input type="checkbox" name="demo_focus" value="training_support"> Training and support options</div>
+                            <div class="option"><input type="checkbox" name="demo_focus" value="customization"> Customization possibilities</div>
+                            <div class="option"><input type="checkbox" name="demo_focus" value="roi"> ROI and business case</div>
+                        </div>
+                        
+                        <div class="question">
+                            <label>What is your timeline for implementation?</label>
+                            <div class="option"><input type="radio" name="timeline" value="immediate"> Immediate (within 1 month)</div>
+                            <div class="option"><input type="radio" name="timeline" value="short_term"> Short-term (1-3 months)</div>
+                            <div class="option"><input type="radio" name="timeline" value="medium_term"> Medium-term (3-6 months)</div>
+                            <div class="option"><input type="radio" name="timeline" value="long_term"> Long-term (6+ months)</div>
+                            <div class="option"><input type="radio" name="timeline" value="exploring"> Still exploring options</div>
+                            <div class="option"><input type="radio" name="timeline" value="not_sure"> Not sure yet</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section 5: Technical Considerations -->
+                <div class="section">
+                    <div class="section-header">Technical Considerations</div>
+                    <div class="section-content">
+                        <div class="question">
+                            <label>How would you describe your team's technical expertise?</label>
+                            <div class="option"><input type="radio" name="technical_expertise" value="high"> High - We have dedicated IT/technical staff</div>
+                            <div class="option"><input type="radio" name="technical_expertise" value="medium"> Medium - We have some technical knowledge</div>
+                            <div class="option"><input type="radio" name="technical_expertise" value="low"> Low - We need significant technical support</div>
+                            <div class="option"><input type="radio" name="technical_expertise" value="minimal"> Minimal - We prefer turnkey solutions</div>
+                        </div>
+                        
+                        <div class="question">
+                            <label>Do you need integration with existing systems? (Select all that apply)</label>
+                            <div class="option"><input type="checkbox" name="integration_needs" value="ehr"> Electronic Health Records (EHR)</div>
+                            <div class="option"><input type="checkbox" name="integration_needs" value="lms"> Learning Management System (LMS)</div>
+                            <div class="option"><input type="checkbox" name="integration_needs" value="research_db"> Research databases</div>
+                            <div class="option"><input type="checkbox" name="integration_needs" value="patient_mgmt"> Patient management systems</div>
+                            <div class="option"><input type="checkbox" name="integration_needs" value="analytics"> Analytics platforms</div>
+                            <div class="option"><input type="checkbox" name="integration_needs" value="no_integration"> No integration needed</div>
+                            <div class="option"><input type="checkbox" name="integration_needs" value="not_sure_integration"> Not sure about integration needs</div>
+                            <div class="option"><input type="checkbox" name="integration_needs" value="other_systems"> Other systems</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section 6: Additional Information -->
+                <div class="section">
+                    <div class="section-header">Additional Information (Optional)</div>
+                    <div class="section-content">
+                        <div class="question">
+                            <label>Do you have any specific questions you'd like us to address during the demo?</label>
+                            <textarea name="specific_questions" placeholder="Please share any specific questions or scenarios you'd like us to demonstrate..."></textarea>
+                        </div>
+                        
+                        <div class="question">
+                            <label>How would you define success with L.I.F.E. Platform implementation?</label>
+                            <textarea name="success_criteria" placeholder="What outcomes or improvements would indicate success for your organization?"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="benefits">
+                    <strong>🚀 How This Helps Your Demo Experience:</strong>
+                    <ul>
+                        <li>Focused demonstration on your specific needs</li>
+                        <li>50% faster, more efficient presentation</li>
+                        <li>Relevant use cases and examples for your field</li>
+                        <li>Targeted pricing and implementation discussion</li>
+                        <li>Better use of your valuable time</li>
+                    </ul>
+                </div>
+                
+                <div class="submit-section">
+                    <button type="submit" class="submit-btn">Submit Questionnaire</button>
+                    <p style="margin-top: 15px; color: #666; font-size: 0.9em;">
+                        Your responses will help us provide the most valuable demo experience possible!
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Show/hide specialty sections based on organization type
+        document.addEventListener('change', function(e) {
+            if (e.target.name === 'org_type') {
+                const healthcareSection = document.getElementById('healthcare_specialty');
+                const educationSection = document.getElementById('education_focus');
+                
+                // Hide all specialty sections first
+                healthcareSection.style.display = 'none';
+                educationSection.style.display = 'none';
+                
+                // Show relevant section based on selection
+                if (e.target.value === 'hospital' || e.target.value === 'clinic') {
+                    healthcareSection.style.display = 'block';
+                } else if (e.target.value === 'university' || e.target.value === 'k12') {
+                    educationSection.style.display = 'block';
+                }
+            }
+        });
+        
+        // Limit checkbox selections
+        function limitCheckboxes(name, maxSelections) {
+            const checkboxes = document.querySelectorAll(`input[name="${name}"]`);
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const checkedBoxes = document.querySelectorAll(`input[name="${name}"]:checked`);
+                    if (checkedBoxes.length > maxSelections) {
+                        this.checked = false;
+                        alert(`Please select up to ${maxSelections} options only.`);
+                    }
+                });
+            });
+        }
+        
+        // Apply limits
+        limitCheckboxes('primary_challenge', 3);
+        limitCheckboxes('demo_focus', 3);
+        
+        // Form submission
+        function submitForm(event) {
+            event.preventDefault();
+            
+            // Collect form data
+            const formData = new FormData(event.target);
+            const responses = {};
+            
+            for (let [key, value] of formData.entries()) {
+                if (responses[key]) {
+                    if (Array.isArray(responses[key])) {
+                        responses[key].push(value);
+                    } else {
+                        responses[key] = [responses[key], value];
+                    }
+                } else {
+                    responses[key] = value;
+                }
+            }
+            
+            // Add timestamp
+            responses.submitted_at = new Date().toISOString();
+            responses.demo_date = "October 15, 2025";
+            
+            // Here you would normally send to your server
+            console.log('Form responses:', responses);
+            
+            // Show success message
+            alert('Thank you! Your questionnaire has been submitted successfully. We will use this information to customize your demo experience on October 15, 2025.');
+            
+            // You can add code here to send the data to your server
+            // fetch('/submit-questionnaire', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify(responses)
+            // });
+        }
+    </script>
+</body>
+</html>
