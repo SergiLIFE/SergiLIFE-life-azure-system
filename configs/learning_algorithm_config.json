@@ -1,0 +1,7 @@
+{
+  "adaptation_rate": 0.01,
+  "memory_capacity": 10000,
+  "feedback_delay": 500,
+  "difficulty_adjustment": "dynamic",
+  "personalization_enabled": true
+}
