@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L.I.F.E. Platform - Learning Individually from Experience</title>
+    <meta name="description" content="Revolutionary neuroadaptive learning platform with 97.95% accuracy, serving 47 organizations">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-brain"></i>
+                <span>L.I.F.E. Platform</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#demo" class="nav-link">Live Demo</a></li>
+                <li><a href="#metrics" class="nav-link">Performance</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#login" class="nav-link login-btn">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span>✨ Now Live on Azure</span>
+                </div>
+                <h1 class="hero-title">
+                    Revolutionary <span class="gradient-text">Neuroadaptive</span> Learning
+                </h1>
+                <p class="hero-subtitle">
+                    L.I.F.E. Platform delivers personalized education through real-time EEG analysis, 
+                    achieving 97.95% accuracy with sub-millisecond processing.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">97.95%</div>
+                        <div class="stat-label">Neural Accuracy</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">0.38ms</div>
+                        <div class="stat-label">Processing Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">47</div>
+                        <div class="stat-label">Organizations</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">$89K</div>
+                        <div class="stat-label">Monthly Revenue</div>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <button class="btn btn-primary" onclick="startDemo()">
+                        <i class="fas fa-play"></i>
+                        Start Demo
+                    </button>
+                    <button class="btn btn-secondary" onclick="scrollToSection('metrics')">
+                        View Results
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="brain-animation">
+                    <canvas id="brainCanvas" width="400" height="400"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Demo Section -->
+    <section id="demo" class="demo-section">
+        <div class="container">
+            <h2 class="section-title">Live EEG Processing Demo</h2>
+            <p class="section-subtitle">Experience real-time neuroadaptive learning in action</p>
+            
+            <div class="demo-dashboard">
+                <div class="demo-controls">
+                    <button id="startProcessing" class="btn btn-primary">
+                        <i class="fas fa-brain"></i>
+                        Start EEG Processing
+                    </button>
+                    <button id="pauseProcessing" class="btn btn-secondary" disabled>
+                        <i class="fas fa-pause"></i>
+                        Pause
+                    </button>
+                    <div class="processing-status">
+                        <span id="statusText">Ready to start</span>
+                        <div class="status-indicator" id="statusIndicator"></div>
+                    </div>
+                </div>
+
+                <div class="demo-visualizations">
+                    <div class="viz-card">
+                        <h3>EEG Wave Analysis</h3>
+                        <canvas id="eegChart" width="600" height="300"></canvas>
+                        <div class="wave-legend">
+                            <span class="legend-item alpha">Alpha (8-13 Hz)</span>
+                            <span class="legend-item beta">Beta (13-30 Hz)</span>
+                            <span class="legend-item theta">Theta (4-8 Hz)</span>
+                            <span class="legend-item gamma">Gamma (30-100 Hz)</span>
+                        </div>
+                    </div>
+
+                    <div class="viz-card">
+                        <h3>Cognitive Load Monitor</h3>
+                        <div class="cognitive-metrics">
+                            <div class="metric-gauge">
+                                <div class="gauge-label">Focus Level</div>
+                                <div class="gauge-circle">
+                                    <div class="gauge-fill" id="focusGauge"></div>
+                                    <span class="gauge-value" id="focusValue">85%</span>
+                                </div>
+                            </div>
+                            <div class="metric-gauge">
+                                <div class="gauge-label">Stress Level</div>
+                                <div class="gauge-circle">
+                                    <div class="gauge-fill stress" id="stressGauge"></div>
+                                    <span class="gauge-value" id="stressValue">15%</span>
+                                </div>
+                            </div>
+                            <div class="metric-gauge">
+                                <div class="gauge-label">Learning Rate</div>
+                                <div class="gauge-circle">
+                                    <div class="gauge-fill learning" id="learningGauge"></div>
+                                    <span class="gauge-value" id="learningValue">92%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="real-time-metrics">
+                    <div class="metric-card">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span class="metric-title">Processing Speed</span>
+                        <span class="metric-value" id="processingSpeed">0.38ms</span>
+                    </div>
+                    <div class="metric-card">
+                        <i class="fas fa-bullseye"></i>
+                        <span class="metric-title">Accuracy</span>
+                        <span class="metric-value" id="accuracy">97.95%</span>
+                    </div>
+                    <div class="metric-card">
+                        <i class="fas fa-users"></i>
+                        <span class="metric-title">Active Sessions</span>
+                        <span class="metric-value" id="activeSessions">1,247</span>
+                    </div>
+                    <div class="metric-card">
+                        <i class="fas fa-server"></i>
+                        <span class="metric-title">Azure Uptime</span>
+                        <span class="metric-value" id="uptime">99.97%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Metrics -->
+    <section id="metrics" class="metrics-section">
+        <div class="container">
+            <h2 class="section-title">Validated Performance Results</h2>
+            <p class="section-subtitle">Proven on BCI Competition IV-2a and PhysioNet datasets</p>
+            
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <div class="metric-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Motor Imagery Classification</h3>
+                    <div class="metric-number">97.95%</div>
+                    <p>Accuracy on BCI Competition IV-2a dataset</p>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Processing Latency</h3>
+                    <div class="metric-number">0.38ms</div>
+                    <p>Sub-millisecond real-time processing</p>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Speed Advantage</h3>
+                    <div class="metric-number">43.5×</div>
+                    <p>Faster than nearest competitor</p>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Azure Uptime</h3>
+                    <div class="metric-number">99.97%</div>
+                    <p>Exceeds 99.95% SLA guarantee</p>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3>Active Organizations</h3>
+                    <div class="metric-number">47</div>
+                    <p>Education, research & enterprise</p>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h3>Monthly Revenue</h3>
+                    <div class="metric-number">$89K</div>
+                    <p>15% month-over-month growth</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">Ready to Transform Learning?</h2>
+            <p class="section-subtitle">Join 47+ organizations already using L.I.F.E. Platform</p>
+            
+            <div class="contact-content">
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Email Address" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="organization" name="organization" placeholder="Organization" required>
+                        </div>
+                        <div class="form-group">
+                            <select id="interest" name="interest" required>
+                                <option value="">Select Interest</option>
+                                <option value="demo">Schedule Demo</option>
+                                <option value="pilot">Pilot Program</option>
+                                <option value="partnership">Partnership</option>
+                                <option value="enterprise">Enterprise License</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="Tell us about your needs" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-paper-plane"></i>
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>contact@lifecoach-121.com</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fab fa-microsoft"></i>
+                        <span>Available on Azure Marketplace</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-cloud"></i>
+                        <span>Deployed on Azure Static Web Apps</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <i class="fas fa-brain"></i>
+                        <span>L.I.F.E. Platform</span>
+                    </div>
+                    <p>Learning Individuals from Experience</p>
+                    <p>© 2025 Sergio Paya Borrull. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="#demo">Demo</a></li>
+                        <li><a href="#metrics">Performance</a></li>
+                        <li><a href="https://github.com">Documentation</a></li>
+                        <li><a href="https://azure.microsoft.com/en-us/products/static-web-apps">Azure Integration</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#">Partnership</a></li>
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Access L.I.F.E. Platform</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <input type="email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Login</button>
+            </form>
+            <p class="modal-footer">Don't have an account? <a href="#contact">Request Access</a></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
