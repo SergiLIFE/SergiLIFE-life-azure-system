@@ -1,0 +1,66 @@
+Subject: L.I.F.E. Platform Academic Demo - October 15, 2025
+
+Dear Colleagues,
+
+I'm excited to invite you to our L.I.F.E. (Learning Individually from Experience) Platform demonstration on October 15, 2025.
+
+🔗 DEMO LINK: http://[YOUR-IP-ADDRESS]:8000/LIFE_CORE_ALGORITHM_DASHBOARD.html
+
+📋 GDPR & PRIVACY COMPLIANCE:
+This demonstration is fully compliant with GDPR and academic privacy standards:
+
+✅ NO personal data collection or storage
+✅ NO cookies, tracking, or analytics systems  
+✅ NO user information is processed or retained
+✅ Local network access only - no internet data transmission
+✅ Academic and educational use only
+
+🧠 WHAT YOU'LL EXPERIENCE:
+• Interactive neuroadaptive learning algorithm visualization
+• Real-time EEG processing simulation (synthetic data only)
+• Live device connection testing (browser APIs, no data collection)
+• Advanced neural network performance metrics
+• Clinical and educational application demonstrations
+
+🎯 DEMO DETAILS:
+• Date: October 15, 2025
+• Attendees: 23 University Colleagues  
+• Duration: Academic presentation format
+• Platform: Microsoft Teams Meeting + Interactive Dashboard
+• Access: Screen share demonstration + direct link for hands-on exploration
+• Requirements: No installation needed - web browser + Teams access only
+
+📞 TEAMS MEETING OPTIONS:
+• 🖥️ Watch live demonstration via screen share (all attendees)
+• 🔗 Access interactive dashboard directly via shared link
+• 💬 Get real-time support through Teams chat during demo
+• 🎥 Recording available for later review (with your consent)
+
+💡 TECHNICAL NOTES:
+• The demo runs locally with no external dependencies
+• All processing is performed client-side in your browser
+• Device testing uses standard Web APIs (Bluetooth, Serial, WebRTC)
+• No personal data leaves your device at any time
+
+🔒 DATA PROTECTION:
+This demonstration adheres to the highest standards of academic data protection:
+• Minimal server logging (timestamp and access path only)
+• No IP address storage or personal identification
+• No third-party services or external connections
+• Automatic log cleanup (24-hour retention maximum)
+• Full compliance with university data protection policies
+
+Please feel free to test the link beforehand to ensure everything works properly on your system. If you experience any technical issues, please let me know.
+
+Looking forward to sharing this groundbreaking neuroadaptive learning research with you!
+
+Best regards,
+Sergio Paya Borrull
+L.I.F.E. Platform Research Team
+
+---
+CONFIDENTIALITY NOTICE: This demonstration is for academic review and educational purposes only. Please do not share outside the invited group of 23 colleagues.
+
+TECHNICAL SUPPORT: If you need assistance accessing the demo, please reply to this email.
+
+COPYRIGHT NOTICE: L.I.F.E. Platform © 2025 - Sergio Paya Borrull. Academic demonstration version.

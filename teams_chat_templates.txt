@@ -1,0 +1,73 @@
+# Teams Chat Messages - Ready to Copy & Paste
+# L.I.F.E. Platform Demo - October 15, 2025
+
+## 🎬 OPENING MESSAGE (Start of Meeting)
+🧠 L.I.F.E. Platform Interactive Demo is Live!
+🔗 Access: http://[REPLACE-WITH-YOUR-IP]:8000/LIFE_CORE_ALGORITHM_DASHBOARD.html
+✅ GDPR Compliant • No Data Collection • Academic Use Only
+💡 Follow along interactively while I present!
+
+## 🎯 TRANSITION MESSAGE (5 minutes in)
+🎯 Ready to explore yourself?
+🔗 Dashboard: http://[REPLACE-WITH-YOUR-IP]:8000/LIFE_CORE_ALGORITHM_DASHBOARD.html
+🧪 Try clicking on the neural wave patterns!
+❓ Questions? Ask here in chat!
+
+## 🔬 DEVICE TESTING MESSAGE (Mid-demo)
+🔬 Device Testing Time!
+🔗 http://[REPLACE-WITH-YOUR-IP]:8000/LIFE_CORE_ALGORITHM_DASHBOARD.html
+📱 Works in Chrome, Edge, Firefox
+🔍 Try the "Live Device Connection Testing" section
+💬 Share what you discover!
+
+## 💭 Q&A MESSAGE (Discussion phase)  
+💭 Questions & Hands-on Exploration
+🔗 Keep exploring: http://[REPLACE-WITH-YOUR-IP]:8000/LIFE_CORE_ALGORITHM_DASHBOARD.html
+📝 What features interest you most for your work?
+🤝 How could this help your research/teaching?
+
+## 🙏 CLOSING MESSAGE (End of demo)
+🙏 Thanks for joining the L.I.F.E. Platform demo!
+📧 Follow-up questions: Reply to email invitation
+🔗 Dashboard stays active for 30 more minutes
+📅 Individual consultations available - just ask!
+
+## 🛠️ TROUBLESHOOTING MESSAGE (If needed)
+🛠️ Can't access the link? Try:
+1️⃣ Copy/paste full URL into browser address bar
+2️⃣ Use Chrome or Edge browsers
+3️⃣ Make sure you're on university WiFi/network
+💬 Still issues? Message me directly for help!
+
+## ⚠️ BACKUP MESSAGE (Network issues)
+⚠️ Network restrictions? No problem!
+📺 Follow along via my screen share
+🔗 Try the link again in a few minutes
+📞 Individual access available after the meeting
+
+## ✅ SUCCESS CONFIRMATION (When people connect)
+✅ Seeing the dashboard? Excellent!
+🎯 Try different sections: Neural Processing, Device Testing
+🧪 Click on frequency bands to see real-time data
+💬 Share your discoveries in chat!
+
+## 🎉 ENGAGEMENT BOOSTERS
+🎉 Interactive Challenge Time!
+👍 React if you can see the alpha brain waves
+🔬 First to test device connection gets recognition!
+💡 Try the educational scenarios - what do you think?
+
+## 📋 PROFESSIONAL DOCUMENTATION
+📋 Meeting Resources:
+🔗 L.I.F.E. Dashboard: http://[REPLACE-WITH-YOUR-IP]:8000/LIFE_CORE_ALGORITHM_DASHBOARD.html  
+📄 Privacy Policy: http://[REPLACE-WITH-YOUR-IP]:8000/privacy
+📧 Contact: sergio.paya.borrull@[university].edu
+📚 Research Paper: [Available upon request]
+
+---
+INSTRUCTIONS:
+1. Replace [REPLACE-WITH-YOUR-IP] with actual IP from server startup
+2. Copy messages as needed during your presentation
+3. Paste directly into Teams chat window
+4. Adapt timing based on audience engagement
+5. Monitor chat for questions and respond in real-time
