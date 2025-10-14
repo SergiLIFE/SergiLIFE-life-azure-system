@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 L.I.F.E Platform - WORKING MOCK DEMO</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid #10b981;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(16, 185, 129, 0.6); }
+        }
+
+        .logo-text h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #60a5fa, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10b981;
+            border-radius: 20px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse-dot 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            background: rgba(30, 41, 59, 0.8);
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid #334155;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            padding: 1rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .tab-button:hover {
+            color: #60a5fa;
+            background: rgba(96, 165, 250, 0.1);
+        }
+
+        .tab-button.active {
+            color: #10b981;
+            border-bottom-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        /* Content Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 1rem 0;
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: #60a5fa;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        /* Metrics */
+        .metric {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #10b981;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Interactive Elements */
+        .demo-button {
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Progress Bars */
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2563eb, #10b981);
+            transition: width 2s ease;
+        }
+
+        /* Status Messages */
+        .status-success {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10b981;
+            color: #10b981;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .status-warning {
+            background: rgba(245, 158, 11, 0.2);
+            border: 1px solid #f59e0b;
+            color: #f59e0b;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        /* Live Chart Simulation */
+        .chart-mock {
+            height: 200px;
+            background: linear-gradient(45deg, rgba(37, 99, 235, 0.1), rgba(16, 185, 129, 0.1));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed #334155;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-wave {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: #10b981;
+            animation: wave 3s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+
+        /* Algorithm Status */
+        .algorithm-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(51, 65, 85, 0.5);
+            border-radius: 8px;
+            margin: 0.5rem 0;
+        }
+
+        .algorithm-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .status-processing {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+
+        .status-optimizing {
+            background: rgba(37, 99, 235, 0.2);
+            color: #2563eb;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(15, 23, 42, 0.8);
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                padding: 0.8rem 1rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">🧠</div>
+                <div class="logo-text">
+                    <h1>L.I.F.E Theory Platform</h1>
+                    <p>Learning Individually From Experience</p>
+                </div>
+            </div>
+            <div class="status-indicator">
+                <div class="pulse-dot"></div>
+                <span>DEMO MODE - FULLY FUNCTIONAL</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+        <button class="tab-button active" onclick="showTab('dashboard')">🏠 Dashboard</button>
+        <button class="tab-button" onclick="showTab('ai-models')">🤖 AI Models</button>
+        <button class="tab-button" onclick="showTab('analytics')">📊 Analytics</button>
+        <button class="tab-button" onclick="showTab('eeg-processing')">🧬 EEG Processing</button>
+        <button class="tab-button" onclick="showTab('campaigns')">🚀 Campaigns</button>
+        <button class="tab-button" onclick="showTab('settings')">⚙️ Settings</button>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📈</div>
+                    <div class="card-title">Platform Overview</div>
+                </div>
+                
+                <div class="grid">
+                    <div class="metric">
+                        <div class="metric-value" id="accuracy-metric">97.95%</div>
+                        <div class="metric-label">Neural Accuracy</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="latency-metric">24ms</div>
+                        <div class="metric-label">Processing Latency</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="throughput-metric">80.16</div>
+                        <div class="metric-label">Operations/Second</div>
+                    </div>
+                </div>
+
+                <div class="status-success">
+                    ✅ All systems operational - Platform ready for demonstration
+                </div>
+
+                <button class="demo-button" onclick="runDemoTest()">🧪 Run Demo Test</button>
+                <button class="demo-button" onclick="simulateProcessing()">⚡ Simulate Processing</button>
+                <button class="demo-button" onclick="showMetrics()">📊 Live Metrics</button>
+            </div>
+        </div>
+
+        <!-- AI Models Tab -->
+        <div id="ai-models" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🤖</div>
+                    <div class="card-title">AI Model Performance Dashboard</div>
+                </div>
+                
+                <div class="algorithm-item">
+                    <span>🧬 Trait Modulation Algorithm</span>
+                    <div>
+                        <span>91.3%</span>
+                        <span class="algorithm-status status-active">ACTIVE</span>
+                    </div>
+                </div>
+                
+                <div class="algorithm-item">
+                    <span>📈 Neuroplasticity Growth Engine</span>
+                    <div>
+                        <span>84.7%</span>
+                        <span class="algorithm-status status-processing">PROCESSING</span>
+                    </div>
+                </div>
+                
+                <div class="algorithm-item">
+                    <span>🔮 Quantum Trait Projection</span>
+                    <div>
+                        <span>89.2%</span>
+                        <span class="algorithm-status status-optimizing">OPTIMIZING</span>
+                    </div>
+                </div>
+                
+                <div class="algorithm-item">
+                    <span>🔄 Experience Integration System</span>
+                    <div>
+                        <span>87.6%</span>
+                        <span class="algorithm-status status-active">ACTIVE</span>
+                    </div>
+                </div>
+
+                <button class="demo-button" onclick="optimizeModels()">🔧 Optimize All Models</button>
+                <button class="demo-button" onclick="runModelTest()">🧪 Test Models</button>
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="analytics" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📊</div>
+                    <div class="card-title">Real-time Analytics</div>
+                </div>
+                
+                <div class="chart-mock">
+                    <div class="chart-wave"></div>
+                    <div style="z-index: 10; position: relative;">
+                        <h3>Live Performance Chart</h3>
+                        <p>📈 Real-time neural processing visualization</p>
+                    </div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="analytics-progress" style="width: 78%;"></div>
+                </div>
+                <p>Analytics Processing: <span id="analytics-percent">78%</span> Complete</p>
+
+                <button class="demo-button" onclick="refreshAnalytics()">🔄 Refresh Data</button>
+                <button class="demo-button" onclick="exportResults()">💾 Export Results</button>
+            </div>
+        </div>
+
+        <!-- EEG Processing Tab -->
+        <div id="eeg-processing" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🧬</div>
+                    <div class="card-title">EEG Signal Processing</div>
+                </div>
+                
+                <div class="grid">
+                    <div>
+                        <h4>Alpha Waves (8-12 Hz)</h4>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%;"></div>
+                        </div>
+                        <p>Signal Strength: 85%</p>
+                    </div>
+                    <div>
+                        <h4>Beta Waves (12-30 Hz)</h4>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 72%;"></div>
+                        </div>
+                        <p>Signal Strength: 72%</p>
+                    </div>
+                </div>
+
+                <div class="status-success">
+                    🧠 64 EEG channels active - Real-time processing enabled
+                </div>
+
+                <button class="demo-button" onclick="startEEGCapture()">🎯 Start EEG Capture</button>
+                <button class="demo-button" onclick="calibrateSystem()">⚙️ Calibrate System</button>
+            </div>
+        </div>
+
+        <!-- Campaigns Tab -->
+        <div id="campaigns" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🚀</div>
+                    <div class="card-title">Campaign Management</div>
+                </div>
+                
+                <div class="status-warning">
+                    ⚠️ Campaign triggers need proper setup - Use the batch file provided
+                </div>
+
+                <div class="algorithm-item">
+                    <span>🎯 Marketplace Promotion</span>
+                    <span class="algorithm-status status-processing">READY</span>
+                </div>
+                
+                <div class="algorithm-item">
+                    <span>🏥 Healthcare Outreach</span>
+                    <span class="algorithm-status status-active">ACTIVE</span>
+                </div>
+                
+                <div class="algorithm-item">
+                    <span>🎓 Educational Partnerships</span>
+                    <span class="algorithm-status status-optimizing">PLANNING</span>
+                </div>
+
+                <button class="demo-button" onclick="launchCampaign()">🚀 Launch Campaign</button>
+                <button class="demo-button" onclick="validateTriggers()">✅ Validate Triggers</button>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="settings" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">⚙️</div>
+                    <div class="card-title">Platform Configuration</div>
+                </div>
+                
+                <div class="grid">
+                    <div>
+                        <h4>Processing Mode</h4>
+                        <button class="demo-button" onclick="switchMode('quantum')">🔮 Quantum Mode</button>
+                        <button class="demo-button" onclick="switchMode('standard')">⚡ Standard Mode</button>
+                    </div>
+                    <div>
+                        <h4>Performance Settings</h4>
+                        <button class="demo-button" onclick="optimizePerformance()">🚀 Optimize</button>
+                        <button class="demo-button" onclick="resetSettings()">🔄 Reset</button>
+                    </div>
+                </div>
+
+                <div class="status-success" id="settings-status">
+                    ✅ Configuration saved - Platform optimized for demo
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>🧠 L.I.F.E Theory Platform - Mock Demo v2.0 | Copyright 2025 - Sergio Paya Borrull</p>
+        <p>Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb</p>
+    </footer>
+
+    <script>
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            console.log(`Switched to ${tabName} tab`);
+        }
+
+        // Demo functions
+        function runDemoTest() {
+            alert('🧪 Demo Test Started!\n\n✅ Neural networks initialized\n✅ EEG channels connected\n✅ AI models loaded\n\n🎉 All systems ready for demonstration!');
+            updateMetric('accuracy-metric', '98.2%');
+        }
+
+        function simulateProcessing() {
+            const progress = document.getElementById('analytics-progress');
+            const percent = document.getElementById('analytics-percent');
+            
+            let width = 0;
+            const interval = setInterval(() => {
+                width += 2;
+                progress.style.width = width + '%';
+                percent.textContent = width + '%';
+                
+                if (width >= 100) {
+                    clearInterval(interval);
+                    alert('⚡ Processing Complete!\n\n🎯 Results: 100% success rate\n📊 Performance: Optimal\n🚀 Ready for next task!');
+                }
+            }, 50);
+        }
+
+        function showMetrics() {
+            const metrics = [
+                'Neural Accuracy: 97.95% → 98.2%',
+                'Processing Latency: 24ms → 22ms',
+                'Operations/Second: 80.16 → 82.3',
+                'Quantum Coherence: 1.4% → 1.7%',
+                'Learning Rate: 4.2% → 4.8%'
+            ];
+            
+            alert('📊 Live Metrics Update:\n\n' + metrics.join('\n') + '\n\n🎉 All metrics improved!');
+        }
+
+        function optimizeModels() {
+            alert('🔧 AI Model Optimization Started!\n\n🤖 Optimizing Neural Networks...\n📈 Enhancing Performance...\n🔮 Applying Quantum Enhancement...\n\n✅ Optimization Complete!\nAll models now running at peak efficiency!');
+        }
+
+        function runModelTest() {
+            alert('🧪 AI Model Test Results:\n\n✅ Trait Modulation: PASS (91.3%)\n✅ Neuroplasticity: PASS (84.7%)\n✅ Quantum Projection: PASS (89.2%)\n✅ Experience Integration: PASS (87.6%)\n\n🎉 All models functioning perfectly!');
+        }
+
+        function refreshAnalytics() {
+            const wave = document.querySelector('.chart-wave');
+            wave.style.animation = 'none';
+            setTimeout(() => {
+                wave.style.animation = 'wave 3s ease-in-out infinite';
+            }, 100);
+            
+            alert('🔄 Analytics Refreshed!\n\n📊 New data loaded\n📈 Charts updated\n🎯 Real-time sync active');
+        }
+
+        function exportResults() {
+            alert('💾 Export Complete!\n\n📁 Results saved to:\n- Performance_Report_' + new Date().toISOString().split('T')[0] + '.pdf\n- Neural_Data_Export.csv\n- AI_Model_Summary.json\n\n✅ Files ready for download!');
+        }
+
+        function startEEGCapture() {
+            alert('🎯 EEG Capture Started!\n\n🧠 64 channels activated\n📡 Signal acquisition: ACTIVE\n⚡ Real-time processing: ON\n\n🎉 Ready to monitor neural activity!');
+            updateMetric('latency-metric', '22ms');
+        }
+
+        function calibrateSystem() {
+            alert('⚙️ System Calibration Complete!\n\n🎯 EEG sensors calibrated\n📊 Signal filters optimized\n🔧 Performance tuned\n\n✅ System ready for optimal performance!');
+        }
+
+        function launchCampaign() {
+            alert('🚀 Campaign Launch Initiated!\n\n📢 Marketplace promotion: ACTIVE\n🏥 Healthcare outreach: SCHEDULED\n🎓 Educational partnerships: QUEUED\n\n🎉 Multi-channel campaign running!');
+        }
+
+        function validateTriggers() {
+            alert('✅ Campaign Triggers Validated!\n\n🔧 TRIGGER_CAMPAIGN.bat: READY\n🔧 TRIGGER_CAMPAIGN.ps1: READY\n🐍 Python scripts: READY\n\n💡 Use the batch file for easiest launch!');
+        }
+
+        function switchMode(mode) {
+            const status = document.getElementById('settings-status');
+            if (mode === 'quantum') {
+                status.innerHTML = '🔮 Quantum Mode Activated - 3.4x acceleration enabled!';
+                updateMetric('throughput-metric', '272.5');
+            } else {
+                status.innerHTML = '⚡ Standard Mode Active - Reliable processing enabled!';
+                updateMetric('throughput-metric', '80.16');
+            }
+        }
+
+        function optimizePerformance() {
+            alert('🚀 Performance Optimization Complete!\n\n⚡ Processing speed: +15%\n🧠 Memory usage: -23%\n🔋 Power efficiency: +12%\n\n✅ Platform running at peak performance!');
+        }
+
+        function resetSettings() {
+            alert('🔄 Settings Reset Complete!\n\n⚙️ All configurations restored to defaults\n📊 Performance metrics reset\n🎯 Platform ready for fresh start!');
+        }
+
+        function updateMetric(elementId, value) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.style.transition = 'all 0.5s ease';
+                element.style.transform = 'scale(1.2)';
+                element.textContent = value;
+                
+                setTimeout(() => {
+                    element.style.transform = 'scale(1)';
+                }, 500);
+            }
+        }
+
+        // Real-time updates simulation
+        function startRealTimeUpdates() {
+            setInterval(() => {
+                const accuracy = document.getElementById('accuracy-metric');
+                const latency = document.getElementById('latency-metric');
+                
+                if (accuracy) {
+                    const currentAccuracy = parseFloat(accuracy.textContent.replace('%', ''));
+                    const newAccuracy = (currentAccuracy + (Math.random() * 0.2 - 0.1)).toFixed(2);
+                    accuracy.textContent = newAccuracy + '%';
+                }
+                
+                if (latency) {
+                    const currentLatency = parseInt(latency.textContent.replace('ms', ''));
+                    const newLatency = Math.max(20, currentLatency + Math.floor(Math.random() * 6 - 3));
+                    latency.textContent = newLatency + 'ms';
+                }
+            }, 5000);
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🧠 L.I.F.E Platform Mock Demo Loaded Successfully!');
+            console.log('✅ All tabs functional');
+            console.log('✅ All buttons interactive');
+            console.log('✅ Real-time updates active');
+            
+            startRealTimeUpdates();
+            
+            // Show welcome message
+            setTimeout(() => {
+                alert('🎉 Welcome to L.I.F.E Platform Mock Demo!\n\n✅ All tabs are fully functional\n✅ Click any button for interactions\n✅ Real-time metrics updating\n\n🚀 Perfect for demonstrations!\n\nTry clicking the tabs and buttons to see the platform in action!');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

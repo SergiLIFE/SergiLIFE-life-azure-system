@@ -477,6 +477,73 @@
 			],
 			"isBackground": false,
 			"group": "test"
+		},
+		{
+			"label": "🧠 Launch L.I.F.E Theory Platform",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"life_theory_platform_server.py"
+			],
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "new",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"detail": "🌟 Launch the L.I.F.E Theory Platform with real-time metrics and Azure integration"
+		},
+		{
+			"label": "🌐 Open L.I.F.E Theory Platform (Browser)",
+			"type": "shell",
+			"command": "cmd",
+			"args": [
+				"/c",
+				"🧠 Launch L.I.F.E Theory Platform.bat"
+			],
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "new",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"detail": "🚀 Quick launch L.I.F.E Theory Platform in browser (no server required)"
+		},
+		{
+			"label": "🌟 Universal L.I.F.E Platform Launcher",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"universal_life_launcher.py"
+			],
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "new",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"detail": "🎯 Automatically detects and launches the best available L.I.F.E platform version"
 		}
 	]
 }

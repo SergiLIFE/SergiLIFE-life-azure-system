@@ -101,11 +101,11 @@
         "azureFunctions.scmDoBuildDuringDeployment": true,
         "azureFunctions.pythonVenv": ".venv",
         "jupyter.askForKernelRestart": false,
-        "jupyter.interactiveWindowMode": "perFile",
         "notebook.cellToolbarLocation": {
             "default": "right",
             "jupyter-notebook": "left"
-        }
+        },
+        "jupyter.interactiveWindow.creationMode": "perFile"
     },
     "extensions": {
         "recommendations": [

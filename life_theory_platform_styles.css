@@ -1,0 +1,299 @@
+/* L.I.F.E Theory Platform - Additional Styles */
+/* Copyright 2025 - Sergio Paya Borrull */
+
+/* Fix inline styles */
+.hero-description {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.hero-stat-improvement {
+    color: var(--success-color);
+}
+
+.live-metric-validated {
+    color: var(--success-color);
+}
+
+.trajectory-description {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.trajectory-demonstration {
+    margin-top: 2rem;
+    color: var(--success-color);
+    font-weight: 700;
+}
+
+.marketplace-status-live {
+    color: var(--success-color);
+}
+
+/* Growth bar heights */
+.growth-bar-q1 { --bar-height: 40px; }
+.growth-bar-q2 { --bar-height: 75px; }
+.growth-bar-q3 { --bar-height: 120px; }
+.growth-bar-q4 { --bar-height: 180px; }
+.growth-bar-2026 { --bar-height: 200px; }
+
+/* Safari compatibility fixes */
+.glass-bg-safari {
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+}
+
+.hero-stat-safari {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.dashboard-card-safari {
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+}
+
+.algorithm-card-safari {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.live-metrics-safari {
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+}
+
+.trajectory-chart-safari {
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+}
+
+/* Additional animations */
+.fade-in-up {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Enhanced performance indicators */
+.performance-boost {
+    animation: performanceGlow 2s ease-in-out infinite;
+}
+
+@keyframes performanceGlow {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+    }
+}
+
+/* Real-time data visualization */
+.data-stream {
+    position: relative;
+    overflow: hidden;
+}
+
+.data-stream::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--success-color), transparent);
+    animation: dataFlow 3s linear infinite;
+}
+
+@keyframes dataFlow {
+    to {
+        left: 100%;
+    }
+}
+
+/* EEG visualization */
+.eeg-wave {
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(0, 255, 136, 0.1) 25%,
+        rgba(79, 172, 254, 0.1) 50%,
+        rgba(0, 255, 136, 0.1) 75%,
+        transparent 100%
+    );
+    animation: eegPulse 4s ease-in-out infinite;
+}
+
+@keyframes eegPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+}
+
+/* Neural network visualization */
+.neural-node {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--success-color);
+    position: absolute;
+    animation: neuralPulse 2s ease-in-out infinite;
+}
+
+@keyframes neuralPulse {
+    0%, 100% { 
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    50% { 
+        transform: scale(1.5);
+        opacity: 1;
+    }
+}
+
+/* Quantum effect enhancement */
+.quantum-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(79, 172, 254, 0.8);
+    animation: quantumMove 8s linear infinite;
+}
+
+@keyframes quantumMove {
+    0% {
+        transform: translateX(0) translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(300px) translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Exponential growth indicator */
+.exponential-growth {
+    background: linear-gradient(45deg, #f093fb 0%, #f5576c 50%, #4facfe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: exponentialShimmer 3s ease-in-out infinite;
+}
+
+@keyframes exponentialShimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Loading states */
+.loading-skeleton {
+    background: linear-gradient(90deg, 
+        rgba(255,255,255,0.1) 25%, 
+        rgba(255,255,255,0.2) 50%, 
+        rgba(255,255,255,0.1) 75%);
+    background-size: 200% 100%;
+    animation: skeleton 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Status indicators */
+.status-active-indicator {
+    position: relative;
+}
+
+.status-active-indicator::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 2px solid var(--success-color);
+    border-radius: inherit;
+    opacity: 0;
+    animation: statusPulse 2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+    0%, 100% { 
+        opacity: 0;
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.8;
+        transform: scale(1.1);
+    }
+}
+
+/* Interactive elements */
+.interactive-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.interactive-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    :root {
+        --text-primary: #ffffff;
+        --text-secondary: #ffffff;
+        --success-color: #00ff00;
+        --glass-bg: rgba(0,0,0,0.8);
+        --glass-border: rgba(255,255,255,0.8);
+    }
+}
+
+/* Dark mode enhancement */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    }
+}
+
+/* Print styles */
+@media print {
+    .hero, .dashboard, .algorithm-section {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .dashboard-card, .algorithm-card {
+        border: 1px solid #000 !important;
+        background: white !important;
+        color: black !important;
+    }
+}
