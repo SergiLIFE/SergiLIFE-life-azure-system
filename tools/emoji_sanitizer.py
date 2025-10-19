@@ -21,6 +21,7 @@ import argparse
 import os
 import re
 import sys
+import tempfile
 import unicodedata
 from typing import Iterable, List, Tuple
 
@@ -132,14 +133,32 @@ def process_files(
         try:
             rel = os.path.relpath(path, root)
             if is_text_file(path, exts):
-                with open(path, "r", encoding="utf-8", errors="ignore") as f:
+                with open(path, "r", encoding="utf-8", errors="replace") as f:
                     original = f.read()
                 cleaned = strip_emojis(original)
                 if cleaned != original:
                     modified.append(rel)
                     if write:
-                        with open(path, "w", encoding="utf-8") as f:
-                            f.write(cleaned)
+                        # Write to a temp file then atomically replace to avoid locking/descriptor issues
+                        dirn = os.path.dirname(path)
+                        try:
+                            with tempfile.NamedTemporaryFile(
+                                mode="w",
+                                encoding="utf-8",
+                                newline="",
+                                delete=False,
+                                dir=dirn,
+                                prefix="._emoji_sanitize_",
+                            ) as tf:
+                                tf.write(cleaned)
+                            os.replace(tf.name, path)
+                        finally:
+                            # If something failed before replace, ensure temp file is removed
+                            try:
+                                if "tf" in locals() and os.path.exists(tf.name):
+                                    os.remove(tf.name)
+                            except Exception:
+                                pass
 
             if rename:
                 dirname, basename = os.path.split(path)
@@ -182,6 +201,11 @@ def main(argv: List[str] | None = None) -> int:
         "--write", action="store_true", help="Apply changes (otherwise dry-run)"
     )
     p.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Explicit dry-run mode (default when --write is not set)",
+    )
+    p.add_argument(
         "--rename", action="store_true", help="Also rename files/folders to ASCII-only"
     )
     p.add_argument(
@@ -195,12 +219,13 @@ def main(argv: List[str] | None = None) -> int:
     print("Emoji Sanitizer")
     print("================")
     print(f"Root: {os.path.abspath(args.root)}")
-    print(f"Mode: {'WRITE' if args.write else 'DRY-RUN'} | Rename: {args.rename}")
+    effective_write = args.write and not args.dry_run
+    print(f"Mode: {'WRITE' if effective_write else 'DRY-RUN'} | Rename: {args.rename}")
     print(f"Extensions: {', '.join(args.exts)}")
 
     modified, renamed, errors = process_files(
         args.root,
-        write=args.write,
+        write=effective_write,
         rename=args.rename,
         exts=set(e.lower() for e in args.exts),
     )
@@ -228,7 +253,7 @@ def main(argv: List[str] | None = None) -> int:
             print(f"  ... and {len(errors)-20} more")
 
     print("")
-    if not args.write:
+    if not effective_write:
         print("DRY RUN complete. Re-run with --write to apply changes.")
     else:
         print("Sanitization complete.")
