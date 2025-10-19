@@ -1,0 +1,174 @@
+# 🎯 YOUR TWO OPTIONS - SIDE BY SIDE
+
+```
+═══════════════════════════════════════════════════════════════════════════════
+                    RUN PLATFORMS: CMD vs VS CODE
+═══════════════════════════════════════════════════════════════════════════════
+
+OPTION A: FROM YOUR COMPUTER CMD (Standalone)
+─────────────────────────────────────────────────────────────────────────────
+
+✅ PROS:
+   • Fastest to start
+   • No VS Code needed
+   • Clear, simple output
+   • Easy troubleshooting
+
+❌ CONS:
+   • Another window open
+   • No code editing nearby
+   • Need to alt+tab
+
+📋 STEPS:
+   1. Windows Key + R
+   2. Type: cmd
+   3. Paste this:
+      cd C:\Users\Sergio Paya Borrull\OneDrive\Documents\GitHub\.vscode\New folder\SergiLIFE-life-azure-system\SergiLIFE-life-azure-system && python -m http.server 8080
+   4. Open browser: http://localhost:8080/LIFE_CLINICAL_PLATFORM_CAMBRIDGE.html
+
+⏱️  TIME: 30 seconds
+
+
+OPTION B: FROM VS CODE INTEGRATED TERMINAL (Built-in)
+─────────────────────────────────────────────────────────────────────────────
+
+✅ PROS:
+   • Everything in one window
+   • Code + terminal side-by-side
+   • No extra windows
+   • Professional setup
+
+❌ CONS:
+   • Slightly less visible output
+   • One more click
+
+📋 STEPS:
+   1. Open VS Code (or focus it)
+   2. Press: Ctrl + ` (backtick)
+   3. Paste this:
+      cd C:\Users\Sergio Paya Borrull\OneDrive\Documents\GitHub\.vscode\New folder\SergiLIFE-life-azure-system\SergiLIFE-life-azure-system && python -m http.server 8080
+   4. Open browser: http://localhost:8080/LIFE_CLINICAL_PLATFORM_CAMBRIDGE.html
+
+⏱️  TIME: 45 seconds
+
+
+═══════════════════════════════════════════════════════════════════════════════
+
+COMPARISON TABLE:
+
+Aspect              │ CMD          │ VS Code Terminal
+──────────────────────────────────────────────────────────
+Setup time          │ 30 sec       │ 45 sec
+Visibility          │ Excellent    │ Good
+Multitasking        │ Medium       │ Excellent
+Troubleshooting     │ Easy         │ Medium
+Professional        │ Standard     │ Advanced
+Best for            │ Quick test   │ Development
+Code editing        │ No           │ Yes
+
+═══════════════════════════════════════════════════════════════════════════════
+
+RECOMMENDATION:
+
+For TODAY (Quick Testing):
+→ Use CMD (Option A) ✅
+
+For ONGOING Development:
+→ Use VS Code Terminal (Option B) ✅
+
+BOTH WORK IDENTICALLY!
+
+═══════════════════════════════════════════════════════════════════════════════
+```
+
+---
+
+## 🔄 SWITCHING BETWEEN OPTIONS
+
+### **Using CMD Right Now?**
+1. Keep CMD running
+2. Can easily switch to VS Code later
+3. No conflict
+
+### **Using VS Code Terminal?**
+1. Server runs in background
+2. Can edit code while server is running
+3. Close terminal to stop server
+
+### **Want BOTH?**
+1. Start CMD in one monitor
+2. Start VS Code in another
+3. Both run simultaneously
+4. Easy to manage
+
+---
+
+## 📊 DECISION TREE
+
+```
+Do you want to:
+
+├─ Test RIGHT NOW quickly?
+│  └─ Use CMD (Option A) ✅
+│
+├─ Keep working on code while testing?
+│  └─ Use VS Code Terminal (Option B) ✅
+│
+├─ Test AND edit simultaneously?
+│  └─ Use BOTH (split screen) ✅
+│
+└─ Do multi-user testing?
+   └─ Open 2-3 of each ✅
+```
+
+---
+
+## 🚀 I'LL RECOMMEND: START WITH CMD
+
+**Because:**
+- ✅ Fastest to get results
+- ✅ Clearest to see what's happening
+- ✅ No complexity
+- ✅ Can switch to VS Code later
+
+**Command (Copy & Paste):**
+```cmd
+cd C:\Users\Sergio Paya Borrull\OneDrive\Documents\GitHub\.vscode\New folder\SergiLIFE-life-azure-system\SergiLIFE-life-azure-system && python -m http.server 8080
+```
+
+**Then:** `http://localhost:8080/LIFE_CLINICAL_PLATFORM_CAMBRIDGE.html`
+
+---
+
+## ✅ QUICK START
+
+### **Right Now (Using CMD):**
+
+1. **Open CMD:**
+   - Windows Key + R
+   - Type: `cmd`
+   - Click OK
+
+2. **Run this (copy & paste):**
+   ```cmd
+   cd C:\Users\Sergio Paya Borrull\OneDrive\Documents\GitHub\.vscode\New folder\SergiLIFE-life-azure-system\SergiLIFE-life-azure-system && python -m http.server 8080
+   ```
+
+3. **Open browser:**
+   ```
+   http://localhost:8080/LIFE_CLINICAL_PLATFORM_CAMBRIDGE.html
+   ```
+
+4. **See platform load** ✅
+
+**Total:** 30 seconds 🚀
+
+---
+
+## 🎯 YOU'RE READY!
+
+Pick Option A or B above and start testing NOW!
+
+All platforms work the same from either location.
+
+**Questions? See: `HOW_TO_RUN_PLATFORMS.md`**

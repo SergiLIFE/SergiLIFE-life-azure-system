@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🧠 L.I.F.E Platform - WORKING MOCK DEMO</title>
-    
+
     <style>
         * {
             margin: 0;
@@ -58,8 +59,17 @@
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
-            50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(16, 185, 129, 0.6); }
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+            }
+
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
+            }
         }
 
         .logo-text h1 {
@@ -89,8 +99,17 @@
         }
 
         @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(1.2);
+            }
         }
 
         /* Navigation Tabs */
@@ -144,8 +163,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Cards */
@@ -287,8 +313,15 @@
         }
 
         @keyframes wave {
-            0%, 100% { transform: translateX(-100%); }
-            50% { transform: translateX(100%); }
+
+            0%,
+            100% {
+                transform: translateX(-100%);
+            }
+
+            50% {
+                transform: translateX(100%);
+            }
         }
 
         /* Algorithm Status */
@@ -337,11 +370,11 @@
             .nav-tabs {
                 flex-direction: column;
             }
-            
+
             .tab-button {
                 padding: 0.8rem 1rem;
             }
-            
+
             .header-content {
                 flex-direction: column;
                 gap: 1rem;
@@ -349,6 +382,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
@@ -386,7 +420,7 @@
                     <div class="card-icon">📈</div>
                     <div class="card-title">Platform Overview</div>
                 </div>
-                
+
                 <div class="grid">
                     <div class="metric">
                         <div class="metric-value" id="accuracy-metric">97.95%</div>
@@ -419,7 +453,7 @@
                     <div class="card-icon">🤖</div>
                     <div class="card-title">AI Model Performance Dashboard</div>
                 </div>
-                
+
                 <div class="algorithm-item">
                     <span>🧬 Trait Modulation Algorithm</span>
                     <div>
@@ -427,7 +461,7 @@
                         <span class="algorithm-status status-active">ACTIVE</span>
                     </div>
                 </div>
-                
+
                 <div class="algorithm-item">
                     <span>📈 Neuroplasticity Growth Engine</span>
                     <div>
@@ -435,7 +469,7 @@
                         <span class="algorithm-status status-processing">PROCESSING</span>
                     </div>
                 </div>
-                
+
                 <div class="algorithm-item">
                     <span>🔮 Quantum Trait Projection</span>
                     <div>
@@ -443,7 +477,7 @@
                         <span class="algorithm-status status-optimizing">OPTIMIZING</span>
                     </div>
                 </div>
-                
+
                 <div class="algorithm-item">
                     <span>🔄 Experience Integration System</span>
                     <div>
@@ -464,7 +498,7 @@
                     <div class="card-icon">📊</div>
                     <div class="card-title">Real-time Analytics</div>
                 </div>
-                
+
                 <div class="chart-mock">
                     <div class="chart-wave"></div>
                     <div style="z-index: 10; position: relative;">
@@ -490,7 +524,7 @@
                     <div class="card-icon">🧬</div>
                     <div class="card-title">EEG Signal Processing</div>
                 </div>
-                
+
                 <div class="grid">
                     <div>
                         <h4>Alpha Waves (8-12 Hz)</h4>
@@ -524,7 +558,7 @@
                     <div class="card-icon">🚀</div>
                     <div class="card-title">Campaign Management</div>
                 </div>
-                
+
                 <div class="status-warning">
                     ⚠️ Campaign triggers need proper setup - Use the batch file provided
                 </div>
@@ -533,12 +567,12 @@
                     <span>🎯 Marketplace Promotion</span>
                     <span class="algorithm-status status-processing">READY</span>
                 </div>
-                
+
                 <div class="algorithm-item">
                     <span>🏥 Healthcare Outreach</span>
                     <span class="algorithm-status status-active">ACTIVE</span>
                 </div>
-                
+
                 <div class="algorithm-item">
                     <span>🎓 Educational Partnerships</span>
                     <span class="algorithm-status status-optimizing">PLANNING</span>
@@ -556,7 +590,7 @@
                     <div class="card-icon">⚙️</div>
                     <div class="card-title">Platform Configuration</div>
                 </div>
-                
+
                 <div class="grid">
                     <div>
                         <h4>Processing Mode</h4>
@@ -589,17 +623,17 @@
             // Hide all tab contents
             const tabContents = document.querySelectorAll('.tab-content');
             tabContents.forEach(tab => tab.classList.remove('active'));
-            
+
             // Remove active class from all buttons
             const tabButtons = document.querySelectorAll('.tab-button');
             tabButtons.forEach(button => button.classList.remove('active'));
-            
+
             // Show selected tab
             document.getElementById(tabName).classList.add('active');
-            
+
             // Add active class to clicked button
             event.target.classList.add('active');
-            
+
             console.log(`Switched to ${tabName} tab`);
         }
 
@@ -612,13 +646,13 @@
         function simulateProcessing() {
             const progress = document.getElementById('analytics-progress');
             const percent = document.getElementById('analytics-percent');
-            
+
             let width = 0;
             const interval = setInterval(() => {
                 width += 2;
                 progress.style.width = width + '%';
                 percent.textContent = width + '%';
-                
+
                 if (width >= 100) {
                     clearInterval(interval);
                     alert('⚡ Processing Complete!\n\n🎯 Results: 100% success rate\n📊 Performance: Optimal\n🚀 Ready for next task!');
@@ -634,7 +668,7 @@
                 'Quantum Coherence: 1.4% → 1.7%',
                 'Learning Rate: 4.2% → 4.8%'
             ];
-            
+
             alert('📊 Live Metrics Update:\n\n' + metrics.join('\n') + '\n\n🎉 All metrics improved!');
         }
 
@@ -652,7 +686,7 @@
             setTimeout(() => {
                 wave.style.animation = 'wave 3s ease-in-out infinite';
             }, 100);
-            
+
             alert('🔄 Analytics Refreshed!\n\n📊 New data loaded\n📈 Charts updated\n🎯 Real-time sync active');
         }
 
@@ -702,7 +736,7 @@
                 element.style.transition = 'all 0.5s ease';
                 element.style.transform = 'scale(1.2)';
                 element.textContent = value;
-                
+
                 setTimeout(() => {
                     element.style.transform = 'scale(1)';
                 }, 500);
@@ -714,13 +748,13 @@
             setInterval(() => {
                 const accuracy = document.getElementById('accuracy-metric');
                 const latency = document.getElementById('latency-metric');
-                
+
                 if (accuracy) {
                     const currentAccuracy = parseFloat(accuracy.textContent.replace('%', ''));
                     const newAccuracy = (currentAccuracy + (Math.random() * 0.2 - 0.1)).toFixed(2);
                     accuracy.textContent = newAccuracy + '%';
                 }
-                
+
                 if (latency) {
                     const currentLatency = parseInt(latency.textContent.replace('ms', ''));
                     const newLatency = Math.max(20, currentLatency + Math.floor(Math.random() * 6 - 3));
@@ -730,19 +764,21 @@
         }
 
         // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             console.log('🧠 L.I.F.E Platform Mock Demo Loaded Successfully!');
             console.log('✅ All tabs functional');
             console.log('✅ All buttons interactive');
             console.log('✅ Real-time updates active');
-            
+
             startRealTimeUpdates();
-            
+
             // Show welcome message
             setTimeout(() => {
                 alert('🎉 Welcome to L.I.F.E Platform Mock Demo!\n\n✅ All tabs are fully functional\n✅ Click any button for interactions\n✅ Real-time metrics updating\n\n🚀 Perfect for demonstrations!\n\nTry clicking the tabs and buttons to see the platform in action!');
             }, 1000);
         });
     </script>
+    <script src="PLATFORM_OPTIMIZATION_SCRIPT.js"></script>
 </body>
+
 </html>

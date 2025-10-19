@@ -1,0 +1,154 @@
+═══════════════════════════════════════════════════════════════════════════════
+  🚀 STEP-BY-STEP COMMANDS TO RUN
+═══════════════════════════════════════════════════════════════════════════════
+
+You're currently in: C:\Users\Sergio Paya Borrull>
+
+FOLLOW THESE STEPS EXACTLY:
+
+═══════════════════════════════════════════════════════════════════════════════
+STEP 1: Navigate to the project folder
+═══════════════════════════════════════════════════════════════════════════════
+
+Copy and paste this command into your command prompt:
+
+cd /d "c:\Users\Sergio Paya Borrull\OneDrive\Documents\GitHub\.vscode\New folder\SergiLIFE-life-azure-system\SergiLIFE-life-azure-system"
+
+Press: ENTER
+
+You should see:
+c:\Users\Sergio Paya Borrull\OneDrive\Documents\GitHub\.vscode\New folder\SergiLIFE-life-azure-system\SergiLIFE-life-azure-system>
+
+═══════════════════════════════════════════════════════════════════════════════
+STEP 2: Install dependencies (one time only)
+═══════════════════════════════════════════════════════════════════════════════
+
+Copy and paste this command:
+
+pip install flask flask-cors numpy
+
+Press: ENTER
+
+Wait for it to say "Successfully installed" (takes 1-2 minutes)
+
+═══════════════════════════════════════════════════════════════════════════════
+STEP 3: Start the Backend Server
+═══════════════════════════════════════════════════════════════════════════════
+
+Copy and paste this command:
+
+python life_backend_server.py
+
+Press: ENTER
+
+You should see something like:
+  ✅ Backend server running on http://localhost:5000
+  Ready to receive EEG data...
+
+⚠️  DO NOT CLOSE THIS WINDOW - Keep it running in the background
+
+═══════════════════════════════════════════════════════════════════════════════
+STEP 4: Open a SECOND command prompt window
+═══════════════════════════════════════════════════════════════════════════════
+
+Press: Windows Key + R
+Type: cmd
+Press: ENTER
+
+A new command prompt window opens
+
+═══════════════════════════════════════════════════════════════════════════════
+STEP 5: Navigate to the same folder in the second window
+═══════════════════════════════════════════════════════════════════════════════
+
+In the NEW command prompt window, copy and paste:
+
+cd /d "c:\Users\Sergio Paya Borrull\OneDrive\Documents\GitHub\.vscode\New folder\SergiLIFE-life-azure-system\SergiLIFE-life-azure-system"
+
+Press: ENTER
+
+═══════════════════════════════════════════════════════════════════════════════
+STEP 6: Start the HTTP Server
+═══════════════════════════════════════════════════════════════════════════════
+
+In the SECOND window, copy and paste:
+
+python -m http.server 8080
+
+Press: ENTER
+
+You should see:
+  Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
+
+⚠️  DO NOT CLOSE THIS WINDOW - Keep it running in the background
+
+═══════════════════════════════════════════════════════════════════════════════
+STEP 7: Open your web browser
+═══════════════════════════════════════════════════════════════════════════════
+
+Open Chrome, Edge, Firefox, or any browser
+
+In the address bar, type:
+
+http://localhost:8080/LIFE_AI_PLATFORM_REAL.html
+
+Press: ENTER
+
+═══════════════════════════════════════════════════════════════════════════════
+STEP 8: Verify the page loaded
+═══════════════════════════════════════════════════════════════════════════════
+
+You should see a page with:
+  - Title: "L.I.F.E AI"
+  - Subtitle: "Real Artificial Intelligence & Neural Network Optimization Platform"
+  - Status indicator at top (either 🟢 GREEN or 🟡 YELLOW)
+
+If you see 🟡 YELLOW: Wait 5 more seconds for backend to connect
+
+═══════════════════════════════════════════════════════════════════════════════
+STEP 9: Test the integration
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Close any popup that appears (click OK button)
+
+2. Look for tabs at the top of the page. Click the tab labeled:
+   "EEG AI Integration"
+   
+   (It should be a cyan/teal colored button)
+
+3. On that page, click the button:
+   "Process EEG AI Integration"
+   
+   (It should be a blue button)
+
+4. WAIT 2-5 SECONDS
+
+5. You should see results appear that say:
+   
+   ✅ L.I.F.E REAL Algorithm Processing Complete!
+   
+   📊 Analysis Results (REAL_ALGORITHM):
+   • EEG Quality: 75.2%
+   • Neural Engagement: 82.5%
+   • Learning Readiness: 88.3%
+   • Cognitive Load: 45.1%
+   • Attention Score: 79.8%
+   • Adaptability: 72.4%
+
+If you see "REAL_ALGORITHM" in the results → SUCCESS! ✅✅✅
+
+═══════════════════════════════════════════════════════════════════════════════
+
+If nothing happened after 5 seconds:
+- Check Terminal 1 (backend) - is it still running? Any errors?
+- Check Terminal 2 (HTTP) - is it still running? Any errors?
+- Check browser console - press F12, click "Console" tab, are there errors?
+
+Share a screenshot of:
+1. The browser page (what you see)
+2. Terminal 1 (backend window)
+3. Terminal 2 (HTTP server window)
+
+And I'll help fix it!
+
+═══════════════════════════════════════════════════════════════════════════════

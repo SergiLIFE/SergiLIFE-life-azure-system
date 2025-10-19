@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
@@ -18,14 +19,14 @@
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             overflow-x: hidden;
         }
-        
+
         .demo-container {
             max-width: 1400px;
             margin: 0 auto;
             background: white;
             min-height: 100vh;
         }
-        
+
         /* Header Section */
         .demo-header {
             background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
@@ -35,7 +36,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .demo-header::before {
             content: '';
             position: absolute;
@@ -46,16 +47,16 @@
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="a" cx="50%" cy="40%"><stop offset="0%" stop-color="%23fff" stop-opacity=".1"/><stop offset="100%" stop-color="%23fff" stop-opacity="0"/></radialGradient></defs><rect width="100" height="20" fill="url(%23a)"/></svg>') repeat-x;
             opacity: 0.3;
         }
-        
+
         .demo-header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
             font-weight: 300;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             position: relative;
             z-index: 1;
         }
-        
+
         .demo-subtitle {
             font-size: 1.2em;
             opacity: 0.9;
@@ -63,7 +64,7 @@
             position: relative;
             z-index: 1;
         }
-        
+
         .live-indicator {
             display: inline-flex;
             align-items: center;
@@ -76,7 +77,7 @@
             position: relative;
             z-index: 1;
         }
-        
+
         .live-dot {
             width: 8px;
             height: 8px;
@@ -85,13 +86,21 @@
             margin-right: 8px;
             animation: pulse 2s infinite;
         }
-        
+
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
         }
-        
+
         /* Navigation Tabs */
         .demo-nav {
             display: flex;
@@ -99,7 +108,7 @@
             border-bottom: 3px solid #3498db;
             overflow-x: auto;
         }
-        
+
         .nav-tab {
             flex: 1;
             min-width: 150px;
@@ -111,39 +120,46 @@
             border-bottom: 3px solid transparent;
             font-weight: 500;
         }
-        
+
         .nav-tab:hover {
             background: #3498db;
             color: white;
         }
-        
+
         .nav-tab.active {
             background: #3498db;
             color: white;
             border-bottom-color: #f39c12;
         }
-        
+
         /* Demo Content Area */
         .demo-content {
             padding: 30px;
             min-height: 600px;
             background: #f8f9fa;
         }
-        
+
         .demo-section {
             display: none;
             animation: fadeIn 0.5s ease-in-out;
         }
-        
+
         .demo-section.active {
             display: block;
         }
-        
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
+
         /* EEG Processing Demo */
         .eeg-demo {
             display: grid;
@@ -151,14 +167,14 @@
             gap: 30px;
             margin-bottom: 30px;
         }
-        
+
         .eeg-visualization {
             background: white;
             border-radius: 10px;
             padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .eeg-chart {
             width: 100%;
             height: 300px;
@@ -167,7 +183,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .eeg-wave {
             position: absolute;
             width: 100%;
@@ -175,24 +191,47 @@
             background: linear-gradient(90deg, transparent, #3498db, transparent);
             animation: eegWave 3s infinite linear;
         }
-        
-        .eeg-wave:nth-child(1) { top: 20px; animation-delay: 0s; }
-        .eeg-wave:nth-child(2) { top: 80px; animation-delay: 0.5s; background: linear-gradient(90deg, transparent, #e74c3c, transparent); }
-        .eeg-wave:nth-child(3) { top: 140px; animation-delay: 1s; background: linear-gradient(90deg, transparent, #f39c12, transparent); }
-        .eeg-wave:nth-child(4) { top: 200px; animation-delay: 1.5s; background: linear-gradient(90deg, transparent, #27ae60, transparent); }
-        
-        @keyframes eegWave {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+
+        .eeg-wave:nth-child(1) {
+            top: 20px;
+            animation-delay: 0s;
         }
-        
+
+        .eeg-wave:nth-child(2) {
+            top: 80px;
+            animation-delay: 0.5s;
+            background: linear-gradient(90deg, transparent, #e74c3c, transparent);
+        }
+
+        .eeg-wave:nth-child(3) {
+            top: 140px;
+            animation-delay: 1s;
+            background: linear-gradient(90deg, transparent, #f39c12, transparent);
+        }
+
+        .eeg-wave:nth-child(4) {
+            top: 200px;
+            animation-delay: 1.5s;
+            background: linear-gradient(90deg, transparent, #27ae60, transparent);
+        }
+
+        @keyframes eegWave {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
         .metrics-panel {
             background: white;
             border-radius: 10px;
             padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .metric-item {
             display: flex;
             justify-content: space-between;
@@ -200,42 +239,42 @@
             padding: 12px 0;
             border-bottom: 1px solid #ecf0f1;
         }
-        
+
         .metric-label {
             font-weight: 600;
             color: #2c3e50;
         }
-        
+
         .metric-value {
             font-size: 1.2em;
             font-weight: bold;
             color: #27ae60;
         }
-        
+
         .metric-value.alert {
             color: #e74c3c;
         }
-        
+
         /* Interactive Controls */
         .demo-controls {
             background: white;
             border-radius: 10px;
             padding: 25px;
             margin-top: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .control-group {
             margin-bottom: 20px;
         }
-        
+
         .control-label {
             display: block;
             font-weight: 600;
             margin-bottom: 8px;
             color: #2c3e50;
         }
-        
+
         .control-input {
             width: 100%;
             padding: 10px;
@@ -244,12 +283,12 @@
             font-size: 16px;
             transition: border-color 0.3s;
         }
-        
+
         .control-input:focus {
             outline: none;
             border-color: #3498db;
         }
-        
+
         .demo-button {
             background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
             color: white;
@@ -262,20 +301,20 @@
             transition: transform 0.3s, box-shadow 0.3s;
             margin-right: 10px;
         }
-        
+
         .demo-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
         }
-        
+
         .demo-button.success {
             background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
         }
-        
+
         .demo-button.danger {
             background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
         }
-        
+
         /* Results Display */
         .results-grid {
             display: grid;
@@ -283,47 +322,47 @@
             gap: 20px;
             margin-top: 20px;
         }
-        
+
         .result-card {
             background: white;
             border-radius: 10px;
             padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             text-align: center;
             transition: transform 0.3s;
         }
-        
+
         .result-card:hover {
             transform: translateY(-5px);
         }
-        
+
         .result-icon {
             font-size: 3em;
             margin-bottom: 10px;
         }
-        
+
         .result-title {
             font-size: 1.2em;
             font-weight: 600;
             margin-bottom: 10px;
             color: #2c3e50;
         }
-        
+
         .result-value {
             font-size: 2em;
             font-weight: bold;
             color: #3498db;
         }
-        
+
         /* Progress Tracking */
         .progress-container {
             background: white;
             border-radius: 10px;
             padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
-        
+
         .progress-bar {
             width: 100%;
             height: 20px;
@@ -332,7 +371,7 @@
             overflow: hidden;
             margin-bottom: 10px;
         }
-        
+
         .progress-fill {
             height: 100%;
             background: linear-gradient(135deg, #3498db 0%, #2ecc71 100%);
@@ -340,7 +379,7 @@
             transition: width 2s ease-in-out;
             position: relative;
         }
-        
+
         .progress-fill::after {
             content: '';
             position: absolute;
@@ -348,15 +387,20 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             animation: progressShine 2s infinite;
         }
-        
+
         @keyframes progressShine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
         }
-        
+
         /* Feature Showcase */
         .feature-grid {
             display: grid;
@@ -364,26 +408,26 @@
             gap: 25px;
             margin-top: 20px;
         }
-        
+
         .feature-card {
             background: white;
             border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s, box-shadow 0.3s;
         }
-        
+
         .feature-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
         }
-        
+
         .feature-icon {
             font-size: 3em;
             text-align: center;
             margin-bottom: 15px;
         }
-        
+
         .feature-title {
             font-size: 1.3em;
             font-weight: 600;
@@ -391,67 +435,75 @@
             margin-bottom: 15px;
             color: #2c3e50;
         }
-        
+
         .feature-description {
             text-align: center;
             color: #7f8c8d;
             line-height: 1.6;
         }
-        
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .eeg-demo {
                 grid-template-columns: 1fr;
             }
-            
+
             .demo-nav {
                 flex-direction: column;
             }
-            
+
             .nav-tab {
                 min-width: auto;
             }
-            
+
             .demo-content {
                 padding: 15px;
             }
-            
+
             .demo-header h1 {
                 font-size: 1.8em;
             }
         }
-        
+
         /* Status Indicators */
         .status-online {
             color: #27ae60;
         }
-        
+
         .status-processing {
             color: #f39c12;
         }
-        
+
         .status-alert {
             color: #e74c3c;
         }
-        
+
         /* Animation Classes */
         .bounce {
             animation: bounce 1s infinite;
         }
-        
+
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
                 transform: translateY(0);
             }
+
             40% {
                 transform: translateY(-10px);
             }
+
             60% {
                 transform: translateY(-5px);
             }
         }
     </style>
 </head>
+
 <body>
     <div class="demo-container">
         <!-- Header -->
@@ -463,7 +515,7 @@
                 LIVE DEMO SESSION - October 15, 2025
             </div>
         </div>
-        
+
         <!-- Navigation -->
         <div class="demo-nav">
             <div class="nav-tab active" onclick="showDemo('eeg-processing')">
@@ -485,14 +537,15 @@
                 💰 ROI Calculator
             </div>
         </div>
-        
+
         <!-- Demo Content -->
         <div class="demo-content">
-            
+
             <!-- EEG Processing Demo -->
             <div id="eeg-processing" class="demo-section active">
-                <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">Real-Time EEG Analysis & Processing</h2>
-                
+                <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">Real-Time EEG Analysis & Processing
+                </h2>
+
                 <div class="eeg-demo">
                     <div class="eeg-visualization">
                         <h3 style="margin-bottom: 15px;">Multi-Channel EEG Signals</h3>
@@ -506,7 +559,7 @@
                             Channels: Fp1, Fp2, C3, C4 | Sampling Rate: 256 Hz | Processing Latency: 0.38ms
                         </p>
                     </div>
-                    
+
                     <div class="metrics-panel">
                         <h3 style="margin-bottom: 15px;">Real-Time Metrics</h3>
                         <div class="metric-item">
@@ -531,7 +584,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="demo-controls">
                     <h3 style="margin-bottom: 20px;">Interactive Controls</h3>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
@@ -557,15 +610,16 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Adaptive Learning Demo -->
             <div id="adaptive-learning" class="demo-section">
                 <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">Adaptive Learning Algorithm</h2>
-                
+
                 <div class="progress-container">
                     <h3>Learning Progress Tracking</h3>
-                    <p style="margin-bottom: 15px;">Patient: Sarah M. | Condition: Post-Stroke Cognitive Rehabilitation</p>
-                    
+                    <p style="margin-bottom: 15px;">Patient: Sarah M. | Condition: Post-Stroke Cognitive Rehabilitation
+                    </p>
+
                     <div style="margin-bottom: 15px;">
                         <strong>Memory Task Performance</strong>
                         <div class="progress-bar">
@@ -573,7 +627,7 @@
                         </div>
                         <span>78% - Significant Improvement</span>
                     </div>
-                    
+
                     <div style="margin-bottom: 15px;">
                         <strong>Attention Span</strong>
                         <div class="progress-bar">
@@ -581,7 +635,7 @@
                         </div>
                         <span>65% - Moderate Progress</span>
                     </div>
-                    
+
                     <div style="margin-bottom: 15px;">
                         <strong>Motor Coordination</strong>
                         <div class="progress-bar">
@@ -590,7 +644,7 @@
                         <span>82% - Excellent Recovery</span>
                     </div>
                 </div>
-                
+
                 <div class="results-grid">
                     <div class="result-card">
                         <div class="result-icon">🎯</div>
@@ -613,70 +667,74 @@
                         <div class="result-value">94.2%</div>
                     </div>
                 </div>
-                
+
                 <div class="demo-controls">
                     <h3>Adaptive Parameters</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
                         <div class="control-group">
                             <label class="control-label">Difficulty Adjustment</label>
-                            <input type="range" class="control-input" min="1" max="10" value="7" onchange="updateDifficulty(this.value)">
+                            <input type="range" class="control-input" min="1" max="10" value="7"
+                                onchange="updateDifficulty(this.value)">
                             <span>Level: <span id="difficulty-level">7</span></span>
                         </div>
                         <div class="control-group">
                             <label class="control-label">Learning Rate</label>
-                            <input type="range" class="control-input" min="0.1" max="1" step="0.1" value="0.3" onchange="updateLearningRate(this.value)">
+                            <input type="range" class="control-input" min="0.1" max="1" step="0.1" value="0.3"
+                                onchange="updateLearningRate(this.value)">
                             <span>Rate: <span id="learning-rate">0.3</span></span>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Clinical Integration Demo -->
             <div id="clinical-integration" class="demo-section">
                 <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">Clinical Workflow Integration</h2>
-                
+
                 <div class="feature-grid">
                     <div class="feature-card">
                         <div class="feature-icon">🏥</div>
                         <div class="feature-title">EHR Integration</div>
                         <div class="feature-description">
-                            Seamless integration with Epic, Cerner, and other major EHR systems. 
+                            Seamless integration with Epic, Cerner, and other major EHR systems.
                             Automatic data sync and clinical decision support.
                         </div>
                         <div style="margin-top: 15px;">
                             <button class="demo-button" onclick="simulateEHRSync()">Test EHR Sync</button>
                         </div>
                     </div>
-                    
+
                     <div class="feature-card">
                         <div class="feature-icon">👨‍⚕️</div>
                         <div class="feature-title">Clinical Decision Support</div>
                         <div class="feature-description">
-                            AI-powered recommendations based on real-time EEG analysis and 
+                            AI-powered recommendations based on real-time EEG analysis and
                             patient history for optimal treatment planning.
                         </div>
                         <div style="margin-top: 15px;">
-                            <button class="demo-button" onclick="generateRecommendations()">Generate Recommendations</button>
+                            <button class="demo-button" onclick="generateRecommendations()">Generate
+                                Recommendations</button>
                         </div>
                     </div>
-                    
+
                     <div class="feature-card">
                         <div class="feature-icon">📱</div>
                         <div class="feature-title">Mobile Access</div>
                         <div class="feature-description">
-                            Secure mobile access for clinicians to monitor patients remotely 
+                            Secure mobile access for clinicians to monitor patients remotely
                             and receive alerts for critical events.
                         </div>
                         <div style="margin-top: 15px;">
                             <button class="demo-button" onclick="showMobileView()">View Mobile Interface</button>
                         </div>
                     </div>
-                    
+
                     <div class="feature-card">
                         <div class="feature-icon">🔒</div>
                         <div class="feature-title">HIPAA Compliance</div>
                         <div class="feature-description">
-                            Full HIPAA compliance with end-to-end encryption, audit trails, 
+                            Full HIPAA compliance with end-to-end encryption, audit trails,
                             and role-based access controls.
                         </div>
                         <div style="margin-top: 15px;">
@@ -684,10 +742,11 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="demo-controls" style="margin-top: 30px;">
                     <h3>Integration Test Console</h3>
-                    <div id="integration-console" style="background: #2c3e50; color: #2ecc71; padding: 15px; border-radius: 5px; font-family: monospace; min-height: 150px; margin-top: 15px;">
+                    <div id="integration-console"
+                        style="background: #2c3e50; color: #2ecc71; padding: 15px; border-radius: 5px; font-family: monospace; min-height: 150px; margin-top: 15px;">
                         > L.I.F.E. Platform Integration Console v2.1.0<br>
                         > Initializing clinical workflow integration...<br>
                         > EHR connection: <span class="status-online">CONNECTED</span><br>
@@ -697,52 +756,53 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Research Tools Demo -->
             <div id="research-tools" class="demo-section">
                 <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">Research & Data Analysis Tools</h2>
-                
+
                 <div class="feature-grid">
                     <div class="feature-card">
                         <div class="feature-icon">📊</div>
                         <div class="feature-title">Advanced Analytics</div>
                         <div class="feature-description">
-                            Comprehensive statistical analysis tools with machine learning 
+                            Comprehensive statistical analysis tools with machine learning
                             algorithms for pattern recognition and predictive modeling.
                         </div>
                     </div>
-                    
+
                     <div class="feature-card">
                         <div class="feature-icon">🔬</div>
                         <div class="feature-title">Research Protocols</div>
                         <div class="feature-description">
-                            Customizable research protocols with automated data collection 
+                            Customizable research protocols with automated data collection
                             and standardized outcome measurements.
                         </div>
                     </div>
-                    
+
                     <div class="feature-card">
                         <div class="feature-icon">📈</div>
                         <div class="feature-title">Data Visualization</div>
                         <div class="feature-description">
-                            Interactive dashboards and visualizations for real-time 
+                            Interactive dashboards and visualizations for real-time
                             monitoring and publication-ready figures.
                         </div>
                     </div>
-                    
+
                     <div class="feature-card">
                         <div class="feature-icon">🌐</div>
                         <div class="feature-title">Multi-Site Collaboration</div>
                         <div class="feature-description">
-                            Secure multi-site data sharing and collaboration tools 
+                            Secure multi-site data sharing and collaboration tools
                             for large-scale research studies.
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="demo-controls" style="margin-top: 30px;">
                     <h3>Research Data Export</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
                         <button class="demo-button" onclick="exportResearchData('csv')">📄 Export CSV</button>
                         <button class="demo-button" onclick="exportResearchData('matlab')">🔢 Export MATLAB</button>
                         <button class="demo-button" onclick="exportResearchData('edf')">📋 Export EDF</button>
@@ -750,11 +810,11 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Analytics Dashboard -->
             <div id="analytics" class="demo-section">
                 <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">Analytics Dashboard</h2>
-                
+
                 <div class="results-grid">
                     <div class="result-card">
                         <div class="result-icon">👥</div>
@@ -777,7 +837,7 @@
                         <div class="result-value">96.8%</div>
                     </div>
                 </div>
-                
+
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px;">
                     <div class="demo-controls">
                         <h3>Performance Metrics</h3>
@@ -798,7 +858,7 @@
                             <span class="metric-value">+42%</span>
                         </div>
                     </div>
-                    
+
                     <div class="demo-controls">
                         <h3>Usage Statistics</h3>
                         <div class="metric-item">
@@ -820,14 +880,15 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- ROI Calculator -->
             <div id="roi-calculator" class="demo-section">
                 <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">ROI Calculator & Business Case</h2>
-                
+
                 <div class="demo-controls">
                     <h3>Calculate Your ROI</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
                         <div class="control-group">
                             <label class="control-label">Organization Size</label>
                             <select class="control-input" id="org-size" onchange="calculateROI()">
@@ -848,15 +909,17 @@
                         </div>
                         <div class="control-group">
                             <label class="control-label">Monthly Assessments</label>
-                            <input type="number" class="control-input" id="monthly-assessments" value="100" onchange="calculateROI()">
+                            <input type="number" class="control-input" id="monthly-assessments" value="100"
+                                onchange="calculateROI()">
                         </div>
                         <div class="control-group">
                             <label class="control-label">Current Cost per Assessment</label>
-                            <input type="number" class="control-input" id="current-cost" value="150" onchange="calculateROI()">
+                            <input type="number" class="control-input" id="current-cost" value="150"
+                                onchange="calculateROI()">
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="results-grid" style="margin-top: 30px;">
                     <div class="result-card">
                         <div class="result-icon">💰</div>
@@ -879,10 +942,11 @@
                         <div class="result-value" id="efficiency-gain">65%</div>
                     </div>
                 </div>
-                
+
                 <div class="demo-controls" style="margin-top: 30px;">
                     <h3>Implementation Timeline & Costs</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
                         <button class="demo-button" onclick="showImplementationPlan()">📋 Implementation Plan</button>
                         <button class="demo-button" onclick="generateBusinessCase()">📊 Business Case</button>
                         <button class="demo-button success" onclick="requestQuote()">💼 Request Quote</button>
@@ -892,49 +956,49 @@
             </div>
         </div>
     </div>
-    
+
     <script>
         // Demo Navigation
         function showDemo(demoId) {
             // Hide all demo sections
             const sections = document.querySelectorAll('.demo-section');
             sections.forEach(section => section.classList.remove('active'));
-            
+
             // Remove active class from all tabs
             const tabs = document.querySelectorAll('.nav-tab');
             tabs.forEach(tab => tab.classList.remove('active'));
-            
+
             // Show selected demo section
             document.getElementById(demoId).classList.add('active');
-            
+
             // Add active class to clicked tab
             event.target.classList.add('active');
         }
-        
+
         // EEG Processing Functions
         function startProcessing() {
             showNotification('EEG processing started', 'success');
             animateMetrics();
         }
-        
+
         function pauseProcessing() {
             showNotification('Processing paused', 'info');
         }
-        
+
         function stopProcessing() {
             showNotification('Processing stopped', 'warning');
         }
-        
+
         function exportData() {
             showNotification('Data exported successfully', 'success');
         }
-        
+
         function updateSession(sessionType) {
             showNotification(`Session updated to: ${sessionType}`, 'info');
             // Update metrics based on session type
             setTimeout(animateMetrics, 500);
         }
-        
+
         // Animate EEG metrics
         function animateMetrics() {
             const metrics = {
@@ -944,7 +1008,7 @@
                 'cognitive-load': () => ['Low', 'Medium', 'High'][Math.floor(Math.random() * 3)],
                 'seizure-risk': () => ['Low', 'Medium', 'High'][Math.floor(Math.random() * 3)]
             };
-            
+
             Object.keys(metrics).forEach(id => {
                 setTimeout(() => {
                     const element = document.getElementById(id);
@@ -956,46 +1020,46 @@
                 }, Math.random() * 2000);
             });
         }
-        
+
         // Adaptive Learning Functions
         function updateDifficulty(value) {
             document.getElementById('difficulty-level').textContent = value;
             showNotification(`Difficulty adjusted to level ${value}`, 'info');
         }
-        
+
         function updateLearningRate(value) {
             document.getElementById('learning-rate').textContent = value;
             showNotification(`Learning rate set to ${value}`, 'info');
         }
-        
+
         // Clinical Integration Functions
         function simulateEHRSync() {
             const console = document.getElementById('integration-console');
             console.innerHTML += '<br>> Initiating EHR synchronization...<br>';
             console.innerHTML += '> Authenticating with EHR system...<br>';
-            
+
             setTimeout(() => {
                 console.innerHTML += '> <span class="status-online">SUCCESS:</span> Patient data synchronized<br>';
                 console.innerHTML += '> Updated 247 patient records<br>';
                 showNotification('EHR sync completed successfully', 'success');
             }, 2000);
         }
-        
+
         function generateRecommendations() {
             showNotification('Generating AI-powered clinical recommendations...', 'info');
             setTimeout(() => {
                 showNotification('Clinical recommendations generated', 'success');
             }, 1500);
         }
-        
+
         function showMobileView() {
             showNotification('Mobile interface demonstration available', 'info');
         }
-        
+
         function showSecurityFeatures() {
             showNotification('HIPAA compliance verified - All security protocols active', 'success');
         }
-        
+
         // Research Tools Functions
         function exportResearchData(format) {
             showNotification(`Exporting research data in ${format.toUpperCase()} format...`, 'info');
@@ -1003,54 +1067,54 @@
                 showNotification(`Research data exported successfully as ${format.toUpperCase()}`, 'success');
             }, 1000);
         }
-        
+
         // ROI Calculator Functions
         function calculateROI() {
             const orgSize = document.getElementById('org-size').value;
             const currentMethods = document.getElementById('current-methods').value;
             const monthlyAssessments = parseInt(document.getElementById('monthly-assessments').value) || 100;
             const currentCost = parseInt(document.getElementById('current-cost').value) || 150;
-            
+
             // ROI calculation logic
             const efficiencyMultiplier = {
                 'small': 1.2, 'medium': 1.5, 'large': 1.8, 'enterprise': 2.2
             };
-            
+
             const savingsMultiplier = {
                 'manual': 0.8, 'basic': 0.6, 'advanced': 0.4, 'multiple': 0.3
             };
-            
+
             const baseSavings = monthlyAssessments * currentCost * savingsMultiplier[currentMethods];
             const monthlySavings = Math.round(baseSavings * efficiencyMultiplier[orgSize]);
             const annualROI = Math.round((monthlySavings * 12 / 3500) * 100); // Assuming $3500 monthly cost
             const paybackPeriod = (3500 / monthlySavings).toFixed(1);
             const efficiencyGain = Math.round(efficiencyMultiplier[orgSize] * 50);
-            
+
             // Update display
             document.getElementById('monthly-savings').textContent = `$${monthlySavings.toLocaleString()}`;
             document.getElementById('annual-roi').textContent = `${annualROI}%`;
             document.getElementById('payback-period').textContent = `${paybackPeriod} months`;
             document.getElementById('efficiency-gain').textContent = `${efficiencyGain}%`;
-            
+
             showNotification('ROI calculation updated', 'success');
         }
-        
+
         function showImplementationPlan() {
             showNotification('Implementation plan generated - Timeline: 4-6 weeks', 'info');
         }
-        
+
         function generateBusinessCase() {
             showNotification('Comprehensive business case generated', 'success');
         }
-        
+
         function requestQuote() {
             showNotification('Quote request submitted - You will receive detailed pricing within 24 hours', 'success');
         }
-        
+
         function scheduleConsultation() {
             showNotification('Consultation scheduled - Our team will contact you soon', 'success');
         }
-        
+
         // Utility Functions
         function showNotification(message, type = 'info') {
             // Create notification element
@@ -1068,7 +1132,7 @@
                 max-width: 300px;
                 box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             `;
-            
+
             // Set background color based on type
             const colors = {
                 'info': '#3498db',
@@ -1076,34 +1140,34 @@
                 'warning': '#f39c12',
                 'error': '#e74c3c'
             };
-            
+
             notification.style.background = colors[type] || colors.info;
             notification.textContent = message;
-            
+
             // Add to page
             document.body.appendChild(notification);
-            
+
             // Remove after 3 seconds
             setTimeout(() => {
                 notification.style.animation = 'slideOut 0.3s ease-out';
                 setTimeout(() => document.body.removeChild(notification), 300);
             }, 3000);
         }
-        
+
         // Initialize demo
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Start metric animations
             setInterval(animateMetrics, 5000);
-            
+
             // Calculate initial ROI
             calculateROI();
-            
+
             // Show welcome notification
             setTimeout(() => {
                 showNotification('Welcome to L.I.F.E. Platform Live Demo!', 'success');
             }, 1000);
         });
-        
+
         // Add CSS animations for notifications
         const style = document.createElement('style');
         style.textContent = `
@@ -1131,5 +1195,7 @@
         `;
         document.head.appendChild(style);
     </script>
+    <script src="PLATFORM_OPTIMIZATION_SCRIPT.js"></script>
 </body>
+
 </html>

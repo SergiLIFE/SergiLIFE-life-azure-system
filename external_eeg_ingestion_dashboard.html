@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L.I.F.E Platform - External EEG Ingestion</title>
+    <style>
+        /* Enhanced styling for ingestion tab */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #333;
+            margin-bottom: 20px;
+        }
+
+        .tab-link {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin-right: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .tab-link:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-2px);
+        }
+
+        .tab-link.active {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #tab-ingest {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        #tab-ingest h2 {
+            color: #f093fb;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .action-button {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+            margin-bottom: 20px;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.6);
+        }
+
+        .action-button:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        #ingest-log {
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            border: 1px solid #333;
+        }
+
+        .ingestion-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #f093fb;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .dataset-list {
+            margin-top: 20px;
+        }
+
+        .dataset-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border-left: 4px solid #f093fb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dataset-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            background: #ffa500;
+            color: white;
+        }
+
+        .status-processing {
+            background: #00bfff;
+            color: white;
+        }
+
+        .status-success {
+            background: #00ff00;
+            color: black;
+        }
+
+        .status-error {
+            background: #ff4444;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Enhanced Tab Navigation -->
+    <div class="tabs">
+        <!-- Existing tabs... -->
+        <button class="tab-link" data-tab="tab-dashboard">Dashboard</button>
+        <button class="tab-link" data-tab="tab-neural">Neural Processing</button>
+        <button class="tab-link" data-tab="tab-learning">Learning Metrics</button>
+        <button class="tab-link" data-tab="tab-ingest">Ingest EEG Data</button>
+        <button class="tab-link" data-tab="tab-monitoring">Monitoring</button>
+    </div>
+
+    <!-- Existing tab contents... -->
+    <div id="tab-dashboard" class="tab-content">
+        <h2>L.I.F.E Platform Dashboard</h2>
+        <p>Welcome to the Learning Individually from Experience Platform</p>
+    </div>
+
+    <div id="tab-neural" class="tab-content">
+        <h2>Neural Processing Core</h2>
+        <p>Real-time EEG signal processing and analysis</p>
+    </div>
+
+    <div id="tab-learning" class="tab-content">
+        <h2>Learning Metrics & Analytics</h2>
+        <p>Comprehensive learning efficiency analysis</p>
+    </div>
+
+    <!-- NEW: External EEG Ingestion Tab -->
+    <div id="tab-ingest" class="tab-content">
+        <h2>🧠 Ingest External EEG Data</h2>
+        <p>Automatically pull PhysioNet & OpenNeuro datasets during off-peak hours for pipeline validation</p>
+
+        <!-- Real-time Statistics -->
+        <div class="ingestion-stats">
+            <div class="stat-card">
+                <span class="stat-value" id="total-records">0</span>
+                <div class="stat-label">Total Records Processed</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" id="success-rate">0%</span>
+                <div class="stat-label">Success Rate</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" id="avg-latency">0ms</span>
+                <div class="stat-label">Avg Processing Latency</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" id="last-ingestion">Never</span>
+                <div class="stat-label">Last Ingestion</div>
+            </div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="ingestion-progress"></div>
+        </div>
+
+        <!-- Action Button -->
+        <button id="start-ingest" class="action-button">🚀 Start External EEG Ingestion</button>
+
+        <!-- Dataset Status List -->
+        <div class="dataset-list">
+            <h3>📊 Dataset Sources</h3>
+            <div id="dataset-status-list">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Real-time Log Output -->
+        <h3>📝 Ingestion Log</h3>
+        <pre id="ingest-log">Ready to begin external EEG data ingestion...
+Configured datasets:
+- PhysioNet EEG Motor/Imagery (64 channels, 160Hz)
+- OpenNeuro Face Processing (32 channels, 250Hz) 
+- PhysioNet Sleep EEG (8 channels, 128Hz)
+- OpenNeuro Resting State (64 channels, 500Hz)
+
+Click "Start External EEG Ingestion" to begin validation pipeline.</pre>
+    </div>
+
+    <div id="tab-monitoring" class="tab-content">
+        <h2>System Monitoring</h2>
+        <p>Platform health and performance metrics</p>
+    </div>
+
+    <script>
+        // Enhanced Tab Management
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize first tab as active
+            document.querySelector('.tab-link').classList.add('active');
+            document.querySelector('.tab-content').classList.add('active');
+
+            // Initialize dataset status display
+            initializeDatasetStatus();
+
+            // Load previous ingestion stats
+            loadIngestionStats();
+        });
+
+        // Tab switching logic
+        document.querySelectorAll('.tab-link').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all tabs and content
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.tab-link').forEach(b => b.classList.remove('active'));
+
+                // Activate clicked tab
+                document.getElementById(btn.dataset.tab).classList.add('active');
+                btn.classList.add('active');
+            });
+        });
+
+        // Initialize dataset status display
+        function initializeDatasetStatus() {
+            const datasets = [
+                { name: 'PhysioNet EEG Motor/Imagery', type: 'physionet', status: 'pending' },
+                { name: 'OpenNeuro Face Processing', type: 'openneuro', status: 'pending' },
+                { name: 'PhysioNet Sleep EEG', type: 'physionet', status: 'pending' },
+                { name: 'OpenNeuro Resting State', type: 'openneuro', status: 'pending' }
+            ];
+
+            const statusList = document.getElementById('dataset-status-list');
+            statusList.innerHTML = datasets.map(dataset => `
+                <div class="dataset-item" id="dataset-${dataset.name.replace(/\s+/g, '-').toLowerCase()}">
+                    <div>
+                        <strong>${dataset.name}</strong>
+                        <small style="opacity: 0.7; display: block;">${dataset.type}</small>
+                    </div>
+                    <span class="dataset-status status-${dataset.status}">${dataset.status.toUpperCase()}</span>
+                </div>
+            `).join('');
+        }
+
+        // Load previous ingestion statistics
+        async function loadIngestionStats() {
+            try {
+                const response = await fetch('/api/ingestion-stats');
+                if (response.ok) {
+                    const stats = await response.json();
+                    updateStatsDisplay(stats);
+                }
+            } catch (error) {
+                console.log('No previous ingestion stats available');
+            }
+        }
+
+        // Update statistics display
+        function updateStatsDisplay(stats) {
+            document.getElementById('total-records').textContent = stats.total_records || 0;
+            document.getElementById('success-rate').textContent =
+                stats.successful_ingestions && stats.total_ingestions
+                    ? Math.round((stats.successful_ingestions / stats.total_ingestions) * 100) + '%'
+                    : '0%';
+            document.getElementById('avg-latency').textContent = (stats.avg_processing_time || 0) + 'ms';
+            document.getElementById('last-ingestion').textContent =
+                stats.last_ingestion
+                    ? new Date(stats.last_ingestion).toLocaleString()
+                    : 'Never';
+        }
+
+        // Update dataset status
+        function updateDatasetStatus(datasetName, status, details = '') {
+            const elementId = `dataset-${datasetName.replace(/\s+/g, '-').toLowerCase()}`;
+            const element = document.getElementById(elementId);
+            if (element) {
+                const statusElement = element.querySelector('.dataset-status');
+                statusElement.className = `dataset-status status-${status}`;
+                statusElement.textContent = status.toUpperCase();
+
+                if (details) {
+                    const detailsElement = element.querySelector('small');
+                    detailsElement.textContent = details;
+                }
+            }
+        }
+
+        // Update progress bar
+        function updateProgress(percentage) {
+            document.getElementById('ingestion-progress').style.width = percentage + '%';
+        }
+
+        // Enhanced ingestion handler with real-time updates
+        document.getElementById('start-ingest').addEventListener('click', async () => {
+            const button = document.getElementById('start-ingest');
+            const log = document.getElementById('ingest-log');
+
+            button.disabled = true;
+            button.textContent = '🔄 Processing...';
+
+            log.textContent = 'Starting external EEG ingestion pipeline...\n';
+            log.textContent += `Timestamp: ${new Date().toISOString()}\n`;
+            log.textContent += 'Initializing Venturi Gates System...\n\n';
+
+            try {
+                // Start ingestion process
+                const response = await fetch('/api/ingest-external-eeg', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        mode: 'full_cycle',
+                        notify_progress: true
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                // Read response as stream for real-time updates
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let buffer = '';
+
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+
+                    buffer += decoder.decode(value, { stream: true });
+
+                    // Process complete JSON objects from buffer
+                    let lines = buffer.split('\n');
+                    buffer = lines.pop(); // Keep incomplete line in buffer
+
+                    for (let line of lines) {
+                        if (line.trim()) {
+                            try {
+                                const update = JSON.parse(line);
+                                handleIngestionUpdate(update, log);
+                            } catch (e) {
+                                // Handle non-JSON log lines
+                                log.textContent += line + '\n';
+                                log.scrollTop = log.scrollHeight;
+                            }
+                        }
+                    }
+                }
+
+                // Final completion
+                log.textContent += '\n✅ External EEG ingestion cycle completed successfully!\n';
+                log.textContent += `Check Azure Blob Storage for processed datasets.\n`;
+
+            } catch (error) {
+                log.textContent += `\n❌ Ingestion Error: ${error.message}\n`;
+                log.textContent += 'Please check Azure connectivity and dataset URLs.\n';
+
+                // Reset all dataset statuses to error
+                ['PhysioNet EEG Motor/Imagery', 'OpenNeuro Face Processing', 'PhysioNet Sleep EEG', 'OpenNeuro Resting State']
+                    .forEach(name => updateDatasetStatus(name, 'error', 'Connection failed'));
+            } finally {
+                button.disabled = false;
+                button.textContent = '🚀 Start External EEG Ingestion';
+                updateProgress(0);
+            }
+        });
+
+        // Handle real-time ingestion updates
+        function handleIngestionUpdate(update, log) {
+            switch (update.type) {
+                case 'dataset_start':
+                    log.textContent += `📥 Starting: ${update.dataset_name}\n`;
+                    updateDatasetStatus(update.dataset_name, 'processing');
+                    break;
+
+                case 'dataset_progress':
+                    updateProgress(update.progress_percentage);
+                    log.textContent += `⏳ Processing: ${update.progress_percentage}% complete\n`;
+                    break;
+
+                case 'dataset_complete':
+                    log.textContent += `✅ Completed: ${update.dataset_name} - ${update.records} records (${update.latency}ms avg)\n`;
+                    updateDatasetStatus(update.dataset_name, 'success', `${update.records} records processed`);
+                    break;
+
+                case 'dataset_error':
+                    log.textContent += `❌ Failed: ${update.dataset_name} - ${update.error}\n`;
+                    updateDatasetStatus(update.dataset_name, 'error', update.error);
+                    break;
+
+                case 'cycle_complete':
+                    log.textContent += `\n🎉 CYCLE COMPLETE: ${update.summary}\n`;
+                    updateStatsDisplay(update.stats);
+                    updateProgress(100);
+                    break;
+            }
+
+            log.scrollTop = log.scrollHeight;
+        }
+
+        // Auto-refresh ingestion stats every 30 seconds
+        setInterval(loadIngestionStats, 30000);
+    </script>
+</body>
+
+</html>

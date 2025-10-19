@@ -1,0 +1,80 @@
+# ⚡ SUPER SIMPLE - JUST DO THIS
+
+## 🎯 YOUR TERMINAL DOESN'T WORK? NO PROBLEM!
+
+**Use your Computer's CMD instead. Here's the exact steps:**
+
+---
+
+## 🔴 STEP 1: Open CMD
+```
+Windows Key + R
+Type: cmd
+Press: Enter
+```
+
+---
+
+## 🟠 STEP 2: Copy This
+```
+cd "C:\Users\Sergio Paya Borrull\OneDrive\Documents\GitHub\.vscode\New folder\SergiLIFE-life-azure-system\SergiLIFE-life-azure-system" && python -m http.server 8080
+```
+
+---
+
+## 🟡 STEP 3: Paste Into CMD
+```
+Right-click in CMD
+Click Paste
+Press Enter
+```
+
+---
+
+## 🟢 STEP 4: Wait for This Message
+```
+Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...
+```
+
+✅ **Server is running!**
+
+---
+
+## 🔵 STEP 5: Open Browser
+```
+http://localhost:8080/LIFE_CLINICAL_PLATFORM_CAMBRIDGE.html
+```
+
+---
+
+## 🟣 STEP 6: See Platform Load
+
+✅ **DONE! Platform is running!**
+
+---
+
+## 📱 OTHER PLATFORMS (Copy & Paste URLs)
+
+```
+http://localhost:8080/L.I.F.E_PLATFORM_ULTIMATE_INTEGRATED.html
+http://localhost:8080/LIFE_AI_PLATFORM_REAL.html
+http://localhost:8080/LIFE_ENTERPRISE_PLATFORM_REAL.html
+http://localhost:8080/LIFE_EDUCATION_PLATFORM_REAL.html
+http://localhost:8080/LIFE_RESEARCH_PLATFORM_REAL.html
+```
+
+---
+
+## 🛑 STOP SERVER
+
+In CMD: **Ctrl + C**
+
+---
+
+## ✅ THAT'S IT!
+
+**No VS Code terminal needed.**
+**Just use your computer's CMD.**
+**That's all!**
+
+🚀 **Start now!**
