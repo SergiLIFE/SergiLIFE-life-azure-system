@@ -34,17 +34,9 @@
     "counterThreshold": 0.80
   },
   "http": {
-    "routePrefix": "",
+    "routePrefix": "api",
     "maxOutstandingRequests": 200,
     "maxConcurrentRequests": 100,
     "dynamicThrottlesEnabled": true
   }
-      "workingDirectory": "",
-  "arguments": [
-    "-m",
-    "function_app"
-  ]
-},
-"enableForwardingHttpRequest": false
-}
 }

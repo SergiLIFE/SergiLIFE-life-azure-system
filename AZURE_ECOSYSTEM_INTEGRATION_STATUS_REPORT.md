@@ -19,7 +19,7 @@
 - **Directory**: Sergio Paya Borrull (lifecoach-121.com)
 - **Account**: sergiomiguelpaya@sergiomiguelpayaborrullmsn.onmicrosoft.com
 - **Role**: Account Admin
-- **Offer**: Azure Sponsorship (MS-AZR-0036P)
+- **Offer**: Pay-As-You-Go (MS-AZR-0003P)
 - **Management Group**: e716161a-5e85-4d6d-82f9-96bcdd2e65ac
 
 ### 🎯 **Campaign Infrastructure Status**

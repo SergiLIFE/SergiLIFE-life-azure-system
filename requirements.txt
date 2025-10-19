@@ -2,9 +2,9 @@
 # Azure Marketplace Ready - Enterprise Neural Processing System
 # Copyright 2025 - Sergio Paya Borrull
 
-# Azure Functions Runtime (Python 3.13 compatible)
+# Azure Functions Runtime (Python 3.11 compatible)
+# Note: azure-functions-worker is NOT included - provided by Azure runtime
 azure-functions>=1.19.0
-azure-functions-worker>=1.2.0
 
 # Core Scientific Computing (Python 3.13 compatible)
 numpy>=1.26.0
@@ -25,7 +25,6 @@ azure-storage-blob>=12.19.0
 azure-monitor-query>=1.1.0
 azure-keyvault-secrets>=4.7.0
 azure-servicebus>=7.11.0
-azure-functions>=1.15.0
 azure-cosmos>=4.5.0
 
 # API & Web Framework

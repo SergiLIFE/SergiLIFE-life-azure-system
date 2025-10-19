@@ -69,6 +69,59 @@ class EEGMetrics:
 
 
 @dataclass
+class UserTraits:
+    """
+    Individual user cognitive traits for personalized learning
+    Core principle: "No two brains learn the same way"
+
+    Each trait ranges from 0.0 to 1.0 and drives personalized adaptation
+    """
+
+    user_id: str
+
+    # Core cognitive traits
+    curiosity: float  # 0.0-1.0: Drive to explore and learn new concepts
+    resilience: float  # 0.0-1.0: Ability to persist through challenges
+    openness: float  # 0.0-1.0: Receptiveness to new experiences and ideas
+
+    # Learning style preferences
+    processing_speed: float  # 0.0-1.0: Preferred pace of information intake
+    abstract_reasoning: float  # 0.0-1.0: Preference for abstract vs concrete
+    social_learning: float  # 0.0-1.0: Preference for collaborative learning
+
+    # Temporal patterns
+    optimal_session_duration: float  # Minutes: Ideal learning session length
+    peak_performance_hour: int  # 0-23: Hour of day for peak cognitive performance
+
+    # Adaptation metadata
+    last_updated: datetime
+    confidence_level: float  # 0.0-1.0: Confidence in trait measurements
+    total_sessions: int  # Number of sessions used to calibrate traits
+
+    def to_dict(self) -> Dict:
+        """Convert traits to dictionary for storage/transmission"""
+        return asdict(self)
+
+    @classmethod
+    def from_dict(cls, data: Dict) -> "UserTraits":
+        """Create UserTraits from dictionary"""
+        return cls(**data)
+
+    def get_personalization_vector(self) -> np.ndarray:
+        """Get trait vector for ML-based personalization"""
+        return np.array(
+            [
+                self.curiosity,
+                self.resilience,
+                self.openness,
+                self.processing_speed,
+                self.abstract_reasoning,
+                self.social_learning,
+            ]
+        )
+
+
+@dataclass
 class LearningOutcome:
     """Learning session outcome metrics"""
 
@@ -81,11 +134,17 @@ class LearningOutcome:
     confidence_score: float
     next_session_recommendation: str
 
+    # User trait influence tracking
+    user_traits: Optional[UserTraits] = None
+    trait_based_adjustments: Optional[Dict[str, float]] = None
+
 
 class LIFEAlgorithmCore:
     """
     Core L.I.F.E Algorithm Implementation
     Production-ready neural processing system for enterprise deployment
+
+    Individualized Learning: Each user's cognitive traits drive personalized adaptation
     """
 
     def __init__(self, config: Optional[Dict] = None):
@@ -95,7 +154,14 @@ class LIFEAlgorithmCore:
         self.adaptation_parameters = self._initialize_adaptation()
         self.version = "2025.1.0-PRODUCTION"
 
+        # User trait management
+        self.user_traits_cache: Dict[str, UserTraits] = {}  # user_id -> UserTraits
+        self.trait_evolution_history: Dict[str, List[UserTraits]] = (
+            {}
+        )  # Track trait changes
+
         logger.info(f"L.I.F.E Algorithm Core v{self.version} initialized")
+        logger.info("Individualized learning enabled: No two brains learn the same way")
 
     def _default_config(self) -> Dict:
         """Default configuration for enterprise deployment"""
@@ -361,6 +427,235 @@ class LIFEAlgorithmCore:
             confidence_score=confidence_score,
             next_session_recommendation=next_recommendation,
         )
+
+    # ========================================================================
+    # INDIVIDUALIZED LEARNING: USER TRAIT MANAGEMENT
+    # ========================================================================
+
+    def initialize_user_traits(
+        self, user_id: str, initial_traits: Optional[Dict] = None
+    ) -> UserTraits:
+        """
+        Initialize cognitive traits for a new user
+        Core Principle: "No two brains learn the same way"
+
+        Args:
+            user_id: Unique user identifier
+            initial_traits: Optional initial trait values (defaults to neutral if not provided)
+
+        Returns:
+            UserTraits object with initialized values
+        """
+        if initial_traits is None:
+            # Start with neutral values - will adapt through experience
+            initial_traits = {
+                "curiosity": 0.5,
+                "resilience": 0.5,
+                "openness": 0.5,
+                "processing_speed": 0.5,
+                "abstract_reasoning": 0.5,
+                "social_learning": 0.5,
+                "optimal_session_duration": 30.0,
+                "peak_performance_hour": 14,  # Default 2 PM
+            }
+
+        user_traits = UserTraits(
+            user_id=user_id,
+            curiosity=initial_traits.get("curiosity", 0.5),
+            resilience=initial_traits.get("resilience", 0.5),
+            openness=initial_traits.get("openness", 0.5),
+            processing_speed=initial_traits.get("processing_speed", 0.5),
+            abstract_reasoning=initial_traits.get("abstract_reasoning", 0.5),
+            social_learning=initial_traits.get("social_learning", 0.5),
+            optimal_session_duration=initial_traits.get(
+                "optimal_session_duration", 30.0
+            ),
+            peak_performance_hour=initial_traits.get("peak_performance_hour", 14),
+            last_updated=datetime.now(),
+            confidence_level=0.3,  # Low confidence initially
+            total_sessions=0,
+        )
+
+        self.user_traits_cache[user_id] = user_traits
+        self.trait_evolution_history[user_id] = [user_traits]
+
+        logger.info(
+            f"Initialized traits for user {user_id}: curiosity={user_traits.curiosity:.2f}, resilience={user_traits.resilience:.2f}, openness={user_traits.openness:.2f}"
+        )
+        return user_traits
+
+    def get_user_traits(self, user_id: str) -> Optional[UserTraits]:
+        """Retrieve user traits from cache"""
+        return self.user_traits_cache.get(user_id)
+
+    def update_user_traits(
+        self, user_id: str, session_outcome: LearningOutcome, eeg_metrics: EEGMetrics
+    ) -> UserTraits:
+        """
+        Update user traits based on learning session performance
+        Traits evolve through experience - individualized adaptation
+
+        Args:
+            user_id: User identifier
+            session_outcome: Session results
+            eeg_metrics: Neural measurements from session
+
+        Returns:
+            Updated UserTraits
+        """
+        # Get current traits or initialize
+        traits = self.user_traits_cache.get(user_id)
+        if traits is None:
+            traits = self.initialize_user_traits(user_id)
+
+        # Update traits based on session performance
+        # Curiosity: Increases with exploration and engagement
+        if session_outcome.knowledge_retention > 0.7:
+            traits.curiosity = min(1.0, traits.curiosity + 0.02)
+
+        # Resilience: Increases when user persists through challenges
+        if session_outcome.skill_improvement > 0:
+            traits.resilience = min(1.0, traits.resilience + 0.03)
+        elif (
+            session_outcome.knowledge_retention < 0.5
+            and session_outcome.duration_minutes > 20
+        ):
+            # Showed resilience by continuing despite difficulty
+            traits.resilience = min(1.0, traits.resilience + 0.01)
+
+        # Openness: Increases with diverse content engagement
+        if session_outcome.neural_adaptation > 0.6:
+            traits.openness = min(1.0, traits.openness + 0.02)
+
+        # Processing speed: Adapt based on learning efficiency
+        if eeg_metrics.learning_efficiency > 0.8:
+            traits.processing_speed = min(1.0, traits.processing_speed + 0.01)
+        elif eeg_metrics.learning_efficiency < 0.4:
+            traits.processing_speed = max(0.0, traits.processing_speed - 0.01)
+
+        # Update metadata
+        traits.last_updated = datetime.now()
+        traits.total_sessions += 1
+        traits.confidence_level = min(
+            1.0, 0.3 + (traits.total_sessions * 0.02)
+        )  # Confidence grows with sessions
+
+        # Store updated traits
+        self.user_traits_cache[user_id] = traits
+        self.trait_evolution_history[user_id].append(traits)
+
+        logger.debug(
+            f"Updated traits for user {user_id}: curiosity={traits.curiosity:.2f}, resilience={traits.resilience:.2f}, openness={traits.openness:.2f} (session #{traits.total_sessions})"
+        )
+        return traits
+
+    def personalize_learning_parameters(self, user_id: str) -> Dict[str, float]:
+        """
+        Generate personalized learning parameters based on user traits
+        Each user gets unique adaptation based on cognitive profile
+
+        Args:
+            user_id: User identifier
+
+        Returns:
+            Personalized parameter adjustments
+        """
+        traits = self.user_traits_cache.get(user_id)
+        if traits is None:
+            logger.warning(f"No traits found for user {user_id}, using defaults")
+            return {}
+
+        # Trait-driven personalization
+        adjustments = {
+            # Learning rate: Higher for curious users
+            "learning_rate_multiplier": 0.8 + (traits.curiosity * 0.4),
+            # Content difficulty: Higher for resilient users
+            "difficulty_multiplier": 0.7 + (traits.resilience * 0.6),
+            # Exploration bonus: Higher for open users
+            "exploration_bonus": traits.openness * 0.3,
+            # Session pacing: Adapt to processing speed
+            "pacing_multiplier": traits.processing_speed,
+            # Abstract vs concrete content ratio
+            "abstraction_ratio": traits.abstract_reasoning,
+            # Social learning weight
+            "social_learning_weight": traits.social_learning,
+            # Optimal session duration
+            "recommended_duration_minutes": traits.optimal_session_duration,
+        }
+
+        logger.info(
+            f"Personalized parameters for user {user_id}: LR={adjustments['learning_rate_multiplier']:.2f}, Difficulty={adjustments['difficulty_multiplier']:.2f}"
+        )
+        return adjustments
+
+    def get_trait_evolution_history(self, user_id: str) -> List[UserTraits]:
+        """Retrieve complete trait evolution history for a user"""
+        return self.trait_evolution_history.get(user_id, [])
+
+    def export_user_profile(self, user_id: str) -> Dict[str, Any]:
+        """
+        Export complete user cognitive profile for storage/analysis
+
+        Returns:
+            Complete user profile including traits, history, and learning outcomes
+        """
+        traits = self.user_traits_cache.get(user_id)
+        if traits is None:
+            return {"error": f"No profile found for user {user_id}"}
+
+        # Get learning history for this user
+        user_outcomes = [
+            asdict(outcome)
+            for outcome in self.learning_history
+            if outcome.user_id == user_id
+        ]
+
+        profile = {
+            "user_id": user_id,
+            "current_traits": traits.to_dict(),
+            "trait_evolution_count": len(self.trait_evolution_history.get(user_id, [])),
+            "total_sessions": traits.total_sessions,
+            "confidence_level": traits.confidence_level,
+            "learning_outcomes": user_outcomes,
+            "personalization_summary": {
+                "principle": "No two brains learn the same way",
+                "curiosity_level": self._categorize_trait(traits.curiosity),
+                "resilience_level": self._categorize_trait(traits.resilience),
+                "openness_level": self._categorize_trait(traits.openness),
+                "learning_style": self._infer_learning_style(traits),
+            },
+            "export_timestamp": datetime.now().isoformat(),
+        }
+
+        return profile
+
+    def _categorize_trait(self, value: float) -> str:
+        """Categorize trait value into human-readable level"""
+        if value < 0.3:
+            return "low"
+        elif value < 0.7:
+            return "moderate"
+        else:
+            return "high"
+
+    def _infer_learning_style(self, traits: UserTraits) -> str:
+        """Infer primary learning style from trait profile"""
+        if traits.abstract_reasoning > 0.7:
+            return "abstract_conceptual"
+        elif traits.processing_speed > 0.7:
+            return "fast_paced_dynamic"
+        elif traits.social_learning > 0.7:
+            return "collaborative_interactive"
+        elif traits.resilience > 0.7:
+            return "challenge_driven"
+        elif traits.curiosity > 0.7:
+            return "exploratory_discovery"
+        else:
+            return "balanced_adaptive"
+
+    # ========================================================================
+    # END INDIVIDUALIZED LEARNING SECTION
+    # ========================================================================
 
     async def run_100_cycle_eeg_test(self) -> Dict[str, Any]:
         """

@@ -366,13 +366,13 @@ class AzureIntegrationManager:
             # 🔐 SERGIO'S AZURE SUBSCRIPTION DETAILS
             "subscription_id": "5c88cef6-f243-497d-98af-6c6086d575ca",  # Production subscription ID
             "tenant_id": "e716161a-5e85-4d6d-82f9-96bcdd2e65ac",  # Parent management group
-            "subscription_name": "Microsoft Azure Sponsorship",
+            "subscription_name": "Pay-As-You-Go",
             "primary_account": "sergiomiguelpaya@sergiomiguelpayaborrullmsn.onmicrosoft.com",
             "directory_name": "Sergio Paya Borrull (lifecoach-121.com)",
             "tenant_domain": "lifecoach-121.com",
             "account_role": "Account admin",  # Full control
-            "offer_type": "Azure Sponsorship",
-            "offer_id": "MS-AZR-0036P",
+            "offer_type": "Pay-As-You-Go",
+            "offer_id": "MS-AZR-0003P",
             "currency": "GBP",  # British Pounds
             "billing_period": "9/11/2025-10/10/2025",
             "status": "Active",  # ✅ Operational

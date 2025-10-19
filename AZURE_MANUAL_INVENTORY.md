@@ -10,9 +10,9 @@
 ## 📋 COMPLETE AZURE RESOURCE INVENTORY
 
 ### **Subscription Details:**
-- **Name:** Microsoft Azure Sponsorship
+- **Name:** Pay-As-You-Go
 - **ID:** 5c88cef6-f243-497d-98af-6c6086d575ca
-- **Type:** Azure Sponsorship
+- **Type:** Pay-As-You-Go
 - **Role:** Account admin
 - **Status:** Active ✅
 - **Directory:** Sergio Paya Borrull (lifecoach-121.com)

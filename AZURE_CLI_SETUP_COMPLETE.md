@@ -21,8 +21,8 @@
 az account set --subscription "5c88cef6-f243-497d-98af-6c6086d575ca"
 
 # Subscription details verified:
-# Name: Microsoft Azure Sponsorship
-# Type: Azure Sponsorship
+# Name: Pay-As-You-Go
+# Type: Pay-As-You-Go
 # Role: Account admin
 # Status: Active
 # Tenant: lifecoach-121.com
