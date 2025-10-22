@@ -56,8 +56,12 @@ jobs:
         run: |
           echo "Ready to deploy Azure resources!"
           echo "Add your deployment commands here (az deployment, azd up, etc.)"
-
-
+Name: AZURE_CREDENTIALS
+Value: {"clientId":"<CLIENT_ID>","tenantId":"<TENANT_ID>","clientSecret":"<CLIENT_SECRET>","subscriptionId":"5c88cef6-f243-497d-98af-6c6086d575ca"} OR add four secrets:
+AZURE_CLIENT_ID -> <CLIENT_ID>
+AZURE_TENANT_ID -> <TENANT_ID>
+AZURE_CLIENT_SECRET -> <CLIENT_SECRET>
+AZURE_SUBSCRIPTION_ID -> 5c88cef6-f243-497d-98af-6c6086d575ca
       - name: 📋 Deployment Status
         if: always()
         run: |
@@ -69,5 +73,6 @@ jobs:
             echo "⚠️  Azure credentials not configured" >> $GITHUB_STEP_SUMMARY
             echo "ℹ️  Configure repository variables: AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID" >> $GITHUB_STEP_SUMMARY
           fi
+
 
 
