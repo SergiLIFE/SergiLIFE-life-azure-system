@@ -156,10 +156,59 @@ jobs:
           name: life-platform-build
           path: ./deployment
 
+      - name: ⚠️ Ensure Azure credentials are available
+        id: prepare-azure-creds
+        run: |
+          set -euo pipefail
+          # Install jq if missing
+          if ! command -v jq &>/dev/null 2>&1; then
+            echo "Installing jq..."
+            sudo apt-get update && sudo apt-get install -y jq
+          fi
+
+          # If AZURE_CREDENTIALS secret exists, use it
+          if [ -n "${{ secrets.AZURE_CREDENTIALS }}" ]; then
+            echo "Using AZURE_CREDENTIALS secret"
+            echo "AZURE_CREDENTIALS<<EOF" >> $GITHUB_ENV
+            echo '${{ secrets.AZURE_CREDENTIALS }}' >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+          # Otherwise, try to construct from individual secrets
+          elif [ -n "${{ secrets.AZURE_CLIENT_ID }}" ] && \
+               [ -n "${{ secrets.AZURE_TENANT_ID }}" ] && \
+               [ -n "${{ secrets.AZURE_CLIENT_SECRET }}" ] && \
+               [ -n "${{ secrets.AZURE_SUBSCRIPTION_ID }}" ]; then
+            echo "Constructing AZURE_CREDENTIALS from individual secrets"
+            AZURE_CREDS=$(jq -n \
+              --arg clientId "${{ secrets.AZURE_CLIENT_ID }}" \
+              --arg clientSecret "${{ secrets.AZURE_CLIENT_SECRET }}" \
+              --arg subscriptionId "${{ secrets.AZURE_SUBSCRIPTION_ID }}" \
+              --arg tenantId "${{ secrets.AZURE_TENANT_ID }}" \
+              '{clientId: $clientId, clientSecret: $clientSecret, subscriptionId: $subscriptionId, tenantId: $tenantId}')
+            echo "AZURE_CREDENTIALS<<EOF" >> $GITHUB_ENV
+            echo "$AZURE_CREDS" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+          else
+            echo "❌ ERROR: Azure credentials not configured!"
+            echo ""
+            echo "Required secrets (choose one option):"
+            echo ""
+            echo "Option 1: Set AZURE_CREDENTIALS secret with JSON format:"
+            echo '  {"clientId":"...","clientSecret":"...","subscriptionId":"...","tenantId":"..."}'
+            echo ""
+            echo "Option 2: Set individual secrets:"
+            echo "  - AZURE_CLIENT_ID"
+            echo "  - AZURE_CLIENT_SECRET"
+            echo "  - AZURE_SUBSCRIPTION_ID"
+            echo "  - AZURE_TENANT_ID"
+            echo ""
+            echo "Please configure the required secrets in your repository settings."
+            exit 1
+          fi
+
       - name: 🔑 Azure Login
         uses: azure/login@v2
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ env.AZURE_CREDENTIALS }}
 
       - name: 🏗️ Deploy Infrastructure
         uses: azure/arm-deploy@v1
@@ -197,10 +246,59 @@ jobs:
           name: life-platform-build
           path: ./deployment
 
+      - name: ⚠️ Ensure Azure credentials are available
+        id: prepare-azure-creds
+        run: |
+          set -euo pipefail
+          # Install jq if missing
+          if ! command -v jq &>/dev/null 2>&1; then
+            echo "Installing jq..."
+            sudo apt-get update && sudo apt-get install -y jq
+          fi
+
+          # If AZURE_CREDENTIALS secret exists, use it
+          if [ -n "${{ secrets.AZURE_CREDENTIALS }}" ]; then
+            echo "Using AZURE_CREDENTIALS secret"
+            echo "AZURE_CREDENTIALS<<EOF" >> $GITHUB_ENV
+            echo '${{ secrets.AZURE_CREDENTIALS }}' >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+          # Otherwise, try to construct from individual secrets
+          elif [ -n "${{ secrets.AZURE_CLIENT_ID }}" ] && \
+               [ -n "${{ secrets.AZURE_TENANT_ID }}" ] && \
+               [ -n "${{ secrets.AZURE_CLIENT_SECRET }}" ] && \
+               [ -n "${{ secrets.AZURE_SUBSCRIPTION_ID }}" ]; then
+            echo "Constructing AZURE_CREDENTIALS from individual secrets"
+            AZURE_CREDS=$(jq -n \
+              --arg clientId "${{ secrets.AZURE_CLIENT_ID }}" \
+              --arg clientSecret "${{ secrets.AZURE_CLIENT_SECRET }}" \
+              --arg subscriptionId "${{ secrets.AZURE_SUBSCRIPTION_ID }}" \
+              --arg tenantId "${{ secrets.AZURE_TENANT_ID }}" \
+              '{clientId: $clientId, clientSecret: $clientSecret, subscriptionId: $subscriptionId, tenantId: $tenantId}')
+            echo "AZURE_CREDENTIALS<<EOF" >> $GITHUB_ENV
+            echo "$AZURE_CREDS" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+          else
+            echo "❌ ERROR: Azure credentials not configured!"
+            echo ""
+            echo "Required secrets (choose one option):"
+            echo ""
+            echo "Option 1: Set AZURE_CREDENTIALS secret with JSON format:"
+            echo '  {"clientId":"...","clientSecret":"...","subscriptionId":"...","tenantId":"..."}'
+            echo ""
+            echo "Option 2: Set individual secrets:"
+            echo "  - AZURE_CLIENT_ID"
+            echo "  - AZURE_CLIENT_SECRET"
+            echo "  - AZURE_SUBSCRIPTION_ID"
+            echo "  - AZURE_TENANT_ID"
+            echo ""
+            echo "Please configure the required secrets in your repository settings."
+            exit 1
+          fi
+
       - name: 🔑 Azure Login
         uses: azure/login@v2
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ env.AZURE_CREDENTIALS }}
 
       - name: 🏗️ Deploy Infrastructure
         uses: azure/arm-deploy@v1
