@@ -1,0 +1,5 @@
+# Minimal Azure Functions Requirements
+# Essential files only - no complex dependencies
+
+azure-functions==1.18.0
+azure-functions-worker==1.2.0

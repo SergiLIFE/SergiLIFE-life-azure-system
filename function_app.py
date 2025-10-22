@@ -21,6 +21,51 @@ logger = logging.getLogger(__name__)
 app = func.FunctionApp()
 
 # =============================================================================
+# 🏥 HEALTH CHECK ENDPOINT - Verify Function App is running
+# =============================================================================
+
+
+@app.route(route="health", auth_level=func.AuthLevel.ANONYMOUS, methods=["GET"])
+async def health_check(req: func.HttpRequest) -> func.HttpResponse:
+    """
+    Health check endpoint for monitoring and deployment verification
+    Returns platform status and version information
+    """
+    try:
+        logger.info("🏥 Health Check endpoint called")
+
+        health_data = {
+            "status": "healthy",
+            "platform": "L.I.F.E. (Learning Individually from Experience)",
+            "version": "1.0.0",
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "services": {
+                "eeg_processor": "operational",
+                "analytics": "operational",
+                "authentication": "operational",
+            },
+            "azure": {
+                "region": os.getenv("REGION_NAME", "eastus2"),
+                "environment": os.getenv("AZURE_FUNCTIONS_ENVIRONMENT", "production"),
+            },
+        }
+
+        return func.HttpResponse(
+            body=json.dumps(health_data, indent=2),
+            status_code=200,
+            mimetype="application/json",
+        )
+
+    except Exception as e:
+        logger.error(f"❌ Health check failed: {str(e)}")
+        return func.HttpResponse(
+            body=json.dumps({"status": "unhealthy", "error": str(e)}),
+            status_code=500,
+            mimetype="application/json",
+        )
+
+
+# =============================================================================
 # 🧠 EEG PROCESSING FUNCTION - Core Neuroadaptive Learning
 # =============================================================================
 

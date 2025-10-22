@@ -14,7 +14,7 @@ print("=" * 60)
 print()
 
 # Test health endpoint
-url = "https://life-functions-app.azurewebsites.net/api/health"
+url = "https://life-functions-app.azurewebsites.net/api/health_check"
 print(f"Testing: {url}")
 print()
 

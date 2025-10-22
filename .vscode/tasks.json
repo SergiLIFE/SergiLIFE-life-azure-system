@@ -588,6 +588,106 @@
 			],
 			"problemMatcher": [],
 			"group": "build"
+		},
+		{
+			"label": "🔍 Test Function Endpoints",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"test_endpoints.py"
+			],
+			"group": "test"
+		},
+		{
+			"label": "📋 List Deployed Functions",
+			"type": "shell",
+			"command": "az",
+			"args": [
+				"functionapp",
+				"function",
+				"list",
+				"--name",
+				"life-functions-app-prod",
+				"--resource-group",
+				"life-platform-prod",
+				"--output",
+				"table"
+			],
+			"group": "test"
+		},
+		{
+			"label": "✅ Deploy Corrected Health Endpoint",
+			"type": "shell",
+			"command": "cmd",
+			"args": [
+				"/c",
+				"CORRECTED_DEPLOY.bat"
+			],
+			"group": "build"
+		},
+		{
+			"label": "🧪 Manual Endpoint Test",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"manual_endpoint_test.py"
+			],
+			"group": "test"
+		},
+		{
+			"label": "🔧 Install Flask",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"pip",
+				"install",
+				"flask"
+			],
+			"group": "build"
+		},
+		{
+			"label": "🧠 Launch L.I.F.E Platform Server",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"local_life_server.py"
+			],
+			"isBackground": true,
+			"group": "build"
+		},
+		{
+			"label": "🧪 Test Local L.I.F.E Platform",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"test_local_life.py"
+			],
+			"group": "test"
+		},
+		{
+			"label": "🧪 Test Local L.I.F.E Platform",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"simple_life_server.py"
+			],
+			"isBackground": true,
+			"group": "build"
+		},
+		{
+			"label": "🔍 Analyze Staging Deployment",
+			"type": "shell",
+			"command": "python staging_deployment_analyzer.py",
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "🚀 Fix and Deploy Staging",
+			"type": "shell",
+			"command": "FIX_AND_DEPLOY_STAGING.bat",
+			"isBackground": false,
+			"group": "build"
 		}
 	]
 }
