@@ -37,10 +37,9 @@ jobs:
         uses: azure/login@v2
         if: vars.AZURE_CLIENT_ID && vars.AZURE_TENANT_ID && vars.AZURE_SUBSCRIPTION_ID
         with:
-          client-id: ${{ vars.AZURE_CLIENT_ID }}
-          tenant-id: ${{ vars.AZURE_TENANT_ID }}
-          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-
+          client-id: ${{ vars.5c88cef6-f243-497d-98af-6c6086d575ca }}
+          tenant-id: ${{ vars.5c88cef6-f243-497d-98af-6c6086d575ca }}
+          subscription-id: ${{ vars.5c88cef6-f243-497d-98af-6c6086d575ca }}
       # Verify Azure connection
       - name: Verify Azure Connection
         if: success() && steps.azure-login.outcome == 'success'
@@ -73,6 +72,7 @@ AZURE_SUBSCRIPTION_ID -> 5c88cef6-f243-497d-98af-6c6086d575ca
             echo "⚠️  Azure credentials not configured" >> $GITHUB_STEP_SUMMARY
             echo "ℹ️  Configure repository variables: AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID" >> $GITHUB_STEP_SUMMARY
           fi
+
 
 
 
