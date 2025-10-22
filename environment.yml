@@ -1,57 +1,16 @@
-adjust packages if needed
-name: life-ci channels:
-
-defaults dependencies:
-
-python=3.11
-
-pip
-
-numpy
-
-pandas
-
-scipy
-
-scikit-learn
-
-pytest
-
-pip:
-
-azure-identity
-azure-storage-blob
-azure-cli
-In “Commit new file” choose “Create a new branch for this commit and start a pull request”, give branch a name (e.g., add/environment-yml), Commit → then click “Create pull request”.
-
-Merge the PR once checks are acceptable (or if you want me to watch, tell me when merged).
-
-Cloud Shell / Local git (preferred if comfortable) Copy and run these commands in Cloud Shell or your terminal (replace remote URL if you use SSH):
-git clone https://github.com/SergiLIFE/SergiLIFE-life-azure-system.git cd SergiLIFE-life-azure-system git checkout -b add/environment-yml
-
-cat > environment.yml <<'YAML' name: life-ci channels:
-
-defaults dependencies:
-python=3.11
-pip
-numpy
-pandas
-scipy
-scikit-learn
-pytest
-pip:
-azure-identity
-azure-storage-blob
-azure-cli YAML
-git add environment.yml git commit -m "ci: add environment.yml for CI build-linux job" git push --set-upstream origin add/environment-yml
-
-create PR (if gh is configured)
-gh pr create --title "ci: add environment.yml" --body "Add conda environment file required by build-linux job" --base main
-
-If you cannot push to the upstream (permission error), push to your fork (add a fork remote or fork first), then create a PR from your fork.
-
-If you want me to create the branch & PR for you
-I can prepare and push the change if you explicitly grant me permission to act on the repo via an integration (or run commands on your behalf). Otherwise I cannot push from here. Tell me “Please create the PR” only if you want me to attempt it and confirm I may act.
-Re-run the failed job after the file is added or after you push
-Web UI: open the run URL you gave (https://github.com/SergiLIFE/SergiLIFE-life-azure-system/actions/runs/18727754365) → click the run → top-right menu (⋯) → Re-run jobs or Re-run failed jobs.
-gh CLI (Cloud Shell): after authentication: gh run rerun 18727754365 --repo SergiLIFE/SergiLIFE-life-azure-system (Or run-id from gh run list if different.)
+name: base
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - pytest
+  - pip:
+      - azure-identity
+      - azure-storage-blob
+      - azure-cli
