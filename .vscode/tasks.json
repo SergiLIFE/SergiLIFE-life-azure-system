@@ -688,6 +688,13 @@
 			"command": "FIX_AND_DEPLOY_STAGING.bat",
 			"isBackground": false,
 			"group": "build"
+		},
+		{
+			"label": "✅ Validate Staging Deployment",
+			"type": "shell",
+			"command": "VALIDATE_STAGING_DEPLOYMENT.bat",
+			"isBackground": false,
+			"group": "build"
 		}
 	]
 }

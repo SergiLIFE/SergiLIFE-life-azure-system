@@ -14,6 +14,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
+
 class StagingDeploymentAnalyzer:
     """Analyzes and fixes L.I.F.E Platform staging deployment issues"""
     
@@ -1172,4 +1173,4 @@ Once deployed, validate the staging environment:
 if __name__ == "__main__":
     # Execute L.I.F.E Platform staging deployment analysis
     analyzer = StagingDeploymentAnalyzer()
-    analyzer.execute_staging_deployment_analysis()
+    analyzer.execute_staging_deployment_analysis()    analyzer.execute_staging_deployment_analysis()
