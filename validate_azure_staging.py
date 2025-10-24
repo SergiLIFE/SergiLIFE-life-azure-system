@@ -1,22 +1,24 @@
 # 🧪 L.I.F.E Platform Azure Deployment Validation Script
 # Test staging environment endpoints and functionality
 
-import requests
 import json
 import time
 from datetime import datetime
+
+import requests
+
 
 def test_endpoint(url, endpoint_name, expected_status=200):
     """Test an endpoint and return results"""
     print(f"\n🔍 Testing {endpoint_name}...")
     print(f"📍 URL: {url}")
-    
+
     try:
         response = requests.get(url, timeout=30)
-        
+
         if response.status_code == expected_status:
             print(f"✅ {endpoint_name}: SUCCESS (Status: {response.status_code})")
-            
+
             # Try to parse JSON response
             try:
                 json_data = response.json()
@@ -29,7 +31,7 @@ def test_endpoint(url, endpoint_name, expected_status=200):
             print(f"⚠️ {endpoint_name}: Unexpected status {response.status_code}")
             print(f"📄 Response: {response.text[:200]}...")
             return False, None
-            
+
     except requests.exceptions.ConnectionError:
         print(f"❌ {endpoint_name}: Connection failed - DNS/Network issue")
         return False, None
@@ -39,6 +41,7 @@ def test_endpoint(url, endpoint_name, expected_status=200):
     except requests.exceptions.RequestException as e:
         print(f"❌ {endpoint_name}: Request failed - {str(e)}")
         return False, None
+
 
 def main():
     """Main validation function"""
@@ -50,46 +53,44 @@ def main():
     print("💰 Revenue Target: $345K Q4 2025 → $50.7M by 2029")
     print("🏪 Azure Marketplace ID: 9a600d96-fe1e-420b-902a-a0c42c561adb")
     print("=" * 60)
-    
+
     base_url = "https://life-platform-staging.azurewebsites.net"
     endpoints = [
         ("/", "Main Landing Page"),
         ("/health", "Health Check API"),
         ("/api/status", "Platform Status API"),
         ("/api/metrics", "Performance Metrics API"),
-        ("/api/life", "L.I.F.E Algorithm Status")
+        ("/api/life", "L.I.F.E Algorithm Status"),
     ]
-    
+
     results = {}
-    
+
     print("\n🌐 Testing L.I.F.E Platform Staging Endpoints...")
-    
+
     for endpoint, name in endpoints:
         url = f"{base_url}{endpoint}"
         success, data = test_endpoint(url, name)
-        results[endpoint] = {
-            'name': name,
-            'success': success,
-            'data': data
-        }
-        
+        results[endpoint] = {"name": name, "success": success, "data": data}
+
         # Small delay between requests
         time.sleep(1)
-    
+
     # Summary
     print("\n" + "=" * 60)
     print("📊 VALIDATION SUMMARY")
     print("=" * 60)
-    
-    successful_endpoints = sum(1 for r in results.values() if r['success'])
+
+    successful_endpoints = sum(1 for r in results.values() if r["success"])
     total_endpoints = len(results)
-    
+
     for endpoint, result in results.items():
-        status = "✅ PASS" if result['success'] else "❌ FAIL"
+        status = "✅ PASS" if result["success"] else "❌ FAIL"
         print(f"{status} {result['name']} ({endpoint})")
-    
-    print(f"\n📈 Success Rate: {successful_endpoints}/{total_endpoints} ({(successful_endpoints/total_endpoints)*100:.1f}%)")
-    
+
+    print(
+        f"\n📈 Success Rate: {successful_endpoints}/{total_endpoints} ({(successful_endpoints/total_endpoints)*100:.1f}%)"
+    )
+
     # Business Impact Assessment
     print("\n💰 BUSINESS IMPACT ASSESSMENT:")
     if successful_endpoints >= 3:
@@ -103,7 +104,7 @@ def main():
         print("🔧 Some endpoints require debugging")
         print("⏳ Production deployment delayed until issues resolved")
         print("\n🚨 L.I.F.E Platform staging deployment needs FIXES")
-    
+
     # Next Steps
     print("\n🎯 RECOMMENDED NEXT STEPS:")
     if successful_endpoints >= 3:
@@ -116,17 +117,20 @@ def main():
         print("2. 🔧 Check Azure Web App logs")
         print("3. 🧪 Re-run deployment script")
         print("4. 📞 Contact Azure support if needed")
-    
+
     print(f"\n🔗 Direct Links:")
     print(f"📍 Staging Platform: {base_url}")
     print(f"🏥 Health Check: {base_url}/health")
-    print(f"📊 Azure Portal: https://portal.azure.com/#@/resource/subscriptions/5c88cef6-f243-497d-98af-6c6086d575ca/resourceGroups/life-platform-staging-rg/providers/Microsoft.Web/sites/life-platform-staging")
-    
+    print(
+        f"📊 Azure Portal: https://portal.azure.com/#@/resource/subscriptions/5c88cef6-f243-497d-98af-6c6086d575ca/resourceGroups/life-platform-staging-rg/providers/Microsoft.Web/sites/life-platform-staging"
+    )
+
     print("\n" + "=" * 60)
     print("✅ L.I.F.E Platform validation complete!")
     print("=" * 60)
-    
+
     return successful_endpoints >= 3
+
 
 if __name__ == "__main__":
     try:
