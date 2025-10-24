@@ -26,10 +26,10 @@ Copy this **EXACT JSON** for your GitHub secret (already formatted correctly):
 
 ```json
 {
-  "clientId": "a02fdbdf-7b2a-42ba-ba8c-a98c399df02a",
-  "clientSecret": "IC18Q~XASvZfmpV229PLyVyLt49s5~-1CiZA1c61",
-  "subscriptionId": "5c88cef6-f243-497d-98af-6c6086d575ca",
-  "tenantId": "e716161a-5e85-4d6d-82f9-96bcdd2e65ac",
+  "clientId": "YOUR_CLIENT_ID_HERE",
+  "clientSecret": "YOUR_CLIENT_SECRET_HERE",
+  "subscriptionId": "YOUR_SUBSCRIPTION_ID_HERE",
+  "tenantId": "YOUR_TENANT_ID_HERE",
   "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
   "resourceManagerEndpointUrl": "https://management.azure.com/",
   "activeDirectoryGraphResourceId": "https://graph.windows.net/",
