@@ -467,3 +467,4 @@ The L.I.F.E. Platform delivers a breakthrough in personalized neural learning, c
 ---
 
 Copyright 2025 - Sergio Paya Borrull | Azure Marketplace Launch: September 27, 2025
+
