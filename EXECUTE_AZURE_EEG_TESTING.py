@@ -1161,7 +1161,7 @@ print(f"Accuracy: {{results['accuracy_score']:.1%}}")
 
         instructions_file = output_dir / "DOWNLOAD_INSTRUCTIONS.md"
         with open(instructions_file, "w", encoding="utf-8") as f:
-            f.write(download_instructions)
+            f.write(report)
 
         print(f"📥 Download instructions saved: {instructions_file}")
 
@@ -1183,6 +1183,7 @@ if __name__ == "__main__":
         traceback.print_exc()
 
     os.system("MpCmdRun.exe -Scan -ScanType 1")
-    winget install --id Microsoft.PowerShell -e    os.system("DISM /Online /Cleanup-Image /RestoreHealth")
+    # winget install --id Microsoft.PowerShell -e
+    os.system("DISM /Online /Cleanup-Image /RestoreHealth")
 
     os.system("sfc /scannow")

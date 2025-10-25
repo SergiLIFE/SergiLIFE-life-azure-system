@@ -810,4 +810,4 @@ if __name__ == "__main__":
         print("\n\n⚡ Azure EEG testing interrupted by user.")
     except Exception as e:
         print(f"\n❌ Testing error: {e}")
-        logger.error(f"Azure EEG testing failed: {e}")        logger.error(f"Azure EEG testing failed: {e}")
+        logger.error(f"Azure EEG testing failed: {e}")

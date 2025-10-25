@@ -121,5 +121,4 @@ def real_eeg_processing_benchmark():
 
 if __name__ == "__main__":
     performance_results = real_eeg_processing_benchmark()
-    print("🎉 Real SOTA benchmark completed!")    performance_results = real_eeg_processing_benchmark()
     print("🎉 Real SOTA benchmark completed!")
