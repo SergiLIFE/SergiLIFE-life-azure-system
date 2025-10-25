@@ -31,6 +31,7 @@ validate_json() {
   return $?
 }
 ```
+**Note:** Python3 is available by default in GitHub Actions ubuntu-latest runners.
 
 ### 2. Whitespace Handling
 Implemented proper whitespace trimming using `sed` that preserves JSON structure:
@@ -39,10 +40,11 @@ CREDS=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | sed -e 's/^[[:space:]]*//' -e 
 ```
 
 ### 3. Field Validation
-Added verification that all required fields are present:
+Added verification that all required fields are present using a Python one-liner:
 ```bash
 echo "$CREDS" | python3 -c "import sys, json; data=json.load(sys.stdin); exit(0 if all(k in data for k in ['clientId','clientSecret','subscriptionId','tenantId']) else 1)"
 ```
+This checks that the JSON contains all four required fields and exits with success (0) or failure (1) accordingly.
 
 ### 4. Enhanced Error Messages
 Provided specific error messages for different failure scenarios:
@@ -109,7 +111,7 @@ Correct format (single line or properly formatted):
 ```
 
 Common mistakes to avoid:
-- ❌ Extra text before/after JSON: `JSON from Azure: {...}`
+- ❌ Extra text before/after JSON: `JSON from Azure: {"clientId":"abc123","clientSecret":"xyz789","subscriptionId":"sub123","tenantId":"tenant123"}`
 - ❌ Missing quotes: `{clientId:value}`
 - ❌ Trailing commas: `{"clientId":"value",}`
 - ❌ Using single quotes: `{'clientId':'value'}`
