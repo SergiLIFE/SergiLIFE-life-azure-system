@@ -13,6 +13,18 @@ L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c56
 - Version: 2025.1.0-PRODUCTION; Azure Marketplace Offer ID: `9a600d96-fe1e-420b-902a-a0c42c561adb`; Launch: September 27, 2025.
 - **Current Status:** ✅ Fully production-ready with 100% test success rate, Azure infrastructure deployed and operational, marketplace certification complete (9/9 sections), ready for launch.
 
+## Repository Structure
+
+- **Core Algorithm:** `experimentP2L.I.F.E-Learning-Individually-from-Experience-Theory-Algorithm-Code-2025-Copyright-Se.py` - Main L.I.F.E. algorithm implementation
+- **Azure Integration:** `azure_config.py`, `azure_functions_workflow.py`, `azure_deployment_manager.py` - Azure service integration
+- **Venturi System:** `venturi_gates_system.py`, `three_venturi_harmonic_calibration.py`, `venturi_batching.py` - Venturi architecture components
+- **Testing:** `tests/` directory, `test_*.py` files, `production_deployment_test.py` - Test suites
+- **Optimization:** `autonomous_optimizer.py`, `model_optimizer.py`, `performance_analyzer.py` - Performance optimization tools
+- **Benchmarking:** `sota_benchmark.py`, `autonomous_sota_kpi_monitor.py` - SOTA comparison and KPI tracking
+- **EEG Processing:** `AZURE_EEG_TESTING_SUITE.py`, `real_eeg_physionet_test.py`, `standalone_azure_eeg_test.py` - EEG data processing
+- **Documentation:** Markdown files in root (e.g., `README.md`, `AZURE_OIDC_SETUP.md`, `QUICK_START.md`)
+- **Configuration:** `.vscode/` (VS Code settings), `.github/workflows/` (CI/CD), `pylintrc` (linting), `requirements.txt` (dependencies)
+
 ## Architecture & Patterns
 
 - **EEG Data Flow:** Real-time EEG data is processed and fed into adaptive learning models. Results are logged and exported for auditability.
@@ -55,6 +67,54 @@ L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c56
 - **CI/CD:** See `.github/workflows/blank.yml` for pipeline structure; Azure deployment is automated.
 - **Documentation:** Key guides: `README.md`, `AZURE_OIDC_SETUP.md`, `QUICK_START.md`.
 - **Code Structure:** Use dataclasses for data structures (`EEGMetrics`, `LearningOutcome`), enums for states (`LearningStage`, `NeuralState`), asyncio for concurrency, numpy/pandas for data processing.
+
+## Code Style & Quality
+
+- **Formatting:** Use Black for code formatting (line length: 100). Configuration in `pylintrc`.
+- **Linting:** Run `pylint` with project-specific rules (see `pylintrc`). Also use `flake8` for additional checks.
+- **Type Hints:** Use type hints for function parameters and return values. Run `mypy` for type checking.
+- **Testing Standards:**
+  - Place tests in `tests/` directory or colocate with prefix `test_*.py`
+  - Use pytest for all tests with descriptive test names: `test_<functionality>_<scenario>_<expected_outcome>`
+  - Aim for >80% code coverage on new features
+  - Use `pytest-asyncio` for async tests, `pytest-mock` for mocking
+  - Test files should mirror the structure of the code they test
+- **Error Handling:**
+  - Use specific exception types (avoid bare `except:`)
+  - Log errors with context using structured logging
+  - Implement retry logic for Azure service calls with exponential backoff
+  - Always clean up resources in `finally` blocks or use context managers
+
+## Security Guidelines
+
+- **Secrets Management:**
+  - Never commit credentials, API keys, or secrets to git
+  - Use Azure Key Vault for production secrets (see `azure_config.py`)
+  - Use environment variables or `.env` files for local development (add `.env` to `.gitignore`)
+- **Data Privacy:**
+  - EEG data must be anonymized before processing
+  - Follow HIPAA and GDPR compliance requirements
+  - Encrypt sensitive data at rest and in transit
+- **Azure Security:**
+  - Use Managed Identities for Azure resource authentication
+  - Follow least-privilege principle for RBAC assignments
+  - Enable Azure Monitor for security audit logging
+
+## Troubleshooting
+
+- **Common Issues:**
+  - **Import Errors:** Ensure virtual environment is activated and all dependencies installed
+  - **Azure Auth Failures:** Run `az login` and verify subscription access
+  - **EEG Processing Errors:** Check that PhysioNet datasets are available and properly formatted
+  - **Test Failures:** Run individual test files to isolate issues: `pytest -v test_<specific>.py`
+- **Performance Issues:**
+  - Check system resources with `Performance Monitor` VS Code task
+  - Review logs in `logs/` directory for bottlenecks
+  - Use `sota_benchmark.py` to compare performance against baselines
+- **Debugging:**
+  - Use VS Code debugger with launch configurations in `.vscode/launch.json`
+  - Add breakpoints in key processing loops for EEG data flow
+  - Use `python -m pdb` for command-line debugging
 
 ## Integration Points
 
@@ -108,5 +168,21 @@ L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c56
 ---
 
 For more, see `README.md` and documentation files. If unclear, review the referenced scripts for workflow details.
+
+## Collaboration Guidelines
+
+- **Pull Requests:** Keep PRs focused and small. Include clear descriptions and link to related issues.
+- **Commit Messages:** Use conventional commits format: `type(scope): description` (e.g., `feat(eeg): add new processing algorithm`)
+- **Code Reviews:** All code requires review before merging. Focus on correctness, performance, and maintainability.
+- **Issue Tracking:** Use GitHub Issues for bugs and features. Label appropriately (bug, enhancement, documentation, etc.).
+- **Breaking Changes:** Document in CHANGELOG.md and increment version appropriately (following semver).
+
+## Performance Requirements
+
+- **Latency:** Target sub-millisecond processing (<1ms) for EEG data
+- **Accuracy:** Maintain 78-82% accuracy benchmarks in neuroadaptive scenarios
+- **Scalability:** Design for 3,000-85,000 concurrent users
+- **Reliability:** 99.9% uptime SLA for Enterprise tier
+- **Resource Usage:** Optimize for efficient Azure resource consumption to control costs
 
 **Current Status (September 21, 2025):** The L.I.F.E. Platform is fully production-ready with all optimizations completed, Azure infrastructure deployed, and marketplace launch preparation finalized. Ready for September 27, 2025 marketplace launch with Azure Marketplace Offer ID: `9a600d96-fe1e-420b-902a-a0c42c561adb`. 🎉
