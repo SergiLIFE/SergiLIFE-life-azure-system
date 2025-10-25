@@ -30,12 +30,22 @@ L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c56
 
 - **Setup:**
   - `python -m venv venv; .\venv\Scripts\activate; pip install -r requirements.txt`
+  - Install test dependencies: `pip install -r requirements-test.txt`
+  - Verify installation: `python -c "import azure_config; print('Setup complete')"`
 - **Run Core Algorithm:**
   - `python experimentP2L.I.F.E-Learning-Individually-from-Experience-Theory-Algorithm-Code-2025-Copyright-Se.py`
 - **Testing:**
   - Use VS Code tasks: `🔬 Run All Tests` or `🧪 Test Autonomous Optimizer`
   - Manual: `python -m pytest -v --tb=short`
+  - With coverage: `python -m pytest tests/ -v --cov=. --cov-report=xml --tb=short`
+  - Single test file: `python -m pytest tests/test_venturi_batching.py -v`
   - Production validation: `python production_deployment_test.py` (comprehensive end-to-end testing)
+- **Linting & Code Quality:**
+  - Format code: `black .` (auto-formatting)
+  - Check imports: `isort .` (import sorting)
+  - Lint: `flake8 . --count --max-line-length=127 --statistics`
+  - Type checking: `mypy . --ignore-missing-imports`
+  - Full check: `pylint *.py --max-line-length=127`
 - **Azure Deployment:**
   - `azd up` (after OIDC setup)
   - Validate with `python -c "import azure_config; print('Azure deployment validation...')"`
@@ -98,12 +108,70 @@ L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c56
 - **Documentation:** Complete and ready for customers ✅
 - **Launch Date:** September 27, 2025 (6 days remaining) 🚀
 
+## Error Handling & Debugging
+
+- **Import Errors:** If modules are not found, ensure virtual environment is activated and dependencies are installed: `pip install -r requirements.txt -r requirements-test.txt`
+- **Azure Connection Issues:** Verify Azure credentials are configured: `az login` and check `azure_config.py` settings
+- **Test Failures:** Run tests with verbose output: `python -m pytest -vv --tb=long` for detailed error information
+- **Memory Issues:** For large EEG datasets, monitor memory usage with `psutil` or reduce batch sizes in processing scripts
+- **Debugging:** Use Python debugger: `python -m pdb <script.py>` or add breakpoints with `import pdb; pdb.set_trace()`
+- **Logs:** Check `logs/` directory for detailed execution logs; all scripts create logs automatically
+
+## Security Best Practices
+
+- **Secrets Management:** Never commit secrets to Git. Use Azure Key Vault for sensitive data (see `azure_config.py`)
+- **Dependencies:** Keep dependencies updated for security patches. Run `pip list --outdated` regularly
+- **Code Scanning:** Security scans run automatically via `.github/workflows/security-scan.yml`
+- **Authentication:** Use Azure OIDC for deployment authentication (configured via `setup-azure-oidc.ps1`)
+- **Data Privacy:** EEG data must be anonymized before processing. Follow HIPAA/GDPR compliance guidelines
+- **API Security:** All API endpoints require authentication tokens (see `azure_life_functions.py`)
+
+## Dependency Management
+
+- **Adding Dependencies:** 
+  - Production: Add to `requirements.txt` with version pinning (e.g., `package>=1.0.0`)
+  - Testing: Add to `requirements-test.txt` for test-only dependencies
+  - Update both files: `pip freeze > requirements.txt` (careful: review before committing)
+- **Version Conflicts:** Use `pip check` to identify conflicts; resolve by adjusting version constraints
+- **Virtual Environment:** Always use venv to isolate dependencies: `python -m venv venv`
+- **Azure Functions:** Ensure dependencies are compatible with Azure Functions Python runtime (3.11)
+
+## Troubleshooting Common Issues
+
+1. **"Module not found" errors:** 
+   - Activate virtual environment: `.\venv\Scripts\activate` (Windows) or `source venv/bin/activate` (Unix)
+   - Reinstall dependencies: `pip install -r requirements.txt -r requirements-test.txt`
+
+2. **Azure deployment failures:**
+   - Check Azure CLI version: `az --version` (must be ≥2.50.0)
+   - Re-run OIDC setup: `.\setup-azure-oidc.ps1`
+   - Verify subscription: `az account show`
+
+3. **Test failures:**
+   - Check Python version: `python --version` (must be 3.11)
+   - Clear pytest cache: `pytest --cache-clear`
+   - Run specific test: `pytest tests/test_venturi_batching.py -v`
+
+4. **Performance issues:**
+   - Monitor system resources: `python -m psutil` or check `logs/` for performance metrics
+   - Reduce EEG batch size in configuration files
+   - Use `autonomous_optimizer.py` to optimize neural processing
+
+5. **CI/CD pipeline failures:**
+   - Check workflow logs in GitHub Actions tab
+   - Verify all required secrets are configured in repository settings
+   - Review `.github/workflows/test.yml` for specific job requirements
+
 ## Examples
 
 - To run a full validation cycle:
   - `python -c "from experimentP2L import LIFEAlgorithmCore; import asyncio; life = LIFEAlgorithmCore(); asyncio.run(life.run_100_cycle_eeg_test())"`
 - To deploy to Azure:
   - `azd up` (after running `setup-azure-oidc.ps1`)
+- To debug a failing test:
+  - `python -m pytest tests/test_venturi_batching.py -vv --pdb`
+- To check code quality:
+  - `black . && isort . && flake8 . --max-line-length=127`
 
 ---
 
