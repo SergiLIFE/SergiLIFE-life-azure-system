@@ -1159,6 +1159,52 @@ print(f"Accuracy: {{results['accuracy_score']:.1%}}")
 **Marketplace Offer:** 9a600d96-fe1e-420b-902a-a0c42c561adb
 """
 
+        # Generate download instructions content
+        download_instructions = f"""# L.I.F.E. Platform - EEG Test Data Download Instructions
+
+## Azure Blob Storage
+
+Download EEG test data from Azure Blob Storage:
+
+```bash
+az storage blob download-batch --account-name stlifeplatformprod --source eeg-test-data --destination ./local_eeg_data --auth-mode login
+```
+
+## GitHub Repository
+
+Clone the repository and access test outputs:
+
+```bash
+git clone https://github.com/SergiLIFE/SergiLIFE-life-azure-system.git
+cd SergiLIFE-life-azure-system
+ls azure_eeg_test_outputs/
+```
+
+## Usage Example
+
+```python
+import numpy as np
+import json
+
+# Load EEG data
+data = np.load('local_eeg_data/eeg_data.npz')
+eeg_signals = data['data']
+labels = data['labels']
+
+# Load test results
+with open('local_test_results/test_results.json', 'r') as f:
+    results = json.load(f)
+    
+print(f"Test ID: {{results['test_id']}}")
+print(f"Accuracy: {{results['accuracy_score']:.1%}}")
+```
+
+---
+
+**Support:** info@lifecoach121.com  
+**Marketplace Offer:** 9a600d96-fe1e-420b-902a-a0c42c561adb
+"""
+
         instructions_file = output_dir / "DOWNLOAD_INSTRUCTIONS.md"
         with open(instructions_file, "w", encoding="utf-8") as f:
             f.write(download_instructions)
