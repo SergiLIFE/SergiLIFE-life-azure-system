@@ -75,10 +75,6 @@ jobs:
         run: |
           echo "Ready to deploy Azure resources!"
           echo "Add your deployment commands here (az deployment, azd up, etc.)"
-echo <!-- Emergency Fix: October 11, 2025 --> >> index.html
-git add index.html  
-git commit -m "🚨 EMERGENCY: Force redeploy for October 15 demo"
-git push origin main
 
       - name: 📋 Deployment Status
         if: always()
