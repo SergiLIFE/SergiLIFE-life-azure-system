@@ -157,20 +157,25 @@ jobs:
           path: ./deployment
 
       - name: 🔧 Prepare Azure credentials
+        id: prepare-azure-credentials
         run: |
           set -e
 
-          # If AZURE_CREDENTIALS secret is present, export it to the environment for the action to consume
+          # If AZURE_CREDENTIALS secret is present, write it to GITHUB_OUTPUT
           if [ -n "${{ secrets.AZURE_CREDENTIALS }}" ]; then
-            echo "AZURE_CREDENTIALS=${{ secrets.AZURE_CREDENTIALS }}" >> $GITHUB_ENV
+            echo "azure_credentials<<EOF" >> $GITHUB_OUTPUT
+            echo "${{ secrets.AZURE_CREDENTIALS }}" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
             echo "✅ Using AZURE_CREDENTIALS secret."
             exit 0
           fi
 
           # Otherwise try to compose AZURE_CREDENTIALS from individual secrets
           if [ -n "${{ secrets.AZURE_CLIENT_ID }}" ] && [ -n "${{ secrets.AZURE_CLIENT_SECRET }}" ] && [ -n "${{ secrets.AZURE_SUBSCRIPTION_ID }}" ] && [ -n "${{ secrets.AZURE_TENANT_ID }}" ]; then
-            # Compose the JSON and write to GITHUB_ENV
-            echo "AZURE_CREDENTIALS={\"clientId\":\"${{ secrets.AZURE_CLIENT_ID }}\",\"clientSecret\":\"${{ secrets.AZURE_CLIENT_SECRET }}\",\"subscriptionId\":\"${{ secrets.AZURE_SUBSCRIPTION_ID }}\",\"tenantId\":\"${{ secrets.AZURE_TENANT_ID }}\"}" >> $GITHUB_ENV
+            # Compose the JSON and write to GITHUB_OUTPUT
+            echo "azure_credentials<<EOF" >> $GITHUB_OUTPUT
+            echo "{\"clientId\":\"${{ secrets.AZURE_CLIENT_ID }}\",\"clientSecret\":\"${{ secrets.AZURE_CLIENT_SECRET }}\",\"subscriptionId\":\"${{ secrets.AZURE_SUBSCRIPTION_ID }}\",\"tenantId\":\"${{ secrets.AZURE_TENANT_ID }}\"}" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
             echo "✅ Composed AZURE_CREDENTIALS from individual secrets."
             exit 0
           fi
@@ -183,7 +188,7 @@ jobs:
       - name: 🔑 Azure Login
         uses: azure/login@v2
         with:
-          creds: ${{ env.AZURE_CREDENTIALS }}
+          creds: ${{ steps.prepare-azure-credentials.outputs.azure_credentials }}
 
       - name: 🏗️ Deploy Infrastructure
         uses: azure/arm-deploy@v1
@@ -222,20 +227,25 @@ jobs:
           path: ./deployment
 
       - name: 🔧 Prepare Azure credentials
+        id: prepare-azure-credentials
         run: |
           set -e
 
-          # If AZURE_CREDENTIALS secret is present, export it to the environment for the action to consume
+          # If AZURE_CREDENTIALS secret is present, write it to GITHUB_OUTPUT
           if [ -n "${{ secrets.AZURE_CREDENTIALS }}" ]; then
-            echo "AZURE_CREDENTIALS=${{ secrets.AZURE_CREDENTIALS }}" >> $GITHUB_ENV
+            echo "azure_credentials<<EOF" >> $GITHUB_OUTPUT
+            echo "${{ secrets.AZURE_CREDENTIALS }}" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
             echo "✅ Using AZURE_CREDENTIALS secret."
             exit 0
           fi
 
           # Otherwise try to compose AZURE_CREDENTIALS from individual secrets
           if [ -n "${{ secrets.AZURE_CLIENT_ID }}" ] && [ -n "${{ secrets.AZURE_CLIENT_SECRET }}" ] && [ -n "${{ secrets.AZURE_SUBSCRIPTION_ID }}" ] && [ -n "${{ secrets.AZURE_TENANT_ID }}" ]; then
-            # Compose the JSON and write to GITHUB_ENV
-            echo "AZURE_CREDENTIALS={\"clientId\":\"${{ secrets.AZURE_CLIENT_ID }}\",\"clientSecret\":\"${{ secrets.AZURE_CLIENT_SECRET }}\",\"subscriptionId\":\"${{ secrets.AZURE_SUBSCRIPTION_ID }}\",\"tenantId\":\"${{ secrets.AZURE_TENANT_ID }}\"}" >> $GITHUB_ENV
+            # Compose the JSON and write to GITHUB_OUTPUT
+            echo "azure_credentials<<EOF" >> $GITHUB_OUTPUT
+            echo "{\"clientId\":\"${{ secrets.AZURE_CLIENT_ID }}\",\"clientSecret\":\"${{ secrets.AZURE_CLIENT_SECRET }}\",\"subscriptionId\":\"${{ secrets.AZURE_SUBSCRIPTION_ID }}\",\"tenantId\":\"${{ secrets.AZURE_TENANT_ID }}\"}" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
             echo "✅ Composed AZURE_CREDENTIALS from individual secrets."
             exit 0
           fi
@@ -248,7 +258,7 @@ jobs:
       - name: 🔑 Azure Login
         uses: azure/login@v2
         with:
-          creds: ${{ env.AZURE_CREDENTIALS }}
+          creds: ${{ steps.prepare-azure-credentials.outputs.azure_credentials }}
 
       - name: 🏗️ Deploy Infrastructure
         uses: azure/arm-deploy@v1
