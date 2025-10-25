@@ -98,12 +98,86 @@ L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c56
 - **Documentation:** Complete and ready for customers ✅
 - **Launch Date:** September 27, 2025 (6 days remaining) 🚀
 
+## Testing Expectations
+
+- **Always Run Tests Early:** Before making code changes, run existing tests to understand the baseline. Use `python -m pytest -v --tb=short` to run all tests.
+- **Test-Driven Development:** When fixing bugs or adding features, write tests first that validate the expected behavior.
+- **Continuous Validation:** Run tests after each code change to catch issues early. Don't wait until all changes are complete.
+- **Test Coverage:** Maintain or improve test coverage. Use `pytest-cov` for coverage reports: `python -m pytest --cov=. --cov-report=html`
+- **Test Types:**
+  - Unit tests for individual components (e.g., `test_*.py` files)
+  - Integration tests for Azure services (`test_azure_functions.py`)
+  - End-to-end tests for complete workflows (`production_deployment_test.py`)
+  - Performance tests for benchmarking (`sota_benchmark.py`)
+- **Test Isolation:** Tests should be independent and not rely on external state unless testing integration points.
+- **Mock External Services:** When testing locally, mock Azure services unless specifically testing integration.
+
+## Code Review Process
+
+- **Self-Review First:** Before requesting review, check your changes for:
+  - Code quality and readability
+  - Adherence to project conventions
+  - No debug code or commented-out sections
+  - Proper error handling
+  - Security considerations
+- **PR Description:** Always provide clear, detailed PR descriptions that include:
+  - What problem is being solved
+  - How the solution works
+  - Testing performed
+  - Any breaking changes or migrations needed
+- **Small, Focused PRs:** Keep changes minimal and focused on a single issue. Large PRs are harder to review and more likely to introduce bugs.
+- **Respond to Feedback:** Address all review comments or provide reasoning if you disagree.
+- **Documentation Updates:** Update relevant documentation when changing functionality.
+
+## Security and Compliance Guidelines
+
+- **Never Commit Secrets:** Use Azure Key Vault for secrets, credentials, and API keys. Never hardcode sensitive information.
+- **Data Privacy:** Handle EEG data and user information according to GDPR, HIPAA, and other relevant regulations.
+- **Encryption:** Use encryption for data at rest (Azure Storage encryption) and in transit (HTTPS/TLS).
+- **Input Validation:** Always validate and sanitize user inputs to prevent injection attacks.
+- **Dependency Security:** Run security scans before adding new dependencies. Check for known vulnerabilities.
+- **Audit Logging:** Ensure all critical operations are logged for compliance and debugging.
+- **Access Control:** Implement proper RBAC (Role-Based Access Control) for Azure resources.
+- **Code Scanning:** Leverage GitHub's security features and CodeQL scanning.
+
+## Issue and PR Interaction Guidelines
+
+- **Understand the Issue:** Fully read and understand the issue description and comments before starting work.
+- **Ask Questions:** If requirements are unclear, ask for clarification in the issue comments using `@mentions`.
+- **Link PRs to Issues:** Always reference the issue number in your PR (e.g., "Fixes #123" or "Addresses #456").
+- **Progress Updates:** Comment on issues with progress updates, especially for complex or long-running tasks.
+- **Breaking Changes:** Clearly document any breaking changes in both PR and issue comments.
+- **Testing Evidence:** Provide evidence of testing (screenshots, logs, test results) in PR descriptions.
+
+## Common Pitfalls and Troubleshooting
+
+- **Import Errors:** If modules fail to import, ensure all dependencies are installed: `pip install -r requirements.txt`
+- **Azure Authentication:** Most Azure operations require proper OIDC setup. Run `setup-azure-oidc.ps1` first.
+- **Environment Variables:** Missing environment variables can cause failures. Check `azure_config.py` for required variables.
+- **Path Issues:** Always use absolute paths for file operations. Scripts auto-create `logs/` and `results/` directories.
+- **Unicode/Encoding:** All logs must be ASCII-only for compliance. Use proper encoding when handling text.
+- **Async Operations:** Many operations use asyncio. Ensure proper async/await usage and event loop management.
+- **Azure Rate Limits:** Be mindful of Azure API rate limits. Implement retry logic with exponential backoff.
+- **Test Data Location:** EEG test data is in `bci_data/`. Ensure paths are correct when running tests.
+
+## Best Practices for Copilot Interaction
+
+- **Be Specific:** When assigned an issue, Copilot performs best with clear, specific requirements.
+- **Incremental Changes:** Make small, verifiable changes. Test frequently.
+- **Context Matters:** Copilot will reference this file for guidance. Keep instructions clear and up-to-date.
+- **Review Generated Code:** Always review code suggestions for correctness, security, and adherence to project standards.
+- **Provide Feedback:** Use PR comments to guide Copilot toward better solutions if initial attempts need refinement.
+
 ## Examples
 
 - To run a full validation cycle:
   - `python -c "from experimentP2L import LIFEAlgorithmCore; import asyncio; life = LIFEAlgorithmCore(); asyncio.run(life.run_100_cycle_eeg_test())"`
 - To deploy to Azure:
   - `azd up` (after running `setup-azure-oidc.ps1`)
+- To run all tests with coverage:
+  - `python -m pytest -v --tb=short --cov=. --cov-report=html`
+- To check code style:
+  - `black --check .` and `flake8 .`
 
 ---
 
