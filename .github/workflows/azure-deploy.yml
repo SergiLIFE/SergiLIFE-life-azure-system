@@ -170,7 +170,7 @@ jobs:
           # If AZURE_CREDENTIALS secret is present, validate and use it
           if [ -n "${{ secrets.AZURE_CREDENTIALS }}" ]; then
             # Store credentials in a variable and trim whitespace
-            CREDS=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | xargs)
+            CREDS=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
             
             # Validate JSON structure
             if validate_json "$CREDS"; then
@@ -274,7 +274,7 @@ jobs:
           # If AZURE_CREDENTIALS secret is present, validate and use it
           if [ -n "${{ secrets.AZURE_CREDENTIALS }}" ]; then
             # Store credentials in a variable and trim whitespace
-            CREDS=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | xargs)
+            CREDS=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
             
             # Validate JSON structure
             if validate_json "$CREDS"; then
