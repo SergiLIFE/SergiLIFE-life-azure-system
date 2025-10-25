@@ -41,6 +41,13 @@ If not using OIDC, you can use service principal credentials:
   }
   ```
 
+  **Important:** 
+  - The JSON must be valid and properly formatted (no extra whitespace, line breaks, or special characters)
+  - Use a JSON validator before adding the secret (e.g., https://jsonlint.com/)
+  - Do not include any comments or additional text with the JSON
+  - Copy the JSON exactly as shown, replacing only the placeholder values
+  - The workflow will automatically validate the JSON structure before attempting login
+
 Or individual secrets:
 - **`AZURE_CLIENT_ID`**
 - **`AZURE_CLIENT_SECRET`**
@@ -92,6 +99,37 @@ See `AZURE_OIDC_SETUP.md` for detailed instructions.
 - Check that the secret name matches exactly (case-sensitive)
 - Verify the secret is set in the correct repository
 - Ensure secrets are not accidentally set as variables (or vice versa)
+
+### Azure Login fails with "JSON is not valid JSON"
+
+This error occurs when the `AZURE_CREDENTIALS` secret contains malformed JSON:
+
+**Common causes:**
+- Extra whitespace or line breaks in the JSON
+- Missing quotes around values
+- Incorrectly escaped characters
+- Additional text before or after the JSON
+- Unicode or special characters in the secret values
+
+**Solution:**
+1. Validate your JSON using an online validator (https://jsonlint.com/)
+2. Ensure the JSON is on a single line or properly formatted
+3. Copy the exact format from the example above
+4. Remove any trailing whitespace or newlines
+5. The workflow now includes automatic validation that will provide specific error messages
+
+**Example of correct format:**
+```json
+{"clientId":"abc123","clientSecret":"xyz789","subscriptionId":"sub123","tenantId":"tenant123"}
+```
+
+**Example of incorrect format:**
+```
+JSON from Azure: {"clientId":"abc123"...  (Contains extra text)
+{
+  "clientId": "abc123",    (Extra whitespace/formatting may cause issues)
+}
+```
 
 ### Deployment steps are skipped
 
