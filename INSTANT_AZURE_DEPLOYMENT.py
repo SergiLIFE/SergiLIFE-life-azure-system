@@ -1,4 +1,4 @@
-PE#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 L.I.F.E. THEORY ALGORITHM - AZURE REAL-TIME DEPLOYMENT EXECUTOR
 Real-time Azure ecosystem integration with INSTANT deployment
