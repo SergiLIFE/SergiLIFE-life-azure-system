@@ -1,0 +1,45 @@
+# GitHub Copilot Configuration for L.I.F.E Platform
+# This file configures GitHub Copilot for the repository
+
+# Repository context
+repository:
+  name: "L.I.F.E Platform - Learning Individually from Experience"
+  description: "Production-ready Azure-native neuroadaptive learning platform"
+  language: "python"
+  framework: "azure-functions"
+
+# Code style preferences
+code_style:
+  python:
+    formatter: "black"
+    linter: "flake8"
+    line_length: 127
+    import_order: "pep8"
+  
+# Documentation preferences
+documentation:
+  style: "google"
+  include_type_hints: true
+  include_examples: true
+
+# Testing preferences
+testing:
+  framework: "pytest"
+  coverage_target: 80
+  include_async_tests: true
+
+# Azure-specific preferences
+azure:
+  use_managed_identity: true
+  prefer_async_operations: true
+  include_error_handling: true
+
+# Conventions
+conventions:
+  - "Use dataclasses for data structures"
+  - "Use enums for states and stages"
+  - "Include copyright headers in new files"
+  - "Use absolute paths in scripts"
+  - "Auto-create required directories with exist_ok=True"
+  - "All logs must be ASCII-only for compliance"
+  - "Include Azure Marketplace Offer ID in file headers: 9a600d96-fe1e-420b-902a-a0c42c561adb"

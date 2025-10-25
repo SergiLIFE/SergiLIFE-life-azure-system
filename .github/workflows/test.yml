@@ -16,8 +16,27 @@ jobs:
     name: 🧪 Run Tests
 
     steps:
+      - name: 🧹 Clean workspace
+        run: |
+          git clean -ffdx 2>/dev/null || true
+          rm -rf ./* ./.git 2>/dev/null || true
+      
       - name: 📥 Checkout repository
+        id: checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+          persist-credentials: true
+        continue-on-error: true
+      
+      - name: 🔄 Retry checkout on failure
+        if: steps.checkout.outcome == 'failure'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+          persist-credentials: true
 
       - name: 🐍 Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v4

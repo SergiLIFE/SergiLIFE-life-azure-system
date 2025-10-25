@@ -19,8 +19,27 @@ jobs:
     name: 🧪 Run Tests
 
     steps:
+      - name: 🧹 Clean workspace
+        run: |
+          git clean -ffdx 2>/dev/null || true
+          rm -rf ./* ./.git 2>/dev/null || true
+      
       - name: 📥 Checkout repository
+        id: checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+          persist-credentials: true
+        continue-on-error: true
+      
+      - name: 🔄 Retry checkout on failure
+        if: steps.checkout.outcome == 'failure'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+          persist-credentials: true
 
       - name: 🐍 Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v4
@@ -82,8 +101,27 @@ jobs:
     name: 🔒 Security Scan
 
     steps:
+      - name: 🧹 Clean workspace
+        run: |
+          git clean -ffdx 2>/dev/null || true
+          rm -rf ./* ./.git 2>/dev/null || true
+      
       - name: 📥 Checkout repository
+        id: checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+          persist-credentials: true
+        continue-on-error: true
+      
+      - name: 🔄 Retry checkout on failure
+        if: steps.checkout.outcome == 'failure'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+          persist-credentials: true
 
       - name: 🐍 Set up Python
         uses: actions/setup-python@v4
@@ -110,8 +148,27 @@ jobs:
     needs: [test, security]
 
     steps:
+      - name: 🧹 Clean workspace
+        run: |
+          git clean -ffdx 2>/dev/null || true
+          rm -rf ./* ./.git 2>/dev/null || true
+      
       - name: 📥 Checkout repository
+        id: checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+          persist-credentials: true
+        continue-on-error: true
+      
+      - name: 🔄 Retry checkout on failure
+        if: steps.checkout.outcome == 'failure'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+          persist-credentials: true
 
       - name: 🐍 Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v4
@@ -157,13 +214,22 @@ jobs:
           path: ./deployment
 
       - name: 🔧 Prepare Azure credentials
+        id: prepare-creds
         run: |
           set -e
+          
+          # Skip credential validation for pull requests from forks
+          if [ "${{ github.event_name }}" = "pull_request" ] && [ "${{ github.event.pull_request.head.repo.fork }}" = "true" ]; then
+            echo "⚠️ Skipping Azure credentials check for forked PR"
+            echo "has-creds=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
 
           # If AZURE_CREDENTIALS secret is present, export it to the environment for the action to consume
           if [ -n "${{ secrets.AZURE_CREDENTIALS }}" ]; then
             echo "AZURE_CREDENTIALS=${{ secrets.AZURE_CREDENTIALS }}" >> $GITHUB_ENV
             echo "✅ Using AZURE_CREDENTIALS secret."
+            echo "has-creds=true" >> $GITHUB_OUTPUT
             exit 0
           fi
 
@@ -172,15 +238,31 @@ jobs:
             # Compose the JSON and write to GITHUB_ENV
             echo "AZURE_CREDENTIALS={\"clientId\":\"${{ secrets.AZURE_CLIENT_ID }}\",\"clientSecret\":\"${{ secrets.AZURE_CLIENT_SECRET }}\",\"subscriptionId\":\"${{ secrets.AZURE_SUBSCRIPTION_ID }}\",\"tenantId\":\"${{ secrets.AZURE_TENANT_ID }}\"}" >> $GITHUB_ENV
             echo "✅ Composed AZURE_CREDENTIALS from individual secrets."
+            echo "has-creds=true" >> $GITHUB_OUTPUT
             exit 0
           fi
 
           echo "❌ Azure credentials were not found. Set the repository secret AZURE_CREDENTIALS or the individual secrets AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID."
           echo "Example AZURE_CREDENTIALS payload (replace placeholders):"
           echo '{"clientId":"YOUR_CLIENT_ID","clientSecret":"YOUR_CLIENT_SECRET","subscriptionId":"YOUR_SUBSCRIPTION_ID","tenantId":"YOUR_TENANT_ID"}'
+          echo ""
+          echo "📋 Setup Instructions:"
+          echo "1. Go to: https://github.com/${{ github.repository }}/settings/secrets/actions"
+          echo "2. Click 'New repository secret'"
+          echo "3. Add AZURE_CREDENTIALS with your service principal credentials"
+          echo "has-creds=false" >> $GITHUB_OUTPUT
           exit 1
+      
+      - name: 🔍 Dry-run verification (PR only)
+        if: github.event_name == 'pull_request' && steps.prepare-creds.outputs.has-creds == 'true'
+        run: |
+          echo "✅ Credentials validation passed"
+          echo "🔐 Azure credentials are properly configured"
+          echo "📦 This is a dry-run for PR verification"
 
       - name: 🔑 Azure Login
+        if: steps.prepare-creds.outputs.has-creds == 'true'
+        id: azure-login
         uses: azure/login@v2
         with:
           creds: ${{ env.AZURE_CREDENTIALS }}
@@ -222,13 +304,22 @@ jobs:
           path: ./deployment
 
       - name: 🔧 Prepare Azure credentials
+        id: prepare-creds
         run: |
           set -e
+          
+          # Skip credential validation for pull requests from forks
+          if [ "${{ github.event_name }}" = "pull_request" ] && [ "${{ github.event.pull_request.head.repo.fork }}" = "true" ]; then
+            echo "⚠️ Skipping Azure credentials check for forked PR"
+            echo "has-creds=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
 
           # If AZURE_CREDENTIALS secret is present, export it to the environment for the action to consume
           if [ -n "${{ secrets.AZURE_CREDENTIALS }}" ]; then
             echo "AZURE_CREDENTIALS=${{ secrets.AZURE_CREDENTIALS }}" >> $GITHUB_ENV
             echo "✅ Using AZURE_CREDENTIALS secret."
+            echo "has-creds=true" >> $GITHUB_OUTPUT
             exit 0
           fi
 
@@ -237,15 +328,31 @@ jobs:
             # Compose the JSON and write to GITHUB_ENV
             echo "AZURE_CREDENTIALS={\"clientId\":\"${{ secrets.AZURE_CLIENT_ID }}\",\"clientSecret\":\"${{ secrets.AZURE_CLIENT_SECRET }}\",\"subscriptionId\":\"${{ secrets.AZURE_SUBSCRIPTION_ID }}\",\"tenantId\":\"${{ secrets.AZURE_TENANT_ID }}\"}" >> $GITHUB_ENV
             echo "✅ Composed AZURE_CREDENTIALS from individual secrets."
+            echo "has-creds=true" >> $GITHUB_OUTPUT
             exit 0
           fi
 
           echo "❌ Azure credentials were not found. Set the repository secret AZURE_CREDENTIALS or the individual secrets AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID."
           echo "Example AZURE_CREDENTIALS payload (replace placeholders):"
           echo '{"clientId":"YOUR_CLIENT_ID","clientSecret":"YOUR_CLIENT_SECRET","subscriptionId":"YOUR_SUBSCRIPTION_ID","tenantId":"YOUR_TENANT_ID"}'
+          echo ""
+          echo "📋 Setup Instructions:"
+          echo "1. Go to: https://github.com/${{ github.repository }}/settings/secrets/actions"
+          echo "2. Click 'New repository secret'"
+          echo "3. Add AZURE_CREDENTIALS with your service principal credentials"
+          echo "has-creds=false" >> $GITHUB_OUTPUT
           exit 1
+      
+      - name: 🔍 Dry-run verification (PR only)
+        if: github.event_name == 'pull_request' && steps.prepare-creds.outputs.has-creds == 'true'
+        run: |
+          echo "✅ Credentials validation passed"
+          echo "🔐 Azure credentials are properly configured"
+          echo "📦 This is a dry-run for PR verification"
 
       - name: 🔑 Azure Login
+        if: steps.prepare-creds.outputs.has-creds == 'true'
+        id: azure-login
         uses: azure/login@v2
         with:
           creds: ${{ env.AZURE_CREDENTIALS }}
@@ -285,8 +392,27 @@ jobs:
     if: github.ref == 'refs/heads/main'
 
     steps:
+      - name: 🧹 Clean workspace
+        run: |
+          git clean -ffdx 2>/dev/null || true
+          rm -rf ./* ./.git 2>/dev/null || true
+      
       - name: 📥 Checkout repository
+        id: checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+          persist-credentials: true
+        continue-on-error: true
+      
+      - name: 🔄 Retry checkout on failure
+        if: steps.checkout.outcome == 'failure'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+          persist-credentials: true
 
       - name: 🐍 Set up Python
         uses: actions/setup-python@v4

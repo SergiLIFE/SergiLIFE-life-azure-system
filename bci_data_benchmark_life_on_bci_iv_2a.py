@@ -68,8 +68,7 @@ def run_life_benchmark(X, y, config=None, seed=SEED):
 def aggregate_benchmarks(num_runs=5, config=None, seed=SEED):
     """Run multiple benchmarks, aggregate and save results."""
     # Ensure results directory exists
-    if not os.path.exists(RESULTS_DIR):
-        os.makedirs(RESULTS_DIR)
+    os.makedirs(RESULTS_DIR, exist_ok=True)
     all_results = []
     for i in range(num_runs):
         run_seed = seed + i

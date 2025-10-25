@@ -9,7 +9,27 @@ jobs:
       max-parallel: 5
 
     steps:
-    - uses: actions/checkout@v4
+    - name: 🧹 Clean workspace
+      run: |
+        git clean -ffdx 2>/dev/null || true
+        rm -rf ./* ./.git 2>/dev/null || true
+    
+    - name: Checkout
+      id: checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        submodules: false
+        persist-credentials: true
+      continue-on-error: true
+    
+    - name: 🔄 Retry checkout on failure
+      if: steps.checkout.outcome == 'failure'
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        submodules: false
+        persist-credentials: true
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:

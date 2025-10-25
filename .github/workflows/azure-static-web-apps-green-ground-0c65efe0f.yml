@@ -18,7 +18,22 @@ jobs:
        id-token: write
        contents: read
     steps:
+      - name: 🧹 Clean workspace
+        run: |
+          git clean -ffdx 2>/dev/null || true
+          rm -rf ./* ./.git 2>/dev/null || true
+      
       - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: false
+          persist-credentials: false
+          fetch-depth: 0
+        continue-on-error: true
+      
+      - name: 🔄 Retry checkout on failure
+        if: steps.checkout.outcome == 'failure'
         uses: actions/checkout@v4
         with:
           submodules: false

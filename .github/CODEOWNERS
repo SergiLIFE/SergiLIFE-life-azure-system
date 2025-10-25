@@ -1,0 +1,23 @@
+# L.I.F.E Platform - Code Owners
+# These owners will be requested for review when someone opens a pull request.
+
+# Default owners for everything in the repo
+* @SergiLIFE
+
+# Core algorithm and neural processing
+experimentP2*.py @SergiLIFE
+lifetheory.py @SergiLIFE
+*life*.py @SergiLIFE
+
+# Azure infrastructure and deployment
+.github/workflows/ @SergiLIFE
+azure*.py @SergiLIFE
+*.yml @SergiLIFE
+
+# Documentation
+*.md @SergiLIFE
+docs/ @SergiLIFE
+
+# Configuration files
+requirements*.txt @SergiLIFE
+environment.yml @SergiLIFE
