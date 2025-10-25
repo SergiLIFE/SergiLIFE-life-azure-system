@@ -143,5 +143,4 @@ def simulate_eeg_test():
     return results
 
 if __name__ == "__main__":
-    simulate_eeg_test()if __name__ == "__main__":
     simulate_eeg_test()

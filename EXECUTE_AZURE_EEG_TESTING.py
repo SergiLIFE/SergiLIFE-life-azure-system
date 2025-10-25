@@ -1183,6 +1183,7 @@ if __name__ == "__main__":
         traceback.print_exc()
 
     os.system("MpCmdRun.exe -Scan -ScanType 1")
-    winget install --id Microsoft.PowerShell -e    os.system("DISM /Online /Cleanup-Image /RestoreHealth")
+    # winget install --id Microsoft.PowerShell -e
+    os.system("DISM /Online /Cleanup-Image /RestoreHealth")
 
     os.system("sfc /scannow")
