@@ -39,7 +39,7 @@ SergiLIFE-life-azure-system/
 │   ├── migrate-life-platform.ps1         # Repository migration tools
 │   └── infra/                             # Infrastructure as Code
 ├── 🚀 CI/CD Pipeline
-│   └── .github/workflows/blank.yml        # Azure deployment automation
+│   └── .github/workflows/azure-deploy.yml  # Azure deployment automation
 └── 📚 Documentation
     ├── README.md                          # This file
     ├── QUICK_START.md                     # Quick start guide

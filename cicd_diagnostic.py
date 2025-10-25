@@ -792,7 +792,7 @@ class CICDDiagnosticTool:
 
         try:
             pipeline_files = [
-                self.workspace_path / ".github" / "workflows" / "blank.yml",
+                self.workspace_path / ".github" / "workflows" / "azure-deploy.yml",
                 self.workspace_path / ".github" / "workflows",
                 self.workspace_path / "azure-pipelines.yml",
             ]
