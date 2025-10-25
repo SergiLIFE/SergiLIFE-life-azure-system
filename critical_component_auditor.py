@@ -19,6 +19,7 @@ import os
 import subprocess
 import sys
 from datetime import datetime, timedelta
+from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
