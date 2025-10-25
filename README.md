@@ -227,7 +227,7 @@ SergiLIFE-life-azure-system/
 ├── 🏗️  infra/main.parameters.json       # Infrastructure parameters
 ├── 📋 setup-azure-oidc.ps1              # OIDC authentication setup
 ├── 🚀 migrate-life-platform.ps1         # Migration utility
-├── 📊 .github/workflows/blank.yml       # CI/CD pipeline
+├── 📊 .github/workflows/azure-deploy.yml # CI/CD pipeline
 └── 📚 Documentation files
 ```
 

@@ -64,7 +64,7 @@ L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c56
 - **Logging:** All logs are Unicode-safe, ASCII-only, and exported for compliance. Scripts auto-create `logs/` directory with absolute paths (e.g., `logs/life_benchmark.log`, `logs/autonomous_optimizer.log`).
 - **Directory Structure:** Scripts auto-create required directories (`logs/`, `results/`) and use absolute paths for reproducibility.
 - **Naming:** Key scripts and files use descriptive, long-form names for clarity (e.g., `experimentP2L...py`).
-- **CI/CD:** See `.github/workflows/blank.yml` for pipeline structure; Azure deployment is automated.
+- **CI/CD:** See `.github/workflows/azure-deploy.yml` for pipeline structure; Azure deployment is automated.
 - **Documentation:** Key guides: `README.md`, `AZURE_OIDC_SETUP.md`, `QUICK_START.md`.
 - **Code Structure:** Use dataclasses for data structures (`EEGMetrics`, `LearningOutcome`), enums for states (`LearningStage`, `NeuralState`), asyncio for concurrency, numpy/pandas for data processing.
 
