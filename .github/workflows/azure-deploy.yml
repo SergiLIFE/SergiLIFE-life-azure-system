@@ -161,23 +161,56 @@ jobs:
         run: |
           set -e
 
-          # If AZURE_CREDENTIALS secret is present, write it to GITHUB_OUTPUT
+          # Function to validate JSON
+          validate_json() {
+            echo "$1" | python3 -m json.tool > /dev/null 2>&1
+            return $?
+          }
+
+          # If AZURE_CREDENTIALS secret is present, validate and use it
           if [ -n "${{ secrets.AZURE_CREDENTIALS }}" ]; then
-            echo "azure_credentials<<EOF" >> $GITHUB_OUTPUT
-            echo "${{ secrets.AZURE_CREDENTIALS }}" >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
-            echo "✅ Using AZURE_CREDENTIALS secret."
-            exit 0
+            # Store credentials in a variable and trim whitespace
+            CREDS=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+            
+            # Validate JSON structure
+            if validate_json "$CREDS"; then
+              # Verify required fields are present
+              if echo "$CREDS" | python3 -c "import sys, json; data=json.load(sys.stdin); exit(0 if all(k in data for k in ['clientId','clientSecret','subscriptionId','tenantId']) else 1)"; then
+                echo "azure_credentials<<EOF" >> $GITHUB_OUTPUT
+                echo "$CREDS" >> $GITHUB_OUTPUT
+                echo "EOF" >> $GITHUB_OUTPUT
+                echo "✅ Using AZURE_CREDENTIALS secret (validated)."
+                exit 0
+              else
+                echo "❌ Error: AZURE_CREDENTIALS is missing required fields."
+                echo "Required fields: clientId, clientSecret, subscriptionId, tenantId"
+                exit 1
+              fi
+            else
+              echo "❌ Error: AZURE_CREDENTIALS secret contains invalid JSON."
+              echo "Please ensure the secret is properly formatted JSON."
+              echo "Expected format: {\"clientId\":\"...\",\"clientSecret\":\"...\",\"subscriptionId\":\"...\",\"tenantId\":\"...\"}"
+              exit 1
+            fi
           fi
 
           # Otherwise try to compose AZURE_CREDENTIALS from individual secrets
           if [ -n "${{ secrets.AZURE_CLIENT_ID }}" ] && [ -n "${{ secrets.AZURE_CLIENT_SECRET }}" ] && [ -n "${{ secrets.AZURE_SUBSCRIPTION_ID }}" ] && [ -n "${{ secrets.AZURE_TENANT_ID }}" ]; then
             # Compose the JSON and write to GITHUB_OUTPUT
-            echo "azure_credentials<<EOF" >> $GITHUB_OUTPUT
-            echo "{\"clientId\":\"${{ secrets.AZURE_CLIENT_ID }}\",\"clientSecret\":\"${{ secrets.AZURE_CLIENT_SECRET }}\",\"subscriptionId\":\"${{ secrets.AZURE_SUBSCRIPTION_ID }}\",\"tenantId\":\"${{ secrets.AZURE_TENANT_ID }}\"}" >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
-            echo "✅ Composed AZURE_CREDENTIALS from individual secrets."
-            exit 0
+            COMPOSED_CREDS="{\"clientId\":\"${{ secrets.AZURE_CLIENT_ID }}\",\"clientSecret\":\"${{ secrets.AZURE_CLIENT_SECRET }}\",\"subscriptionId\":\"${{ secrets.AZURE_SUBSCRIPTION_ID }}\",\"tenantId\":\"${{ secrets.AZURE_TENANT_ID }}\"}"
+            
+            # Validate composed JSON
+            if validate_json "$COMPOSED_CREDS"; then
+              echo "azure_credentials<<EOF" >> $GITHUB_OUTPUT
+              echo "$COMPOSED_CREDS" >> $GITHUB_OUTPUT
+              echo "EOF" >> $GITHUB_OUTPUT
+              echo "✅ Composed AZURE_CREDENTIALS from individual secrets (validated)."
+              exit 0
+            else
+              echo "❌ Error: Composed credentials contain invalid characters."
+              echo "Please check individual secrets for special characters or formatting issues."
+              exit 1
+            fi
           fi
 
           echo "❌ Azure credentials were not found. Set the repository secret AZURE_CREDENTIALS or the individual secrets AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID."
@@ -187,6 +220,7 @@ jobs:
 
       - name: 🔑 Azure Login
         uses: azure/login@v2
+        continue-on-error: false
         with:
           creds: ${{ steps.prepare-azure-credentials.outputs.azure_credentials }}
 
@@ -231,23 +265,56 @@ jobs:
         run: |
           set -e
 
-          # If AZURE_CREDENTIALS secret is present, write it to GITHUB_OUTPUT
+          # Function to validate JSON
+          validate_json() {
+            echo "$1" | python3 -m json.tool > /dev/null 2>&1
+            return $?
+          }
+
+          # If AZURE_CREDENTIALS secret is present, validate and use it
           if [ -n "${{ secrets.AZURE_CREDENTIALS }}" ]; then
-            echo "azure_credentials<<EOF" >> $GITHUB_OUTPUT
-            echo "${{ secrets.AZURE_CREDENTIALS }}" >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
-            echo "✅ Using AZURE_CREDENTIALS secret."
-            exit 0
+            # Store credentials in a variable and trim whitespace
+            CREDS=$(echo '${{ secrets.AZURE_CREDENTIALS }}' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+            
+            # Validate JSON structure
+            if validate_json "$CREDS"; then
+              # Verify required fields are present
+              if echo "$CREDS" | python3 -c "import sys, json; data=json.load(sys.stdin); exit(0 if all(k in data for k in ['clientId','clientSecret','subscriptionId','tenantId']) else 1)"; then
+                echo "azure_credentials<<EOF" >> $GITHUB_OUTPUT
+                echo "$CREDS" >> $GITHUB_OUTPUT
+                echo "EOF" >> $GITHUB_OUTPUT
+                echo "✅ Using AZURE_CREDENTIALS secret (validated)."
+                exit 0
+              else
+                echo "❌ Error: AZURE_CREDENTIALS is missing required fields."
+                echo "Required fields: clientId, clientSecret, subscriptionId, tenantId"
+                exit 1
+              fi
+            else
+              echo "❌ Error: AZURE_CREDENTIALS secret contains invalid JSON."
+              echo "Please ensure the secret is properly formatted JSON."
+              echo "Expected format: {\"clientId\":\"...\",\"clientSecret\":\"...\",\"subscriptionId\":\"...\",\"tenantId\":\"...\"}"
+              exit 1
+            fi
           fi
 
           # Otherwise try to compose AZURE_CREDENTIALS from individual secrets
           if [ -n "${{ secrets.AZURE_CLIENT_ID }}" ] && [ -n "${{ secrets.AZURE_CLIENT_SECRET }}" ] && [ -n "${{ secrets.AZURE_SUBSCRIPTION_ID }}" ] && [ -n "${{ secrets.AZURE_TENANT_ID }}" ]; then
             # Compose the JSON and write to GITHUB_OUTPUT
-            echo "azure_credentials<<EOF" >> $GITHUB_OUTPUT
-            echo "{\"clientId\":\"${{ secrets.AZURE_CLIENT_ID }}\",\"clientSecret\":\"${{ secrets.AZURE_CLIENT_SECRET }}\",\"subscriptionId\":\"${{ secrets.AZURE_SUBSCRIPTION_ID }}\",\"tenantId\":\"${{ secrets.AZURE_TENANT_ID }}\"}" >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
-            echo "✅ Composed AZURE_CREDENTIALS from individual secrets."
-            exit 0
+            COMPOSED_CREDS="{\"clientId\":\"${{ secrets.AZURE_CLIENT_ID }}\",\"clientSecret\":\"${{ secrets.AZURE_CLIENT_SECRET }}\",\"subscriptionId\":\"${{ secrets.AZURE_SUBSCRIPTION_ID }}\",\"tenantId\":\"${{ secrets.AZURE_TENANT_ID }}\"}"
+            
+            # Validate composed JSON
+            if validate_json "$COMPOSED_CREDS"; then
+              echo "azure_credentials<<EOF" >> $GITHUB_OUTPUT
+              echo "$COMPOSED_CREDS" >> $GITHUB_OUTPUT
+              echo "EOF" >> $GITHUB_OUTPUT
+              echo "✅ Composed AZURE_CREDENTIALS from individual secrets (validated)."
+              exit 0
+            else
+              echo "❌ Error: Composed credentials contain invalid characters."
+              echo "Please check individual secrets for special characters or formatting issues."
+              exit 1
+            fi
           fi
 
           echo "❌ Azure credentials were not found. Set the repository secret AZURE_CREDENTIALS or the individual secrets AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID."
@@ -257,6 +324,7 @@ jobs:
 
       - name: 🔑 Azure Login
         uses: azure/login@v2
+        continue-on-error: false
         with:
           creds: ${{ steps.prepare-azure-credentials.outputs.azure_credentials }}
 
