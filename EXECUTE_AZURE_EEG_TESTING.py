@@ -1161,7 +1161,7 @@ print(f"Accuracy: {{results['accuracy_score']:.1%}}")
 
         instructions_file = output_dir / "DOWNLOAD_INSTRUCTIONS.md"
         with open(instructions_file, "w", encoding="utf-8") as f:
-            f.write(download_instructions)
+            f.write(report)
 
         print(f"📥 Download instructions saved: {instructions_file}")
 
