@@ -146,7 +146,7 @@ class VenturiResilienceTester:
             test_name=test_name,
             success=success,
             duration=duration,
-            error_message=str(e) if "error_msg" in locals() else None,
+            error_message=error_msg if "error_msg" in locals() else None,
             performance_impact=performance_impact,
         )
 
@@ -188,7 +188,7 @@ class VenturiResilienceTester:
             test_name=test_name,
             success=success,
             duration=duration,
-            error_message=str(e) if "error_msg" in locals() else None,
+            error_message=error_msg if "error_msg" in locals() else None,
         )
 
     async def test_network_failure_simulation(self) -> ResilienceTestResult:
@@ -236,7 +236,7 @@ class VenturiResilienceTester:
             test_name=test_name,
             success=success,
             duration=duration,
-            error_message=str(e) if "error_msg" in locals() else None,
+            error_message=error_msg if "error_msg" in locals() else None,
         )
 
     async def test_configuration_drift_resilience(self) -> ResilienceTestResult:
@@ -276,7 +276,7 @@ class VenturiResilienceTester:
             test_name=test_name,
             success=success,
             duration=duration,
-            error_message=str(e) if "error_msg" in locals() else None,
+            error_message=error_msg if "error_msg" in locals() else None,
         )
 
     async def run_all_resilience_tests(self) -> Dict[str, Any]:
