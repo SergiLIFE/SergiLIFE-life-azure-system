@@ -1,10 +1,11 @@
 name: Azure Deployment Pipeline (Fixed)
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  # Disabled - Platform uses external web interface
+  # push:
+  #   branches: [main]
+  # pull_request:
+  #   branches: [main]
   workflow_dispatch:
 
 permissions:
