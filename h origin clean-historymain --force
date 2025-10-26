@@ -1,0 +1,20 @@
+[33mbd63a79[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Fix: Complete GitHub Pages deployment fix and system recovery - Remove embedded repos, add recovery folders to gitignore, fix submodule configuration, add Azure credentials guide (secrets redacted), Logic App fixes, and emergency data recovery documentation
+[33m5f40ea7[m Fix: Remove corrupted submodule configuration and disable submodules in GitHub Pages workflow
+[33mffc6b02[m feat: Update Azure credentials in success message for security and clarity
+[33m3b7fae4[m feat: Add comprehensive Azure deployment status report and emergency scripts
+[33m6cb934b[m feat: Complete staging deployment for L.I.F.E Platform with health checks, automation, and documentation
+[33ma0dbca4[m L.I.F.E Platform: Fix staging deployment issues and add enhanced workflows
+[33m9d1009a[m feat: Add deployment validation and testing scripts for L.I.F.E Platform
+[33m339c5e5[m chore: emoji sanitization follow-up and tooling updates (no behavior change)
+[33mc955d62[m chore: sanitize repository content to remove emojis; add emoji_sanitizer tooling and wrappers; keep behavior unchanged
+[33mb1b2785[m Commit and Push
+[33m4d99aaa[m Commit and push
+[33m46bbb27[m COMMIT AND PUSH
+[33meb14270[m Validation commit
+[33md4666c5[m Production commits
+[33m82d7926[m Strategic Partnership meeting
+[33m9da8f6f[m COMMIT AND PUSH
+[33m60d73bb[m Commit 2
+[33m6ad1dc8[m feat: Add L.I.F.E. Platform demo materials for October 15, 2025
+[33mb2cab11[m Add October 15 Demo Email Generator script with personalized email functionality
+[33m5da8a75[m Commit 12/10/2025
