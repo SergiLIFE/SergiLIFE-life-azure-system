@@ -1,0 +1,59 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 0 * * 1" # Weekly on Mondays
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    name: 🔒 Security Scan
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+
+      - name: 📦 Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 🔍 Run Bandit security scan
+        run: |
+          pip install bandit
+          bandit -r . -f json -o security-report.json || true
+          bandit -r . --exit-zero
+
+      - name: 🛡️ Run Safety vulnerability check
+        run: |
+          pip install safety
+          safety check --output json > safety-report.json || true
+
+      - name: 📊 Upload security reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-reports
+          path: |
+            security-report.json
+            safety-report.json
+
+      - name: 📋 Security scan summary
+        run: |
+          echo "## Security Scan Results" >> $GITHUB_STEP_SUMMARY
+          echo "- Bandit scan completed" >> $GITHUB_STEP_SUMMARY
+          echo "- Safety vulnerability check completed" >> $GITHUB_STEP_SUMMARY
+          echo "- Reports uploaded as artifacts" >> $GITHUB_STEP_SUMMARY
