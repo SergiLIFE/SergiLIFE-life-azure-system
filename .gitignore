@@ -212,3 +212,19 @@ __marimo__/
 
 .python_packagesSUCCESS_AZURE_SERVICE_PRINCIPAL_CREATED.md 
 LIVE_FUNCTION_TESTING_SUCCESS_REPORT.md 
+.mypy_cache/ 
+__pycache__/ 
+*.pyc 
+.pytest_cache/ 
+.vscode/ 
+*.log 
+.env 
+node_modules/ 
+.mypy_cache/ 
+__pycache__/ 
+*.pyc 
+.pytest_cache/ 
+.vscode/ 
+*.log 
+.env 
+node_modules/ 
