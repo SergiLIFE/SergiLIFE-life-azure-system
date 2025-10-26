@@ -1,0 +1,8 @@
+name: Safe Mode 
+on: 
+  workflow_dispatch: 
+jobs: 
+  safe: 
+    runs-on: ubuntu-latest 
+    steps: 
+      - run: echo "Safe mode - no deployments" 
