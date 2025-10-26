@@ -1,3 +1,7 @@
+# Recovery folders (embedded repos)
+LIFE-RECOVERY/
+SergiLIFE-RECOVERED/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
