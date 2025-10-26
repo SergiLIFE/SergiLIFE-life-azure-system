@@ -695,6 +695,16 @@
 			"command": "VALIDATE_STAGING_DEPLOYMENT.bat",
 			"isBackground": false,
 			"group": "build"
+		},
+		{
+			"label": "🚀 Force Git Track All Files",
+			"type": "shell",
+			"command": "cmd",
+			"args": [
+				"/c",
+				"echo === FORCE GIT ADD === && git add . --force && git add -A --force && git status --short && echo Files to commit: && git diff --cached --name-only | find /c /v \"\""
+			],
+			"group": "build"
 		}
 	]
 }
