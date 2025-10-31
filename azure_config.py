@@ -198,6 +198,62 @@ class EnterpriseMetrics:
     avg_response_time_ms: float = 15.12  # Fast Mode champion
     learning_session_success_rate: float = 100.0  # 100% cycle success
     neural_processing_accuracy: float = 95.9  # BCI Competition IV 2a benchmark
+
+
+# --- Helper: Azure Storage client with local fallback ---
+class _LocalBlobClient:
+    def __init__(self, root_dir: str, container: str, blob: str):
+        self._path = os.path.join(root_dir, container, blob)
+
+    async def upload_blob(self, data, overwrite: bool = True):
+        os.makedirs(os.path.dirname(self._path), exist_ok=True)
+        # Support both bytes and text
+        mode = "wb"
+        content = data
+        if isinstance(data, str):
+            mode = "w"
+        with open(self._path, mode, encoding="utf-8" if mode == "w" else None) as f:
+            if mode == "w":
+                f.write(content)
+            else:
+                f.write(
+                    content
+                    if isinstance(content, (bytes, bytearray))
+                    else bytes(str(content), "utf-8")
+                )
+        return True
+
+
+class _LocalBlobServiceClient:
+    def __init__(self, root_dir: str):
+        self._root = root_dir
+
+    def get_blob_client(self, container: str, blob: str):
+        return _LocalBlobClient(self._root, container, blob)
+
+
+def get_azure_storage_client():
+    """
+    Return a BlobServiceClient when credentials are available; otherwise return a
+    local filesystem-backed stub that writes under results/azure_blob/.
+    """
+    try:
+        account = os.getenv("AZURE_STORAGE_ACCOUNT", "stlifeplatformprod")
+        account_url = f"https://{account}.blob.core.windows.net"
+        credential = None
+        try:
+            credential = DefaultAzureCredential()
+        except Exception:
+            credential = None
+        if credential is not None:
+            return BlobServiceClient(account_url=account_url, credential=credential)
+    except Exception:
+        pass
+
+    # Fallback to local stub
+    local_root = os.path.join(os.path.dirname(__file__), "results", "azure_blob")
+    os.makedirs(local_root, exist_ok=True)
+    return _LocalBlobServiceClient(local_root)
     cycles_per_second: float = 80.16  # Validated performance
     cycle_duration_seconds: float = 0.012  # 0.012s/cycle
 

@@ -660,6 +660,29 @@
 			"label": "🧪 Test Local L.I.F.E Platform",
 			"type": "shell",
 			"command": "python",
+				{
+					"label": "🏁 300-cycle EEG Validation",
+					"type": "shell",
+					"command": "cmd",
+					"args": [
+						"/c",
+						"python",
+						"comprehensive_300_cycle_eeg_validation.py"
+					],
+					"group": "build",
+					"options": {
+						"cwd": "${workspaceFolder}"
+					},
+					"presentation": {
+						"echo": true,
+						"reveal": "always",
+						"focus": true,
+						"panel": "new",
+						"showReuseMessage": true,
+						"clear": false
+					},
+					"detail": "Execute the comprehensive 300-cycle EEG validation and export report under reports/"
+				},
 			"args": [
 				"test_local_life.py"
 			],
@@ -705,6 +728,146 @@
 				"echo === FORCE GIT ADD === && git add . --force && git add -A --force && git status --short && echo Files to commit: && git diff --cached --name-only | find /c /v \"\""
 			],
 			"group": "build"
+		},
+		{
+			"label": "Commit Professional Standards",
+			"type": "shell",
+			"command": "cmd",
+			"args": [
+				"/c",
+				"git",
+				"commit",
+				"-m",
+				"PROFESSIONAL STANDARDS ENFORCED: Remove emojis, corporate docs, prevention hooks and professional README"
+			]
+		},
+		{
+			"label": "Push Professional Standards",
+			"type": "shell",
+			"command": "cmd",
+			"args": [
+				"/c",
+				"git",
+				"push",
+				"origin",
+				"main"
+			]
+		},
+		{
+			"label": "git: Commit README only and push",
+			"type": "shell",
+			"command": "cmd",
+			"args": [
+				"/c",
+				"git config user.name \"Sergio Paya Borrull\" && git config user.email \"sergio@lifeplatform.ai\" && git add README.md && git commit -m \"docs: replace README with professional version [no emoji]\" && git push origin HEAD:main"
+			],
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "new"
+			},
+			"detail": "Stage README.md only, commit with local identity, and push to origin/main"
+		},
+		{
+			"label": "🕒 Run Local Ingestion Scheduler",
+			"type": "shell",
+			"command": "cmd",
+			"args": [
+				"/c",
+				"python",
+				"scripts\\ingestion_scheduler_runner.py",
+				"--cycles",
+				"1",
+				"--sleep-seconds",
+				"2"
+			],
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"panel": "new"
+			},
+			"detail": "Run ExternalEEGIngestionEngine locally with filesystem storage fallback; writes JSON results to results/ingestion/"
+		},
+		{
+			"label": "� Run Ingestion Facade (PhysioNet)",
+			"type": "shell",
+			"command": "cmd",
+			"args": [
+				"/c",
+				"python",
+				"scripts\\ingestion_scheduler_runner.py",
+				"--cycles",
+				"1",
+				"--sleep-seconds",
+				"1",
+				"--routine",
+				"ingestphysionet"
+			],
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"panel": "new"
+			},
+			"detail": "Invoke facade function ingestphysionet() for 1:1 compatibility; writes JSON to results/ingestion/"
+		},
+		{
+			"label": "�📦 Install EEG Benchmark Deps",
+			"type": "shell",
+			"command": "cmd",
+			"args": [
+				"/c",
+				"python",
+				"-m",
+				"pip",
+				"install",
+				"mne",
+				"scipy",
+				"pywavelets",
+				"numpy"
+			],
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"panel": "new"
+			},
+			"detail": "Install dependencies for EEG 100-cycle benchmark (MNE, SciPy, PyWavelets, NumPy)"
+		},
+		{
+			"label": "🏁 100-cycle EEG Benchmark",
+			"type": "shell",
+			"command": "cmd",
+			"args": [
+				"/c",
+				"python",
+				"scripts\\eeg_100_cycle_benchmark.py"
+			],
+			"group": "build",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"panel": "new"
+			},
+			"detail": "Run the 100-cycle EEG ingestion and optimizer impact benchmark"
 		}
 	]
 }

@@ -1,0 +1,240 @@
+═══════════════════════════════════════════════════════════════
+  DNS CONFIGURATION FOR lifecoach-121.com
+  Quick Reference Guide - Copy These DNS Records
+═══════════════════════════════════════════════════════════════
+
+🎯 GOAL: Make your L.I.F.E. Platform accessible at:
+   https://lifecoach-121.com/life-theory-platform.html
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 STEP 1: FIND YOUR DOMAIN REGISTRAR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Where did you buy "lifecoach-121.com"?
+Common registrars:
+  • GoDaddy → https://www.godaddy.com
+  • Namecheap → https://www.namecheap.com
+  • Cloudflare → https://www.cloudflare.com
+  • Google Domains → https://domains.google.com
+  • Domain.com → https://www.domain.com
+
+Not sure? Check here: https://who.is/whois/lifecoach-121.com
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 STEP 2: LOG INTO YOUR REGISTRAR AND FIND DNS SETTINGS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Look for buttons/menus labeled:
+  ✓ "DNS Management"
+  ✓ "DNS Settings"
+  ✓ "Manage DNS"
+  ✓ "Advanced DNS"
+  ✓ "Domain Settings"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 STEP 3: ADD THESE DNS RECORDS (COPY EXACTLY!)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OPTION A: A RECORDS (RECOMMENDED - WORKS EVERYWHERE)
+─────────────────────────────────────────────────────────────
+
+Add these FOUR records:
+
+┌──────┬──────┬──────────────────┬──────┐
+│ Type │ Name │ Value            │ TTL  │
+├──────┼──────┼──────────────────┼──────┤
+│  A   │  @   │ 185.199.108.153  │ 3600 │
+│  A   │  @   │ 185.199.109.153  │ 3600 │
+│  A   │  @   │ 185.199.110.153  │ 3600 │
+│  A   │  @   │ 185.199.111.153  │ 3600 │
+└──────┴──────┴──────────────────┴──────┘
+
+PLUS add www subdomain (OPTIONAL but recommended):
+
+┌───────┬──────┬────────────────────┬──────┐
+│ Type  │ Name │ Value              │ TTL  │
+├───────┼──────┼────────────────────┼──────┤
+│ CNAME │ www  │ sergilife.github.io│ 3600 │
+└───────┴──────┴────────────────────┴──────┘
+
+─────────────────────────────────────────────────────────────
+
+OPTION B: CNAME RECORD (SIMPLER BUT NOT ALL REGISTRARS ALLOW)
+─────────────────────────────────────────────────────────────
+
+⚠️ Some registrars don't allow CNAME at root (@)
+   If this fails, use Option A instead!
+
+┌───────┬──────┬────────────────────┬──────┐
+│ Type  │ Name │ Value              │ TTL  │
+├───────┼──────┼────────────────────┼──────┤
+│ CNAME │  @   │ sergilife.github.io│ 3600 │
+└───────┴──────┴────────────────────┴──────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 STEP 4: REMOVE OLD/CONFLICTING RECORDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ IMPORTANT: Delete any existing records that conflict!
+
+Remove these if they exist:
+  ❌ Old A records for @ (root domain)
+  ❌ Old CNAME records for @ or www
+  ❌ Parking page records
+  ❌ Redirects to other websites
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 STEP 5: SAVE AND WAIT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Click "Save" or "Save Changes"
+2. Wait for DNS propagation:
+   ⏱️  5-30 minutes (typical)
+   ⏱️  Up to 24 hours (worst case)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 STEP 6: VERIFY DNS (AFTER WAITING)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Method 1: Command Prompt
+─────────────────────────
+Open CMD and run:
+  nslookup lifecoach-121.com
+
+Expected output (after propagation):
+  Addresses:  185.199.108.153
+              185.199.109.153
+              185.199.110.153
+              185.199.111.153
+
+Method 2: Online Checker
+─────────────────────────
+Visit: https://dnschecker.org
+  1. Enter: lifecoach-121.com
+  2. Select: A record
+  3. Click Search
+  4. Wait for green checkmarks worldwide
+
+Method 3: GitHub Pages Settings
+─────────────────────────────────
+Visit: https://github.com/SergiLIFE/SergiLIFE-life-azure-system/settings/pages
+  Look for green checkmark ✅ next to custom domain
+  This means GitHub verified your DNS!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 STEP 7: ENABLE HTTPS (AFTER DNS VERIFIED)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Once GitHub shows green checkmark:
+  1. Go to: https://github.com/SergiLIFE/SergiLIFE-life-azure-system/settings/pages
+  2. Check box: "Enforce HTTPS"
+  3. Click Save
+  4. Wait 5-10 minutes for SSL certificate
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ YOUR FINAL URLS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+After DNS propagation and HTTPS:
+
+┌───────────────┬────────────────────────────────────────────────────┐
+│ Custom Domain │ https://lifecoach-121.com/life-theory-platform.html│
+│ With www      │ https://www.lifecoach-121.com/life-theory-platform.html
+│ GitHub Pages  │ https://sergilife.github.io/SergiLIFE-life-azure-system/life-theory-platform.html
+└───────────────┴────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🆘 TROUBLESHOOTING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Problem: "DNS check failed"
+────────────────────────────
+Solution:
+  ✓ Verify A records point to GitHub IPs
+  ✓ Wait 15 more minutes
+  ✓ Clear DNS cache: ipconfig /flushdns
+
+Problem: "404 Not Found"
+────────────────────────
+Solution:
+  ✓ Check docs/CNAME contains: lifecoach-121.com
+  ✓ Re-enable GitHub Pages in settings
+  ✓ Verify Source: main branch, /docs folder
+
+Problem: "Not secure" or certificate error
+───────────────────────────────────────────
+Solution:
+  ✓ Wait for DNS validation (green checkmark)
+  ✓ Enable "Enforce HTTPS" in settings
+  ✓ Wait 5-10 minutes
+  ✓ Hard refresh: Ctrl+F5
+
+Problem: Takes too long
+───────────────────────
+Solution:
+  ✓ DNS propagation is slow by design
+  ✓ Use Google DNS: 8.8.8.8 and 8.8.4.4
+  ✓ Test from mobile hotspot (different network)
+  ✓ Clear browser cache: Ctrl+Shift+Delete
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📞 NEED HELP?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Tools available in this repository:
+  • DNS_HELPER.bat - Interactive DNS verification tool
+  • DNS_CONFIGURATION_GUIDE.md - Detailed guide
+  • OPEN_LIFE_PLATFORM.bat - Open platform in browser
+
+External resources:
+  • GitHub Pages Docs: https://docs.github.com/en/pages
+  • DNS Checker: https://dnschecker.org
+  • Who.is Lookup: https://who.is
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 CURRENT STATUS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ HTML file deployed to GitHub: docs/life-theory-platform.html
+✅ GitHub Pages enabled: Source = main branch, /docs folder
+✅ CNAME file created: docs/CNAME contains lifecoach-121.com
+⏳ DNS configuration: YOU NEED TO ADD THE RECORDS ABOVE
+⏳ Custom domain: Will work after DNS propagates
+
+WORKING NOW:
+  https://sergilife.github.io/SergiLIFE-life-azure-system/life-theory-platform.html
+
+WILL WORK AFTER DNS:
+  https://lifecoach-121.com/life-theory-platform.html
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 SUMMARY: WHAT YOU NEED TO DO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Log into your domain registrar (where you bought lifecoach-121.com)
+2. Find "DNS Management" or "DNS Settings"
+3. Add 4 A records pointing to GitHub Pages IPs (see table above)
+4. Optionally add www CNAME record
+5. Save changes
+6. Wait 5-60 minutes for DNS to propagate
+7. Check GitHub Pages settings for green checkmark
+8. Enable HTTPS in GitHub Pages settings
+9. Visit https://lifecoach-121.com/life-theory-platform.html
+
+═══════════════════════════════════════════════════════════════
+  L.I.F.E. Platform - October 31, 2025
+  Copyright © 2025 Sergio Paya Borrull
+  Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
+═══════════════════════════════════════════════════════════════
