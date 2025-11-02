@@ -14,3 +14,6 @@ How to update:
 Related automation:
 - scripts/eeg_100_cycle_benchmark.py — 100-cycle ingestion and optimizer benchmark
 - VS Code tasks: "📦 Install EEG Benchmark Deps" and "🏁 100-cycle EEG Benchmark"
+git add .
+git commit -m "Fix submodule issue - remove .gitmodules and cached references"
+git push origin main
