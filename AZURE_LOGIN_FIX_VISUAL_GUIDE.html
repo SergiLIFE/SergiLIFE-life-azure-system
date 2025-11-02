@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Login Fix - Visual Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #764ba2;
+            margin-top: 30px;
+        }
+        .error-box {
+            background: #ffe6e6;
+            border-left: 5px solid #ff4444;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .success-box {
+            background: #e6ffe6;
+            border-left: 5px solid #44ff44;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .info-box {
+            background: #e6f3ff;
+            border-left: 5px solid #4488ff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .warning-box {
+            background: #fff9e6;
+            border-left: 5px solid #ffaa44;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .comparison-item {
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .before {
+            background: #ffe6e6;
+            border: 2px solid #ff4444;
+        }
+        .after {
+            background: #e6ffe6;
+            border: 2px solid #44ff44;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 14px;
+            border: 1px solid #ddd;
+        }
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .step {
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+        }
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .button {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px 5px;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: #764ba2;
+        }
+        .button.secondary {
+            background: #6c757d;
+        }
+        .button.success {
+            background: #28a745;
+        }
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        .checklist li {
+            padding: 10px;
+            margin: 5px 0;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        .checklist li:before {
+            content: "☐ ";
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        .checklist li.done:before {
+            content: "✓ ";
+            color: #44ff44;
+        }
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Azure Login JSON Syntax Error - Visual Fix Guide</h1>
+        
+        <div class="error-box">
+            <h3>❌ The Problem</h3>
+            <p><strong>GitHub Actions Error:</strong></p>
+            <pre>Login failed with SyntaxError: Unexpected token 'J', "JSON from "... is not valid JSON</pre>
+            <p><strong>What it means:</strong> Your <code>AZURE_CREDENTIALS</code> GitHub secret contains invalid JSON format.</p>
+        </div>
+
+        <h2>🔍 Visual Comparison: Wrong vs Right</h2>
+        
+        <div class="comparison">
+            <div class="comparison-item before">
+                <h3>❌ WRONG - What's Currently Breaking</h3>
+                <pre>JSON from Azure CLI:
+{
+  "clientId": "xxx-xxx-xxx",
+  "clientSecret": "xxx",
+  "subscriptionId": "xxx",
+  "tenantId": "xxx"
+}</pre>
+                <p>❌ Has descriptive text before JSON</p>
+                <p>❌ Parser fails on "JSON from"</p>
+                <p>❌ GitHub Actions can't authenticate</p>
+            </div>
+            
+            <div class="comparison-item after">
+                <h3>✅ CORRECT - What It Should Be</h3>
+                <pre>{
+  "clientId": "xxx-xxx-xxx",
+  "clientSecret": "xxx",
+  "subscriptionId": "xxx",
+  "tenantId": "xxx"
+}</pre>
+                <p>✅ Clean JSON only</p>
+                <p>✅ No extra text</p>
+                <p>✅ Authentication succeeds</p>
+            </div>
+        </div>
+
+        <h2>⚡ Quick Fix Options</h2>
+        
+        <div class="info-box">
+            <h3>Choose Your Path:</h3>
+            <div style="margin: 20px 0;">
+                <a href="#option1" class="button">🪟 Windows</a>
+                <a href="#option2" class="button">☁️ Cloud Shell</a>
+                <a href="#option3" class="button secondary">✍️ Manual</a>
+            </div>
+        </div>
+
+        <h3 id="option1">Option 1: Windows Automated Fix</h3>
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Open Command Prompt</strong>
+            <pre>Win + R → type "cmd" → Enter</pre>
+        </div>
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Navigate to repository</strong>
+            <pre>cd "C:\Users\Sergio Paya Borrull\OneDrive\Documents\GitHub\.vscode\New folder\SergiLIFE-life-azure-system\SergiLIFE-life-azure-system"</pre>
+        </div>
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Run fix script</strong>
+            <pre>fix_azure_credentials.bat</pre>
+        </div>
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Follow on-screen instructions</strong>
+            <p>Script will automatically:</p>
+            <ul>
+                <li>Check Azure CLI installation</li>
+                <li>Login to Azure</li>
+                <li>Generate proper credentials</li>
+                <li>Copy to clipboard</li>
+                <li>Open GitHub secrets page</li>
+            </ul>
+        </div>
+
+        <h3 id="option2">Option 2: Azure Cloud Shell (Easiest)</h3>
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Open Azure Cloud Shell</strong>
+            <p><a href="https://shell.azure.com" target="_blank" class="button">Open Cloud Shell</a></p>
+        </div>
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Clone and run</strong>
+            <pre>git clone https://github.com/SergiLIFE/SergiLIFE-life-azure-system.git
+cd SergiLIFE-life-azure-system
+bash fix_azure_credentials.sh</pre>
+        </div>
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Copy output to GitHub</strong>
+            <p>Script will display the JSON credentials to copy</p>
+        </div>
+
+        <h3 id="option3">Option 3: Manual Fix</h3>
+        <div class="warning-box">
+            <p><strong>⚠️ Use this only if automated scripts don't work</strong></p>
+        </div>
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Login to Azure</strong>
+            <pre>az login --tenant e716161a-5e85-4d6d-82f9-96bcdd2e65ac
+az account set --subscription 5c88cef6-f243-497d-98af-6c6086d575ca</pre>
+        </div>
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Generate credentials</strong>
+            <pre>az ad sp create-for-rbac \
+  --name "github-actions-life-platform-$(date +%Y%m%d%H%M)" \
+  --role contributor \
+  --scopes /subscriptions/5c88cef6-f243-497d-98af-6c6086d575ca/resourceGroups/life-platform-prod \
+  --sdk-auth</pre>
+        </div>
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Copy ENTIRE JSON output</strong>
+            <p>Including the opening <code>{</code> and closing <code>}</code></p>
+        </div>
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Update GitHub Secret</strong>
+            <p><a href="https://github.com/SergiLIFE/SergiLIFE-life-azure-system/settings/secrets/actions" target="_blank" class="button">Go to GitHub Secrets</a></p>
+            <ul>
+                <li>Click on "AZURE_CREDENTIALS"</li>
+                <li>Delete old value completely</li>
+                <li>Paste new JSON (no extra text)</li>
+                <li>Click "Update secret"</li>
+            </ul>
+        </div>
+        <div class="step">
+            <span class="step-number">5</span>
+            <strong>Re-run workflow</strong>
+            <p><a href="https://github.com/SergiLIFE/SergiLIFE-life-azure-system/actions" target="_blank" class="button success">Go to Actions</a></p>
+            <ul>
+                <li>Find the failed run</li>
+                <li>Click "Re-run all jobs"</li>
+                <li>Verify "Azure Login" step succeeds</li>
+            </ul>
+        </div>
+
+        <h2>✅ Verification Checklist</h2>
+        <ul class="checklist">
+            <li>Azure CLI installed and working</li>
+            <li>Logged in to correct Azure account</li>
+            <li>Generated new credentials with <code>--sdk-auth</code></li>
+            <li>Validated JSON format (no extra text)</li>
+            <li>Updated GitHub secret AZURE_CREDENTIALS</li>
+            <li>Pasted ONLY the JSON (no extra characters)</li>
+            <li>Re-ran the failed workflow</li>
+            <li>Verified Azure Login step shows success</li>
+            <li>Deleted local credential files</li>
+        </ul>
+
+        <h2>🎯 Expected Results</h2>
+        
+        <div class="comparison">
+            <div class="comparison-item before">
+                <h3>❌ Before Fix</h3>
+                <pre>🔑 Azure Login
+❌ Login failed
+SyntaxError: Unexpected token 'J'</pre>
+            </div>
+            
+            <div class="comparison-item after">
+                <h3>✅ After Fix</h3>
+                <pre>🔑 Azure Login
+✅ Login successful
+✅ Subscription: 5c88cef6...
+✅ Ready to deploy</pre>
+            </div>
+        </div>
+
+        <h2>🆘 Troubleshooting</h2>
+        
+        <div class="warning-box">
+            <h4>Problem: Azure CLI not found</h4>
+            <p><strong>Solution:</strong> Install Azure CLI</p>
+            <ul>
+                <li>Windows: <a href="https://aka.ms/installazurecliwindows" target="_blank">Download MSI installer</a></li>
+                <li>Mac: <code>brew install azure-cli</code></li>
+                <li>Linux: <a href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-linux" target="_blank">Follow instructions</a></li>
+            </ul>
+        </div>
+
+        <div class="warning-box">
+            <h4>Problem: Not logged in to Azure</h4>
+            <p><strong>Solution:</strong></p>
+            <pre>az login --tenant e716161a-5e85-4d6d-82f9-96bcdd2e65ac</pre>
+        </div>
+
+        <div class="warning-box">
+            <h4>Problem: Still getting JSON error after update</h4>
+            <p><strong>Solution:</strong></p>
+            <ol>
+                <li>Delete the GitHub secret completely</li>
+                <li>Create a NEW secret (don't update existing)</li>
+                <li>Validate first: <code>python validate_azure_credentials.py &lt;file&gt;</code></li>
+                <li>Make sure NO extra whitespace or text</li>
+            </ol>
+        </div>
+
+        <h2>📁 Available Files</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr style="background: #f5f5f5;">
+                <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">File</th>
+                <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Purpose</th>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><code>fix_azure_credentials.bat</code></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Windows automated fix script</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><code>fix_azure_credentials.sh</code></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Linux/Mac/Cloud Shell fix script</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><code>validate_azure_credentials.py</code></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">JSON validation tool</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><code>AZURE_LOGIN_JSON_FIX_GUIDE.md</code></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Comprehensive guide (300+ lines)</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><code>README_AZURE_LOGIN_FIX.md</code></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Quick reference</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><code>IMMEDIATE_ACTION_PLAN_AZURE_LOGIN.md</code></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Urgent fix plan</td>
+            </tr>
+        </table>
+
+        <h2>🎉 Success!</h2>
+        <div class="success-box">
+            <p><strong>Once your workflow runs successfully:</strong></p>
+            <ul>
+                <li>✅ Azure authentication will work automatically</li>
+                <li>✅ Deployments will proceed normally</li>
+                <li>✅ No more JSON syntax errors</li>
+            </ul>
+            <p><strong>Time to fix:</strong> 5-10 minutes with automated scripts</p>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0; padding: 20px; background: #f9f9f9; border-radius: 10px;">
+            <h3>🚀 Ready to Fix?</h3>
+            <p>Choose the fastest option for you and get started!</p>
+            <a href="https://github.com/SergiLIFE/SergiLIFE-life-azure-system/settings/secrets/actions" target="_blank" class="button success">Open GitHub Secrets</a>
+            <a href="https://shell.azure.com" target="_blank" class="button">Open Cloud Shell</a>
+        </div>
+
+        <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #eee; text-align: center; color: #666;">
+            <p><strong>L.I.F.E Platform</strong> - Learning Individually from Experience</p>
+            <p>Azure Marketplace Offer ID: <code>9a600d96-fe1e-420b-902a-a0c42c561adb</code></p>
+            <p>Copyright 2025 - Sergio Paya Borrull</p>
+        </footer>
+    </div>
+</body>
+</html>
