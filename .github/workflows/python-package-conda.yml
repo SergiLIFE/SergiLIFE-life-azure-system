@@ -1,0 +1,24 @@
+name: Python Package using Conda
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Conda environment
+      run: |
+        conda env create -f environment.yml
+        conda activate sergilife-env
+
+    - name: Run tests
+      run: |
+        python -m unittest discover
