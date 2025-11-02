@@ -115,7 +115,7 @@ Since Azure CLI is not currently available in this environment, here are the man
 3. Navigate to the project directory
 4. Run: `azd up` (recommended) or use the Azure CLI commands
 
-## Demo URLs (Post-Deployment) 🌐
+## Demo URLs (Post-Deployment) 🌐 
 
 Once deployed, the Microsoft Partnership Demo will be available at:
 - **Container App:** `https://ca{uniqueToken}.{region}.azurecontainerapps.io`
