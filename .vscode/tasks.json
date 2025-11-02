@@ -660,29 +660,6 @@
 			"label": "🧪 Test Local L.I.F.E Platform",
 			"type": "shell",
 			"command": "python",
-				{
-					"label": "🏁 300-cycle EEG Validation",
-					"type": "shell",
-					"command": "cmd",
-					"args": [
-						"/c",
-						"python",
-						"comprehensive_300_cycle_eeg_validation.py"
-					],
-					"group": "build",
-					"options": {
-						"cwd": "${workspaceFolder}"
-					},
-					"presentation": {
-						"echo": true,
-						"reveal": "always",
-						"focus": true,
-						"panel": "new",
-						"showReuseMessage": true,
-						"clear": false
-					},
-					"detail": "Execute the comprehensive 300-cycle EEG validation and export report under reports/"
-				},
 			"args": [
 				"test_local_life.py"
 			],
