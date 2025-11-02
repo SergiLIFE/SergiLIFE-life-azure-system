@@ -159,14 +159,14 @@ Available through Microsoft Azure Marketplace (Offer ID: 9a600d96-fe1e-420b-902a
 ## Contact Information
 
 ### Business Inquiries
-- Email: business@lifeplatform.ai
-- Phone: +1-800-LIFE-TECH
-- Website: https://lifeplatform.ai
+- Email: Info@lifecoach121.com
+- Phone: -LIFE-TECH-lifecoach-121.com 
+- Website: https://lifecoach-121.com 
 
 ### Technical Support
-- Support Portal: https://support.lifeplatform.ai
-- Email: support@lifeplatform.ai
-- Emergency: +1-800-LIFE-911
+- Support Portal: https://lifecoach-121.com 
+- Email: info@lifecoach121.com 
+- Emergency: +44 7384 742042 
 
 ### Development Team
 - Lead Developer: Sergio Paya Borrull
@@ -865,4 +865,5 @@ The L.I.F.E. Platform delivers a breakthrough in personalized neural learning, c
 ---
 
 Copyright 2025 - Sergio Paya Borrull | Azure Marketplace Launch: September 27, 2025
+
 
