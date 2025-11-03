@@ -1,0 +1,43 @@
+# Script files identified by categorization script  
+# Pattern matches: *.bat, *.ps1, *.sh
+
+# Note: This includes ALL script files - many are essential L.I.F.E. Platform operation scripts
+# Careful review required before quarantining
+
+# BAT files (Windows batch scripts):
+CAMBRIDGE_CLINICAL_LAUNCHER.bat
+CAMBRIDGE_DEMO_LAUNCHER.bat
+CHECK_AZURE_AUTH.bat
+CHECK_AZURE_STATUS.bat
+CLEAN_AND_COMMIT.bat
+COMMIT_295_FILES_SUCCESS.bat
+COMMIT_ALL_CHANGES_NOW.bat
+COMMIT_ORGANIZED_REPOSITORY.bat
+COMPLETE-DEPLOYMENT.bat
+COMPREHENSIVE_DIAGNOSTICS.bat
+CORRUPTION_DIAGNOSTIC_TOOL.bat
+CREATE_CORE_REPOSITORY.bat
+CREATE_LOGO.bat
+CREATE_SCREENSHOT.bat
+DEPLOY_AZURE_APP_SERVICE.bat
+[... and 100+ more .bat files]
+
+# PS1 files (PowerShell scripts):
+AZURE_FUNCTION_EMERGENCY_FIX.ps1
+AZURE_QUICK_FIX.ps1
+CREATE_AZURE_SERVICE_PRINCIPAL.ps1
+Deploy-BackupInfrastructure.ps1
+Deploy-BirthdayLaunch.ps1
+Deploy-Microsoft-Demo.ps1
+POWERSHELL_DEPLOY.ps1
+POWERSHELL_DEPLOYMENT_COMMANDS.ps1
+[... and 50+ more .ps1 files]
+
+# SH files (Shell scripts):
+AZURE_CLOUDSHELL_DEPLOYMENT.sh
+AZURE_CLOUDSHELL_FIX.sh
+AZURE_CLOUD_SHELL_DEPLOYMENT_COMMANDS.sh
+AZURE_CLOUD_SHELL_DIAGNOSTIC.sh
+CHECK_LIFE_PLATFORM_DEPLOYMENT.sh
+birthday_launch_linux.sh
+[... and 20+ more .sh files]

@@ -1,18 +1,109 @@
-# Temporary files 
-*.tmp 
+# =============================================================================
+# L.I.F.E. Platform Repository - Comprehensive .gitignore
+# Updated: November 3, 2025
+# Purpose: Prevent auto-generated Copilot files from being tracked
+# =============================================================================
+
+# Auto-generated Copilot files
+*COMPREHENSIVE*.md
+*COMPREHENSIVE*.html
+*EMERGENCY*.bat
+*EMERGENCY*.ps1
+*EMERGENCY*.py
+*DEPLOY*.bat
+*DEPLOY*.ps1
+*QUICK*.bat
+*QUICK*.ps1
+*IMMEDIATE*.md
+*IMMEDIATE*.py
+*FINAL*.bat
+*FINAL*.ps1
+*REPORT*.md
+*REPORT*.html
+*SUMMARY*.md
+*SUMMARY*.html
+
+# Additional Copilot-generated patterns
+*CORRECTED*.bat
+*CORRECTED*.md
+*CORRECTED*.py
+*FIXED*.bat
+*FIXED*.md
+*FIXED*.py
+*AUTO*.bat
+*AUTO*.py
+*GENERATED*.md
+*GENERATED*.html
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
 *.log 
 *_backup* 
 *_old* 
-*_test* 
+*_test*
+
+# Cleanup directories
+.cleanup/
+.recovery/
+quarantine/
+
+# Large files
+*.iso
+*.zip
+*.tar.gz
+
 # Build outputs 
 /dist/ 
 /build/ 
 /results/ 
-/logs/ 
-# IDE files 
+/logs/
+
+# IDE generated files
+.vscode/
+.idea/
+*.swp
 .vscode/settings.json 
-*.code-workspace 
+*.code-workspace
+
 # Cache directories 
 __pycache__/ 
 .mypy_cache/ 
-node_modules/ 
+node_modules/
+
+# Python cache
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+
+# Azure Functions
+bin/
+obj/
+.azure/
+
+# Logs and temporary output
+logs/
+results/
+tracking_data/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Security files (never commit)
+*.env
+*.key
+*.pem
+.env.*
+secrets.json 

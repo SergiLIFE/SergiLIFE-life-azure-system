@@ -1,0 +1,28 @@
+name: Repository Maintenance
+
+on:
+    schedule:
+        - cron: "0 2 * * 0" # Weekly on Sunday at 2 AM
+
+jobs:
+    cleanup:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - name: Analyze repository
+              run: python scripts/repo-analysis.py
+
+            - name: Generate report
+              run: |
+                  echo "Repository Analysis Report" > repo-status.md
+                  echo "Generated: $(date)" >> repo-status.md
+                  cat repo_analysis.json >> repo-status.md
+
+            - name: Upload results
+              uses: actions/upload-artifact@v3
+              with:
+                  name: repo-analysis
+                  path: repo-status.md

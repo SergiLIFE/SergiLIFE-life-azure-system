@@ -87,8 +87,91 @@ Files to check first when making changes:
 - `venturi_gates_system.py` (orchestration)
 - `campaign_manager.py` and `.github/workflows/campaign-launcher.yml` (marketing automation)
 
+## Essential Development Patterns
+
+**Async Neural Processing (CRITICAL):**
+```python
+# All EEG processing must be async
+async def process_eeg_stream(self, eeg_data: np.ndarray) -> EEGMetrics:
+    # Use await for neural operations
+    metrics = await self._calculate_band_power(eeg_data)
+    return metrics
+
+# User trait management (individualized learning)
+async def run_learning_session(self, user_id: str, content: Dict, eeg_stream: asyncio.Queue) -> LearningOutcome:
+    # Real-time adaptation loop
+    while session_active:
+        eeg_data = await asyncio.wait_for(eeg_stream.get(), timeout=1.0)
+```
+
+**Azure Functions Deployment (Production Pattern):**
+```cmd
+# Deploy with remote build (handles Python version differences)
+az functionapp deployment source config-zip --name life-functions-app --resource-group life-platform-prod --src deployment.zip --build remote
+
+# Function structure: function_app.py (Python v2 model)
+@app.route(route="health", auth_level=func.AuthLevel.ANONYMOUS, methods=["GET"])
+async def health_check(req: func.HttpRequest) -> func.HttpResponse:
+    # OIDC auth, no stored credentials
+```
+
+**Campaign System (Async Business Logic):**
+```python
+class CampaignManager:
+    async def launch_campaign(self, campaign_type: str, target_audience: str) -> str:
+        # All business operations are async
+        campaign_id = await self._create_campaign_metadata()
+        await self.generate_outreach_campaign(target_audience)
+        return campaign_id
+```
+
+**Venturi Gates Integration:**
+```python
+# 3-gate fluid dynamics system
+venturi_system = create_3_venturi_system()
+results = venturi_system.process_through_gates(eeg_signal)
+# Sub-millisecond latency: 0.38-0.45ms per gate
+```
+
+## VS Code Task Automation
+
+**Quick Access Tasks (use frequently):**
+- `🔬 Run All Tests` - Full pytest suite
+- `⚡ Ultimate Full-Cycle Ecosystem Test` - Complete system validation  
+- `🚀 Run Autonomous Optimizer` - Performance benchmarking
+- `🧠 Launch L.I.F.E Theory Platform` - Local platform server
+- `🔧 Azure Deploy Prep` - Connection validation
+
+**Testing Hierarchy:**
+1. Neural core: `python -c "from experimentP2L import LIFEAlgorithmCore; import asyncio; life=LIFEAlgorithmCore(); asyncio.run(life.run_100_cycle_eeg_test())"`
+2. Azure integration: Tasks `🔧 Azure Deploy Prep` or `🔧 Flawless Connection Validator`
+3. Full ecosystem: `python ULTIMATE_FULL_CYCLE_ECOSYSTEM_TEST.py`
+
+## Deployment & Configuration Notes
+
+**Azure Functions Requirements:**
+- Python 3.11 in Azure (local may be 3.13)
+- Use `--build remote` flag for deployment
+- OIDC auth only - no connection strings
+- 10-minute timeout for complex processing
+
+**Directory Auto-Creation Pattern:**
+```python
+# Always create directories before file operations
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+LOGS_DIR = os.path.join(SCRIPT_DIR, "logs")
+os.makedirs(LOGS_DIR, exist_ok=True)
+```
+
+**Campaign Tracking Structure:**
+```
+tracking_data/
+├── kpis/           # Performance metrics  
+├── outreach/       # Campaign materials
+├── conversions/    # Lead tracking
+└── analytics/      # Business intelligence
+```
+
 When editing/adding code, run the 100-cycle core test and `pytest` if you change neural-processing code. Use the VS Code tasks for common runs.
 
 If something isn't discoverable here (credentials, infra deployment scripts, or runtime secrets), ask — repo follows OIDC/Key Vault patterns so do not attempt to add plaintext secrets.
-
-Please review this concise version and tell me if you want any specific examples or more inline snippets added (imports, asyncio patterns, or Azure client templates).
