@@ -1,0 +1,1 @@
+@echo off cd /d "%~dp0" echo Copying file... copy LIFE_HONEST_2025.html index.html /Y echo Adding to git... git add . echo Committing... git commit -m "Add index.html" echo Pushing... git push origin main echo. echo Done. Check: https://sergilife.github.io/SergiLIFE-life-azure-system/ echo Wait 2 minutes then refresh. pause

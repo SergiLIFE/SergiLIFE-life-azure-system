@@ -1,5 +1,1 @@
-> git pull --tags origin main
-From https://github.com/SergiLIFE/SergiLIFE-life-azure-system
- * branch            main       -> FETCH_HEAD
-error: invalid path 'C:\Users\Sergio Paya Borrull\OneDrive\Documents\GitHub\.vscode\New folder\SergiLIFE-life-azure-system\scripts\commit-eeg-results-windows.ps1'
-Merge with strategy ort failed.
+> git pull --tags origin main From https://github.com/SergiLIFE/SergiLIFE-life-azure-system * branch main -> FETCH_HEAD error: invalid path 'C:\Users\Sergio Paya Borrull\OneDrive\Documents\GitHub\.vscode\New folder\SergiLIFE-life-azure-system\scripts\commit-eeg-results-windows.ps1' Merge with strategy ort failed.

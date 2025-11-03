@@ -1,4 +1,1 @@
-# L.I.F.E. Platform Azure Functions Requirements
-# Optimized for Portal Deployment
-azure-functions>=1.18.0
-azure-functions-worker>=1.0.0
+# L.I.F.E. Platform Azure Functions Requirements # Optimized for Portal Deployment azure-functions>=1.18.0 azure-functions-worker>=1.0.0
