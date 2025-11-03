@@ -83,7 +83,7 @@ The repository includes comprehensive VS Code tasks for common operations:
 
 ### Critical Rules (DO NOT INVENT)
 
-- **Async patterns**: All EEG processing must use `async/await` or `asyncio.run()`
+- **Async patterns**: All EEG processing must be async. Use `async/await` within async functions, `asyncio.run()` for top-level entry points
 - **Dataclasses for metrics**: See `experimentP2L*.py` and `campaign_manager.py` for examples
 - **OIDC authentication**: Use `DefaultAzureCredential()` - see `azure_config.py`
 - **Windows paths**: Use `cmd.exe` commands, `\` separators, avoid POSIX assumptions
