@@ -1,0 +1,2 @@
+Fixed submodule issue - November 2, 2025
+Deployment should now work without SergiLIFE-RECOVERED submodule error
