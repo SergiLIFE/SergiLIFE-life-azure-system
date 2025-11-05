@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>L&period;I&period;F&period;E Platform - Azure AD Marketplace Setup Guide</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="life-platform---azure-ad-marketplace-setup-guide">L.I.F.E Platform - Azure AD Marketplace Setup Guide</h1>
+<p><strong>Azure Marketplace Offer ID:</strong> <code>9a600d96-fe1e-420b-902a-a0c42c561adb</code><br>
+<strong>Production Launch:</strong> September 27, 2025<br>
+<strong>System Status:</strong> Operational and Enterprise-Ready</p>
+<h2 id="azure-ad-configuration">Azure AD Configuration</h2>
+<h3 id="directory-information">Directory Information</h3>
+<ul>
+<li><strong>Directory Name:</strong> Sergio Paya Borrull (<a href="http://lifecoach-121.com">lifecoach-121.com</a>)</li>
+<li><strong>Tenant Domain:</strong> <code>sergiomiguelpayaborrullmsn.onmicrosoft.com</code></li>
+<li><strong>Subscription ID:</strong> <code>5c88cef6-f243-497d-98af-6c6086d575ca</code></li>
+<li><strong>Role:</strong> Account Admin</li>
+</ul>
+<h2 id="app-registration-setup">App Registration Setup</h2>
+<h3 id="step-1-access-azure-active-directory">Step 1: Access Azure Active Directory</h3>
+<ol>
+<li><strong>Login to Azure Portal:</strong> <a href="https://portal.azure.com">https://portal.azure.com</a>
+<ul>
+<li>Username: <code>sergiomiguelpaya@sergiomiguelpayaborrullmsn.onmicrosoft.com</code></li>
+</ul>
+</li>
+<li><strong>Navigate:</strong> Azure Active Directory → App registrations</li>
+<li><strong>Search for existing apps:</strong> L.I.F.E Platform, LIFE Coach 121, lifecoach-121</li>
+</ol>
+<h3 id="step-2-create-app-registration-if-needed">Step 2: Create App Registration (if needed)</h3>
+<pre><code>Application Name: L.I.F.E Platform - Neuroadaptive Learning System
+Account Types: Multitenant + Personal Microsoft accounts
+Redirect URI: https://lifecoach-121.com/auth/callback
+</code></pre>
+<h3 id="step-3-obtain-application-id">Step 3: Obtain Application ID</h3>
+<ul>
+<li><strong>Location:</strong> Azure Portal → Azure AD → App registrations → [Your App] → Overview</li>
+<li><strong>Format:</strong> <code>12345678-1234-1234-1234-123456789012</code> (GUID)</li>
+</ul>
+<h2 id="azure-cli-quick-setup">Azure CLI Quick Setup</h2>
+<h3 id="check-current-configuration">Check Current Configuration</h3>
+<pre><code class="language-powershell">az account show <span class="hljs-literal">--query</span> <span class="hljs-string">&quot;{subscriptionId:id, tenantId:tenantId, user:user.name}&quot;</span>
+</code></pre>
+<h3 id="list-existing-app-registrations">List Existing App Registrations</h3>
+<pre><code class="language-powershell">az ad app list <span class="hljs-literal">--display-name</span> <span class="hljs-string">&quot;L.I.F.E&quot;</span> <span class="hljs-literal">--query</span> <span class="hljs-string">&quot;[].{displayName:displayName, appId:appId}&quot;</span>
+</code></pre>
+<h3 id="create-new-app-registration">Create New App Registration</h3>
+<pre><code class="language-powershell">az ad app create <span class="hljs-literal">--display-name</span> <span class="hljs-string">&quot;L.I.F.E Platform - Neuroadaptive Learning System&quot;</span> \
+  <span class="hljs-literal">--sign-in-audience</span> <span class="hljs-string">&quot;AzureADandPersonalMicrosoftAccount&quot;</span> \
+  <span class="hljs-literal">--web-redirect-uris</span> <span class="hljs-string">&quot;https://lifecoach-121.com/auth/callback&quot;</span>
+</code></pre>
+<h2 id="marketplace-integration">Marketplace Integration</h2>
+<h3 id="microsoft-graph-integration">Microsoft Graph Integration</h3>
+<ul>
+<li><strong>Question:</strong> Does your SaaS offer integrate with Microsoft Graph?</li>
+<li><strong>Answer:</strong> Yes, my SaaS offer integrates with Microsoft Graph</li>
+<li><strong>App ID:</strong> [Your Application (client) ID from Azure AD]</li>
+</ul>
+<h3 id="benefits-of-graph-integration">Benefits of Graph Integration</h3>
+<ol>
+<li><strong>Enterprise Credibility:</strong> Professional platform validation</li>
+<li><strong>Better Discovery:</strong> Microsoft 365 marketplace visibility</li>
+<li><strong>Simplified Deployment:</strong> IT admin deployment through M365 admin center</li>
+<li><strong>Premium Pricing Justification:</strong> Enterprise-grade integration validates $50/user pricing</li>
+</ol>
+<h2 id="action-plan">Action Plan</h2>
+<h3 id="immediate-steps-15-minutes">Immediate Steps (15 minutes)</h3>
+<ol>
+<li>Open Azure Portal: <a href="http://portal.azure.com">portal.azure.com</a></li>
+<li>Login with Azure credentials</li>
+<li>Navigate to Azure AD → App registrations</li>
+<li>Check for existing L.I.F.E Platform app or create new one</li>
+<li>Copy Application (client) ID</li>
+<li>Complete marketplace form with Graph integration</li>
+</ol>
+<h3 id="marketplace-submission">Marketplace Submission</h3>
+<ol>
+<li>Select &quot;Yes&quot; for Microsoft Graph integration</li>
+<li>Enter Application (client) ID</li>
+<li>Submit for certification</li>
+<li>Target: Live on marketplace by Monday</li>
+</ol>
+<h2 id="enterprise-enhancement-options">Enterprise Enhancement Options</h2>
+<h3 id="current-integration">Current Integration</h3>
+<ul>
+<li>Microsoft Graph API connectivity</li>
+<li>Enterprise authentication support</li>
+<li>Professional platform certification</li>
+</ul>
+<h3 id="future-enhancements">Future Enhancements</h3>
+<ul>
+<li><strong>Teams Integration:</strong> Collaborative learning features</li>
+<li><strong>Office Add-ins:</strong> Learning analytics integration</li>
+<li><strong>Directory Sync:</strong> Enterprise user management</li>
+<li><strong>SSO Integration:</strong> Seamless Microsoft 365 login</li>
+</ul>
+<h2 id="security--compliance">Security &amp; Compliance</h2>
+<h3 id="microsoft-ecosystem-alignment">Microsoft Ecosystem Alignment</h3>
+<ul>
+<li><strong>JIT Security:</strong> Just-in-time access implementation</li>
+<li><strong>Enterprise Authentication:</strong> Microsoft account integration</li>
+<li><strong>Professional Validation:</strong> Graph integration demonstrates platform maturity</li>
+<li><strong>Customer Confidence:</strong> Microsoft compatibility assurance</li>
+</ul>
+<h2 id="support--resources">Support &amp; Resources</h2>
+<h3 id="troubleshooting">Troubleshooting</h3>
+<ul>
+<li><strong>Portal Access:</strong> <a href="http://portal.azure.com">portal.azure.com</a></li>
+<li><strong>Search:</strong> &quot;App registrations&quot; in Azure Portal</li>
+<li><strong>Create:</strong> &quot;New registration&quot; if no existing app found</li>
+<li><strong>Copy ID:</strong> Application (client) ID from app overview</li>
+</ul>
+<h3 id="timeline">Timeline</h3>
+<ul>
+<li><strong>Today:</strong> Complete marketplace offer setup</li>
+<li><strong>Certification:</strong> Microsoft review process</li>
+<li><strong>Target Launch:</strong> Monday following submission</li>
+</ul>
+<hr>
+<p><strong>Next Steps:</strong> Access your Azure AD App registrations now to obtain the Application ID required for marketplace submission.</p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
