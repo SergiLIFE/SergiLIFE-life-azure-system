@@ -1,0 +1,13 @@
+{
+  "file_name": "CONFIDENTIAL_BUSINESS_PLAN.md",
+  "encrypted_date": "2025-11-05T10:30:11.084046",
+  "salt": "JyuENIV2zWhcGwyg3kmlOQ==",
+  "file_size": 5437,
+  "encrypted_size": 7332,
+  "checksum": "812109bff36bb0398590f4e80983ecac66623ca385ef14585106adfc610beec7",
+  "description": "L.I.F.E. Platform Confidential Business Plan & Financial Projections",
+  "copyright": "\u00a9 2025 Sergio Paya Borrull - All Rights Reserved",
+  "security_level": "AES-256 with PBKDF2 (100,000 iterations)",
+  "classification": "CONFIDENTIAL BUSINESS INFORMATION",
+  "access_warning": "AUTHORIZED PERSONNEL ONLY - TRADE SECRETS PROTECTED"
+}

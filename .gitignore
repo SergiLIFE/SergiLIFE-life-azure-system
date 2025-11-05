@@ -106,4 +106,41 @@ Thumbs.db
 *.key
 *.pem
 .env.*
-secrets.json 
+secrets.json
+
+# L.I.F.E. Theory Mathematical Framework - CONFIDENTIAL
+# Never commit unencrypted mathematical calculations
+ENCRYPTED_LIFE_THEORY_CALCULATIONS.md
+*.backup_remove_after_verify
+*NAKEDAI_LIFE_CORE_MATHEMATICAL_FRAMEWORK*.md
+*MATHEMATICAL_FRAMEWORK*.md
+*THEORY_CALCULATIONS*.md
+
+# Business & Financial Information - CONFIDENTIAL
+# Never commit sensitive business or financial data
+CONFIDENTIAL_BUSINESS_PLAN.md
+TEMP_BUSINESS_PLAN.md
+*BUSINESS_PLAN*.md
+*FINANCIAL_PROJECTIONS*.md
+*REVENUE_FORECAST*.md
+*PRICING_STRATEGY*.md
+*COMPETITIVE_ANALYSIS*.md
+*INVESTOR_DECK*.md
+*INVESTOR_DECK*.pptx
+*PITCH_DECK*.pptx
+*.financial
+*.business 
+
+# Business & Financial Information - CONFIDENTIAL
+# Never commit sensitive business or financial data
+CONFIDENTIAL_BUSINESS_PLAN.md
+*BUSINESS_PLAN*.md
+*FINANCIAL_PROJECTIONS*.md
+*REVENUE_FORECAST*.md
+*PRICING_STRATEGY*.md
+*COMPETITIVE_ANALYSIS*.md
+*INVESTOR_DECK*.md
+*INVESTOR_DECK*.pptx
+*PITCH_DECK*.pptx
+*.financial
+*.business

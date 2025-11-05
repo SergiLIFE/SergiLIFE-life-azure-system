@@ -1,0 +1,12 @@
+{
+  "file_name": "ENCRYPTED_LIFE_THEORY_CALCULATIONS.md",
+  "encrypted_date": "2025-11-05T10:12:14.256426",
+  "salt": "+Of/Yvru3X2QEDcUNmWd3Q==",
+  "file_size": 10393,
+  "encrypted_size": 13944,
+  "checksum": "506b125db49c9351f6f8c29f2b6b715439d97715067a620c166f7b95116772a8",
+  "description": "L.I.F.E. Theory 14-Equation Mathematical Framework - CONFIDENTIAL",
+  "copyright": "\u00a9 2025 Sergio Paya Borrull - All Rights Reserved",
+  "security_level": "AES-256 with PBKDF2 (100,000 iterations)",
+  "access_warning": "UNAUTHORIZED ACCESS PROHIBITED - PATENT PENDING"
+}
