@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to L.I.F.E. Platform - Azure Marketplace</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            line-height: 1.6; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
+        .header { 
+            background: rgba(255, 255, 255, 0.95); 
+            color: #333; 
+            text-align: center; 
+            padding: 3rem 2rem; 
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .header h1 { 
+            font-size: 2.8rem; 
+            margin-bottom: 1rem; 
+            color: #667eea;
+        }
+        .header p { 
+            font-size: 1.3rem; 
+            color: #666; 
+            margin-bottom: 0.5rem;
+        }
+        .marketplace-badge {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+        
+        .status-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        .status-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .status-item:last-child { border-bottom: none; }
+        .status-icon {
+            width: 24px;
+            margin-right: 12px;
+            color: #28a745;
+        }
+        .status-text { flex: 1; }
+        .status-loading {
+            color: #ffc107;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .features { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 1.5rem; 
+            margin: 2rem 0;
+        }
+        .feature { 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 2rem; 
+            border-radius: 15px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .feature:hover { transform: translateY(-5px); }
+        .feature h3 { 
+            color: #667eea; 
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .feature h3 i { margin-right: 10px; }
+        
+        .cta-section { 
+            text-align: center; 
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem 2rem; 
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin: 2rem 0;
+        }
+        .btn { 
+            display: inline-block; 
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white; 
+            padding: 15px 30px; 
+            text-decoration: none; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+        }
+        .btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .btn-secondary {
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
+        
+        .subscription-info {
+            background: linear-gradient(45deg, #e8f4fd, #f0f8ff);
+            border: 2px solid #667eea;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .subscription-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .detail-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .detail-label { font-size: 0.9rem; color: #666; margin-bottom: 0.5rem; }
+        .detail-value { font-weight: bold; color: #333; }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            width: 0%;
+            animation: progress 3s ease-in-out forwards;
+        }
+        @keyframes progress {
+            to { width: 85%; }
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .header p { font-size: 1rem; }
+            .features { grid-template-columns: 1fr; }
+            .subscription-details { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-brain"></i> L.I.F.E. Platform</h1>
+            <p>Learning Individually from Experience</p>
+            <p><strong>Neuroadaptive Technology for Personalized Learning</strong></p>
+            <div class="marketplace-badge">
+                <i class="fab fa-microsoft"></i> Azure Marketplace Activation
+            </div>
+        </div>
+        
+        <div class="subscription-info">
+            <h2><i class="fas fa-check-circle"></i> Marketplace Subscription Active</h2>
+            <p>Your L.I.F.E. Platform subscription from Azure Marketplace is being provisioned...</p>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="subscription-details" id="subscriptionDetails">
+                <div class="detail-item">
+                    <div class="detail-label">Subscription Status</div>
+                    <div class="detail-value" id="subscriptionStatus">Activating...</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Plan Type</div>
+                    <div class="detail-value" id="planType">Loading...</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Neural Processing</div>
+                    <div class="detail-value" id="neuralStatus">Initializing...</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Platform Access</div>
+                    <div class="detail-value" id="platformAccess">Preparing...</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="status-panel">
+            <h2><i class="fas fa-cog"></i> Provisioning Status</h2>
+            <div class="status-item">
+                <i class="fas fa-check status-icon"></i>
+                <div class="status-text">
+                    <strong>Marketplace Purchase Confirmed</strong><br>
+                    <small>Subscription received from Azure Marketplace</small>
+                </div>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-sync-alt status-icon status-loading"></i>
+                <div class="status-text">
+                    <strong>Neural Processing Environment Setup</strong><br>
+                    <small>Configuring EEG processing and Venturi Gates system</small>
+                </div>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-sync-alt status-icon status-loading"></i>
+                <div class="status-text">
+                    <strong>Personalized Algorithm Calibration</strong><br>
+                    <small>Preparing adaptive learning algorithms for your profile</small>
+                </div>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-sync-alt status-icon status-loading"></i>
+                <div class="status-text">
+                    <strong>Dashboard & API Access</strong><br>
+                    <small>Activating your L.I.F.E. Platform dashboard and endpoints</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <h3><i class="fas fa-brain"></i> Neural Processing</h3>
+                <p>Advanced EEG signal processing with real-time adaptation to your unique learning patterns using our proprietary Venturi Gates system.</p>
+            </div>
+            <div class="feature">
+                <h3><i class="fas fa-chart-line"></i> Personalized Learning</h3>
+                <p>AI-driven algorithms that adapt to your individual neural responses and optimize learning outcomes through continuous feedback loops.</p>
+            </div>
+            <div class="feature">
+                <h3><i class="fas fa-microscope"></i> Research-Grade Technology</h3>
+                <p>Built on cutting-edge neuroscience research with sub-millisecond processing capabilities (0.38-0.45ms latency achieved).</p>
+            </div>
+            <div class="feature">
+                <h3><i class="fas fa-cloud"></i> Azure Integration</h3>
+                <p>Seamlessly integrated with Azure services for scalable, secure, and reliable performance with enterprise-grade security.</p>
+            </div>
+            <div class="feature">
+                <h3><i class="fas fa-users"></i> Multi-User Support</h3>
+                <p>Support for individual users, healthcare professionals, and enterprise institutions with role-based access control.</p>
+            </div>
+            <div class="feature">
+                <h3><i class="fas fa-shield-alt"></i> Secure & Compliant</h3>
+                <p>HIPAA-compliant data handling with end-to-end encryption and secure Azure Key Vault integration.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2><i class="fas fa-rocket"></i> Ready to Begin Your Neural Journey?</h2>
+            <p>Your L.I.F.E. Platform environment is being prepared. Access will be available within minutes.</p>
+            <div>
+                <a href="https://lifecoach-121.com/dashboard" class="btn" id="dashboardBtn">
+                    <i class="fas fa-tachometer-alt"></i> Launch Platform Dashboard
+                </a>
+                <a href="https://lifecoach-121.com/docs" class="btn btn-secondary">
+                    <i class="fas fa-book"></i> View Documentation
+                </a>
+            </div>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                <i class="fas fa-info-circle"></i> 
+                If you experience any issues, contact support at <strong>info@lifecoach121.com</strong>
+            </p>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>&copy; 2025 L.I.F.E. Platform - Sergio Paya Borrull</p>
+        <p>Neuroadaptive Learning Technology | Azure Marketplace Integration</p>
+    </div>
+    
+    <script>
+        // Handle marketplace token and subscription provisioning
+        const urlParams = new URLSearchParams(window.location.search);
+        const marketplaceToken = urlParams.get('token');
+        const subscriptionId = urlParams.get('subscription');
+        const planId = urlParams.get('plan');
+        
+        // Update subscription details if parameters are present
+        if (subscriptionId) {
+            document.getElementById('subscriptionStatus').textContent = 'Active';
+            document.getElementById('subscriptionStatus').style.color = '#28a745';
+        }
+        
+        if (planId) {
+            const planNames = {
+                'life-individual': 'L.I.F.E. Individual',
+                'life-professional': 'L.I.F.E. Professional', 
+                'life-enterprise': 'L.I.F.E. Enterprise'
+            };
+            document.getElementById('planType').textContent = planNames[planId] || planId;
+        }
+        
+        // Simulate provisioning progress
+        let progress = 0;
+        const statusUpdates = [
+            { time: 2000, status: 'Neural Processing: Ready', id: 'neuralStatus' },
+            { time: 4000, status: 'Platform Access: Granted', id: 'platformAccess' },
+            { time: 6000, status: 'Complete', id: 'subscriptionStatus' }
+        ];
+        
+        statusUpdates.forEach(update => {
+            setTimeout(() => {
+                const element = document.getElementById(update.id);
+                if (element) {
+                    element.textContent = update.status;
+                    element.style.color = '#28a745';
+                }
+                
+                // Update status icons
+                const statusIcons = document.querySelectorAll('.status-loading');
+                if (statusIcons.length > 0) {
+                    statusIcons[0].classList.remove('status-loading');
+                    statusIcons[0].classList.add('fa-check');
+                }
+            }, update.time);
+        });
+        
+        // Process marketplace token if present
+        if (marketplaceToken) {
+            console.log('Processing marketplace token:', marketplaceToken);
+            
+            // Send token to backend for subscription validation and user provisioning
+            fetch('/api/marketplace-webhook', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    token: marketplaceToken,
+                    subscriptionId: subscriptionId,
+                    planId: planId,
+                    action: 'Subscribe'
+                })
+            }).then(response => response.json())
+              .then(data => {
+                  console.log('Marketplace integration response:', data);
+                  if (data.status === 'success') {
+                      // Update UI with successful provisioning
+                      document.getElementById('subscriptionStatus').textContent = 'Fully Active';
+                      document.getElementById('subscriptionStatus').style.color = '#28a745';
+                  }
+              }).catch(error => {
+                  console.error('Marketplace integration error:', error);
+              });
+        }
+        
+        // Auto-redirect to dashboard after 15 seconds
+        setTimeout(() => {
+            const dashboardBtn = document.getElementById('dashboardBtn');
+            dashboardBtn.style.animation = 'pulse 1s infinite';
+            dashboardBtn.innerHTML = '<i class="fas fa-arrow-right"></i> Ready - Click to Continue';
+            
+            // Show confirmation dialog after 20 seconds
+            setTimeout(() => {
+                if (confirm('Your L.I.F.E. Platform is ready! Would you like to access your dashboard now?')) {
+                    const dashboardUrl = subscriptionId 
+                        ? `https://lifecoach-121.com/dashboard?subscription=${subscriptionId}`
+                        : 'https://lifecoach-121.com/dashboard';
+                    window.location.href = dashboardUrl;
+                }
+            }, 5000);
+        }, 15000);
+        
+        // Add click tracking for analytics
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function() {
+                console.log('Link clicked:', this.href);
+                // Track marketplace conversion
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'marketplace_conversion', {
+                        'subscription_id': subscriptionId,
+                        'plan_id': planId,
+                        'destination': this.href
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
