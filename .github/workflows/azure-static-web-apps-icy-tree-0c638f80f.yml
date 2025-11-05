@@ -1,56 +1,43 @@
-# DISABLED: Azure Static Web Apps CI/CD - No Static Web App resource exists
-# 
-# This workflow was failing because no Azure Static Web App resource exists in your subscriptions.
-# The error was: "No matching Static Web App was found or the api key was invalid"
-#
-# To re-enable:
-# 1. Create an Azure Static Web App resource
-# 2. Get the deployment token from the resource
-# 3. Add AZURE_STATIC_WEB_APPS_API_TOKEN_ICY_TREE_0C638F80F to GitHub secrets
-# 4. Uncomment the workflow below
-#
-# Original workflow (commented out):
+name: Azure Static Web Apps CI/CD
 
-# name: Azure Static Web Apps CI/CD
-# 
-# on:
-#     push:
-#         branches:
-#             - main
-#     pull_request:
-#         types: [opened, synchronize, reopened, closed]
-#         branches:
-#             - main
-# 
-# jobs:
-#     build_and_deploy_job:
-#         if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
-#         runs-on: ubuntu-latest
-#         name: Build and Deploy Job
-#         steps:
-#             - uses: actions/checkout@v3
-#               with:
-#                   submodules: false
-#                   lfs: false
-#             - name: Build And Deploy
-#               id: builddeploy
-#               uses: Azure/static-web-apps-deploy@v1
-#               with:
-#                   azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ICY_TREE_0C638F80F }}
-#                   repo_token: ${{ secrets.GITHUB_TOKEN }}
-#                   action: "upload"
-#                   app_location: "docs"
-#                   output_location: ""
-# 
-#     close_pull_request_job:
-#         if: github.event_name == 'pull_request' && github.event.action == 'closed'
-#         runs-on: ubuntu-latest
-#         name: Close Pull Request Job
-#         steps:
-#             - name: Close Pull Request
-#               id: closepullrequest
-#               uses: Azure/static-web-apps-deploy@v1
-#               with:
-#                   azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ICY_TREE_0C638F80F }}
-#                   app_location: "docs"
-#                   action: "close"
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
+
+jobs:
+  build_and_deploy_job:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    runs-on: ubuntu-latest
+    name: Build and Deploy Job
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: false
+          lfs: false
+      - name: Build And Deploy
+        id: builddeploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ICY_TREE_0C638F80F }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "docs"
+          output_location: ""
+
+  close_pull_request_job:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    name: Close Pull Request Job
+    steps:
+      - name: Close Pull Request
+        id: closepullrequest
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ICY_TREE_0C638F80F }}
+          app_location: "docs"
+          action: "close"
