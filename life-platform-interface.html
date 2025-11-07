@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 L.I.F.E. Platform - Living Neuroadaptive Learning</title>
+    <link rel="stylesheet" href="life-platform-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-overlay">
+        <div class="loading-content">
+            <div class="brain-animation">🧠</div>
+            <h2>Initializing L.I.F.E. Algorithm...</h2>
+            <div class="loading-bar">
+                <div class="loading-progress" id="loading-progress"></div>
+            </div>
+            <p id="loading-status">Connecting neural pathways...</p>
+        </div>
+    </div>
+
+    <!-- Main Platform Interface -->
+    <div id="life-dashboard" class="algorithm-container" style="display: none;">
+        <!-- Header -->
+        <header class="platform-header">
+            <h1>🧠 L.I.F.E. Platform</h1>
+            <h2>Learning Individually from Experience - Live Algorithm</h2>
+            <div class="status-indicators">
+                <span class="status-badge online" id="connection-status">🟢 ONLINE</span>
+                <span class="status-badge" id="processing-status">⚡ READY</span>
+                <span class="status-badge" id="users-status">👥 1 USER</span>
+            </div>
+        </header>
+
+        <!-- Real-time Algorithm Dashboard -->
+        <div class="dashboard-grid">
+
+            <!-- EEG Processing Visualization -->
+            <div id="eeg-processor" class="component-active dashboard-item">
+                <h3>📊 Real-time EEG Processing</h3>
+                <div class="metrics-row">
+                    <div class="metric">
+                        <span class="metric-label">Attention Index</span>
+                        <div class="metric-value" id="attention-value">0%</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" id="attention-bar"></div>
+                        </div>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Learning Efficiency</span>
+                        <div class="metric-value" id="efficiency-value">0%</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" id="efficiency-bar"></div>
+                        </div>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Cognitive Load</span>
+                        <div class="metric-value" id="cognitive-value">0%</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" id="cognitive-bar"></div>
+                        </div>
+                    </div>
+                </div>
+                <canvas id="eeg-visualization" width="100%" height="150"></canvas>
+                <div class="eeg-controls">
+                    <button onclick="startEEGSimulation()" class="action-btn">▶️ Start EEG</button>
+                    <button onclick="pauseEEGSimulation()" class="action-btn">⏸️ Pause</button>
+                    <button onclick="resetEEGSimulation()" class="action-btn">🔄 Reset</button>
+                </div>
+            </div>
+
+            <!-- Venturi Gates System -->
+            <div id="venturi-gates" class="component-active dashboard-item">
+                <h3>🌪️ Venturi Gates System</h3>
+                <div class="gates-container">
+                    <div class="gate" id="gate-1">
+                        <h4>Gate 1: Signal Acceleration</h4>
+                        <div class="gate-metrics">
+                            <span>Latency: <strong id="gate1-latency">0.38ms</strong></span>
+                            <span>Efficiency: <strong id="gate1-efficiency">95%</strong></span>
+                        </div>
+                        <div class="signal-flow" id="signal-flow-1">
+                            <div class="signal-wave"></div>
+                        </div>
+                        <div class="gate-status" id="gate1-status">🟢 Ready</div>
+                    </div>
+
+                    <div class="gate" id="gate-2">
+                        <h4>Gate 2: Noise Reduction</h4>
+                        <div class="gate-metrics">
+                            <span>Latency: <strong id="gate2-latency">0.42ms</strong></span>
+                            <span>Efficiency: <strong id="gate2-efficiency">92%</strong></span>
+                        </div>
+                        <div class="signal-flow" id="signal-flow-2">
+                            <div class="signal-wave"></div>
+                        </div>
+                        <div class="gate-status" id="gate2-status">🟢 Ready</div>
+                    </div>
+
+                    <div class="gate" id="gate-3">
+                        <h4>Gate 3: Pattern Expansion</h4>
+                        <div class="gate-metrics">
+                            <span>Latency: <strong id="gate3-latency">0.45ms</strong></span>
+                            <span>Efficiency: <strong id="gate3-efficiency">88%</strong></span>
+                        </div>
+                        <div class="signal-flow" id="signal-flow-3">
+                            <div class="signal-wave"></div>
+                        </div>
+                        <div class="gate-status" id="gate3-status">🟢 Ready</div>
+                    </div>
+                </div>
+                <div class="gates-controls">
+                    <button onclick="testVenturiGates()" class="action-btn">🧪 Test Gates</button>
+                    <button onclick="optimizeGates()" class="action-btn">⚡ Optimize</button>
+                </div>
+            </div>
+
+            <!-- Interactive Learning Interface -->
+            <div id="learning-interface" class="component-active dashboard-item">
+                <h3>📚 Adaptive Learning Interface</h3>
+                <div id="learning-content">
+                    <div class="input-group">
+                        <label for="user-input">Start Learning - Type anything and watch the algorithm adapt!</label>
+                        <textarea id="user-input"
+                            placeholder="Enter your learning content here... The algorithm will analyze your input in real-time and adapt to your learning patterns."
+                            rows="4"></textarea>
+                    </div>
+                    <div class="learning-controls">
+                        <button id="process-learning" onclick="processLearningInput()" class="primary-btn">🧠 Process
+                            with L.I.F.E.</button>
+                        <button onclick="clearLearningInput()" class="secondary-btn">🗑️ Clear</button>
+                        <button onclick="saveLearningSession()" class="secondary-btn">💾 Save Session</button>
+                    </div>
+                </div>
+
+                <div id="learning-outcomes" class="outcomes-container">
+                    <h4>📈 Learning Outcomes:</h4>
+                    <div id="outcomes-display" class="outcomes-grid">
+                        <div class="outcome-item">
+                            <span class="outcome-label">Comprehension Score</span>
+                            <span class="outcome-value" id="comprehension-score">--</span>
+                        </div>
+                        <div class="outcome-item">
+                            <span class="outcome-label">Retention Probability</span>
+                            <span class="outcome-value" id="retention-prob">--</span>
+                        </div>
+                        <div class="outcome-item">
+                            <span class="outcome-label">Optimal Review Time</span>
+                            <span class="outcome-value" id="review-time">--</span>
+                        </div>
+                        <div class="outcome-item">
+                            <span class="outcome-label">Learning Velocity</span>
+                            <span class="outcome-value" id="learning-velocity">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Traits Visualization -->
+            <div id="user-traits" class="component-active dashboard-item">
+                <h3>👤 Adaptive User Profile</h3>
+                <div class="traits-grid">
+                    <div class="trait">
+                        <label>🔍 Curiosity</label>
+                        <div class="trait-container">
+                            <div class="trait-bar">
+                                <div id="curiosity-bar" class="trait-value" style="width: 50%"></div>
+                            </div>
+                            <span id="curiosity-value" class="trait-percentage">50%</span>
+                        </div>
+                    </div>
+
+                    <div class="trait">
+                        <label>💪 Persistence</label>
+                        <div class="trait-container">
+                            <div class="trait-bar">
+                                <div id="persistence-bar" class="trait-value" style="width: 50%"></div>
+                            </div>
+                            <span id="persistence-value" class="trait-percentage">50%</span>
+                        </div>
+                    </div>
+
+                    <div class="trait">
+                        <label>🌟 Openness</label>
+                        <div class="trait-container">
+                            <div class="trait-bar">
+                                <div id="openness-bar" class="trait-value" style="width: 50%"></div>
+                            </div>
+                            <span id="openness-value" class="trait-percentage">50%</span>
+                        </div>
+                    </div>
+
+                    <div class="trait">
+                        <label>⚡ Processing Speed</label>
+                        <div class="trait-container">
+                            <div class="trait-bar">
+                                <div id="speed-bar" class="trait-value" style="width: 50%"></div>
+                            </div>
+                            <span id="speed-value" class="trait-percentage">50%</span>
+                        </div>
+                    </div>
+
+                    <div class="trait">
+                        <label>🎯 Learning Efficiency</label>
+                        <div class="trait-container">
+                            <div class="trait-bar">
+                                <div id="learning-bar" class="trait-value" style="width: 50%"></div>
+                            </div>
+                            <span id="learning-value" class="trait-percentage">50%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="traits-controls">
+                    <button onclick="resetUserTraits()" class="secondary-btn">🔄 Reset Profile</button>
+                    <button onclick="saveUserProfile()" class="secondary-btn">💾 Save Profile</button>
+                </div>
+            </div>
+
+            <!-- Algorithm Code Viewer (Live) -->
+            <div id="code-viewer" class="component-active dashboard-item">
+                <h3>💻 Live Algorithm Code</h3>
+                <div class="code-controls">
+                    <select id="code-selector" onchange="showCodeSection()">
+                        <option value="main">Main L.I.F.E. Algorithm</option>
+                        <option value="venturi">Venturi Gates System</option>
+                        <option value="eeg">EEG Processing</option>
+                        <option value="adaptation">Neural Adaptation</option>
+                        <option value="traits">User Traits Analysis</option>
+                    </select>
+                    <button onclick="executeSelectedCode()" class="primary-btn">▶️ Execute This Code</button>
+                    <button onclick="copyCode()" class="secondary-btn">📋 Copy Code</button>
+                </div>
+
+                <pre id="code-display"><code id="active-code">// Loading L.I.F.E. Algorithm code...</code></pre>
+
+                <div class="code-output">
+                    <h4>🖥️ Execution Output:</h4>
+                    <pre id="code-output-display">Ready to execute code...</pre>
+                </div>
+            </div>
+
+            <!-- System Status & Performance -->
+            <div id="system-status" class="component-active dashboard-item">
+                <h3>⚙️ System Performance</h3>
+                <div class="performance-grid">
+                    <div class="perf-metric">
+                        <span class="perf-label">Processing Latency</span>
+                        <span class="perf-value" id="system-latency">~0.42ms</span>
+                    </div>
+                    <div class="perf-metric">
+                        <span class="perf-label">Memory Usage</span>
+                        <span class="perf-value" id="memory-usage">12.3MB</span>
+                    </div>
+                    <div class="perf-metric">
+                        <span class="perf-label">Active Sessions</span>
+                        <span class="perf-value" id="active-sessions">1</span>
+                    </div>
+                    <div class="perf-metric">
+                        <span class="perf-label">Algorithm Version</span>
+                        <span class="perf-value">L.I.F.E. v2.0.1</span>
+                    </div>
+                </div>
+
+                <div class="azure-status">
+                    <h4>☁️ Azure Integration Status</h4>
+                    <div class="azure-services">
+                        <span class="service-status" id="functions-status">🟢 Functions</span>
+                        <span class="service-status" id="cosmos-status">🟢 Cosmos DB</span>
+                        <span class="service-status" id="static-status">🟢 Static App</span>
+                        <span class="service-status" id="marketplace-status">🟢 Marketplace</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="platform-footer">
+            <p>© 2025 L.I.F.E. Platform - Learning Individually from Experience | Powered by Neuroadaptive AI</p>
+            <div class="footer-links">
+                <a href="#" onclick="showAbout()">About L.I.F.E.</a>
+                <a href="#" onclick="showDocumentation()">Documentation</a>
+                <a href="#" onclick="showSupport()">Support</a>
+                <a href="#" onclick="showPrivacy()">Privacy</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Processing Overlay -->
+    <div id="processing-overlay" class="processing-overlay" style="display: none;">
+        <div class="processing-content">
+            <div class="processing-animation">🧠⚡</div>
+            <h3>Processing with L.I.F.E. Algorithm...</h3>
+            <div class="processing-steps">
+                <div class="step" id="step-1">📊 Analyzing input patterns...</div>
+                <div class="step" id="step-2">🌪️ Processing through Venturi Gates...</div>
+                <div class="step" id="step-3">🧠 Calculating neural adaptations...</div>
+                <div class="step" id="step-4">📈 Generating learning outcomes...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="scripts/life-algorithm-client.js"></script>
+    <script src="scripts/venturi-gates-client.js"></script>
+    <script src="scripts/eeg-simulation.js"></script>
+    <script src="scripts/life-platform-integration.js"></script>
+
+    <!-- Initialize -->
+    <script>
+        // Initialize the platform when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🧠 L.I.F.E. Platform starting...');
+            window.lifePlatform = new LIFEPlatformIntegration();
+        });
+    </script>
+</body>
+
+</html>
