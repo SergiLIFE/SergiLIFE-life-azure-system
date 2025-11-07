@@ -1,93 +1,143 @@
-# Copilot Instructions for L.I.F.E Platform (SergiLIFE-life-azure-system)
+# L.I.F.E Platform AI Agent Instructions
 
-Copyright 2025 - Sergio Paya Borrull  
-L.I.F.E. Platform - Azure Marketplace Offer ID: `9a600d96-fe1e-420b-902a-a0c42c561adb`  
-**Production-Ready:** September 27, 2025 | **Target:** $345K Q4 2025 → $50.7M by 2029  
-**🚀 LIVE PLATFORM:** Post-October 2025 Launch | **Status:** OPERATIONAL
+**L.I.F.E** (Learning Individually from Experience) is a production neuroadaptive learning platform on Azure Marketplace (`9a600d96-fe1e-420b-902a-a0c42c561adb`).
+
+## Critical File Corruption Issue
+
+**URGENT**: Many core files (including `venturi_gates_system.py`, `requirements.txt`) have encoding corruption. Always handle gracefully:
+
+```python
+def safe_read_file(file_path):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            return f.read()
+    except UnicodeDecodeError:
+        with open(file_path, 'r', encoding='latin-1') as f:
+            return f.read()
+```
 
 ## System Architecture
 
-**L.I.F.E.** (Learning Individually from Experience) is a production-ready neuroadaptive learning platform processing real-time EEG data. The system follows a multi-layer architecture:
+1. **Neural Processing Core** (`algorithms/python-core/experimentP2L_REPAIRED.py`): Complete Azure ML, IoT, and Key Vault integration with EEG processing via dataclasses (`EEGMetrics`, `LearningOutcome`) and enums (`LearningStage`, `NeuralState`). **ALL neural operations MUST be async.**
 
-1. **Neural Processing Core** (`algorithms/python-core/experimentP2L_REPAIRED.py`): Processes EEG signals through dataclass-based metrics (`EEGMetrics`, `LearningOutcome`, `UserTraits`) and enum states (`LearningStage`, `NeuralState`). All EEG processing is async with sub-millisecond targets.
+2. **Unity VR Integration** (`unity/VREnvironmentController.cs`): Real-time VR environment adjustments based on EEG focus and stress levels. Connects to L.I.F.E Platform API for neuroadaptive learning in virtual environments.
 
-2. **Venturi Gates System** (`algorithms/python-core/venturi_gates_system.py`): Three-gate fluid dynamics orchestrator (SIGNAL_ACCELERATION, NOISE_REDUCTION, PATTERN_EXPANSION) applying Venturi principles to neural processing. Sub-millisecond latency: 0.38-0.45ms per gate.
+3. **Azure ML AutoML Pipeline** (`azure_ml/life_automl_pipeline.py`): Complete AutoML stress classification with AKS deployment, model versioning, and real-time inference capabilities.
 
-3. **Azure Integration Layer** (`azure_functions/function_app.py`, `algorithms/python-core/azure_config.py`): Production Azure Functions with marketplace webhook handling (`marketplace-webhook`, `connection-webhook`, `health` endpoints), OIDC authentication, and no stored secrets. Resources: `life-functions-app`, `stlifeplatformprod`, `kv-life-platform-prod`.
+4. **Venturi Gates System** (`algorithms/python-core/venturi_gates_system.py`): Three-gate fluid dynamics orchestrator (may be corrupted - handle carefully).
 
-4. **Campaign Automation System** (`algorithms/python-core/campaign_manager.py`): Async campaign execution with KPI tracking, targeting 1,720 institutions across educational, healthcare, and enterprise segments.
+5. **Azure Functions** (`azure_functions/function_app.py`): SaaS marketplace webhooks using Azure Functions v2 (`@app.route`).
 
-5. **Azure Marketplace Integration** (`marketplace_integration_setup.py`, `AZURE_MARKETPLACE_INTEGRATION_GUIDE.md`): Full SaaS fulfillment API with subscription lifecycle management, landing pages, and Partner Center configuration.
+6. **Infrastructure** (`infra/*.bicep`): Bicep templates for Azure deployment.
 
-**Key Architectural Patterns:**
+7. **Azure Authentication Helper** (`azure_auth_helper.py`): Simplified Azure CLI installation and authentication assistant.
 
-- **All neural processing is async** (`async def process_eeg_stream`, `await` for neural operations)
-- **Dataclass-based metrics** for immutability: `UserTraits`, `EEGMetrics`, `LearningOutcome`
-- **OIDC-only authentication** via `DefaultAzureCredential()` - no connection strings
-- **Windows-first development** with `cmd.exe` commands and `\` path separators
-- **Auto-directory creation** pattern: `os.makedirs(LOGS_DIR, exist_ok=True)` before file operations
-- **Bicep Infrastructure as Code** in `infra/` - all Azure resources defined declaratively
-- **Marketplace webhook pattern** - SaaS fulfillment handled via Azure Functions v2 model
+8. **686+ Python files** in `algorithms/python-core/` - use semantic search to navigate efficiently.
 
-## Essential Developer Workflows
+## Essential Development Patterns
 
-**Initial Setup (Windows):**
+### Async Neural Processing (REQUIRED)
+```python
+# ALL neural operations must be async - core architectural requirement
+async def process_eeg_stream(self, eeg_data: np.ndarray) -> EEGMetrics:
+    alpha_power = await self._calculate_band_power(eeg_data, 8, 12)
+    return EEGMetrics(timestamp=datetime.now(), alpha_power=alpha_power)
+
+# Use dataclasses for immutable metrics
+@dataclass
+class EEGMetrics:
+    timestamp: datetime
+    alpha_power: float
+    attention_index: float
+```
+
+### Windows-First Development
 ```cmd
+# Always use cmd.exe syntax - project is Windows-oriented
 python -m venv venv
-venv\Scripts\activate
+venv\Scripts\activate  # Note: backslashes, not forward slashes
 pip install -r requirements.txt
 ```
 
-**Azure Authentication (Multi-tenant):**
+### Directory Creation Pattern
+```python
+# ALWAYS auto-create directories before file operations
+os.makedirs(LOGS_DIR, exist_ok=True)
+os.makedirs("tracking_data/kpis", exist_ok=True)
+```
+
+### Azure Authentication (OIDC-Only)
+```python
+# NO connection strings or .env files - OIDC only
+from azure.identity import DefaultAzureCredential
+
+credential = DefaultAzureCredential()
+# All Azure services use managed identity/service principal
+```
+
+## Critical Workflows
+
+### VS Code Task System (100+ Tasks Available)
+**Always prefer VS Code tasks over manual commands:**
+- `🔬 Run All Tests` - Primary test suite (`pytest -v --tb=short`)
+- `⚡ Ultimate Full-Cycle Ecosystem Test` - Complete system validation  
+- `🔧 Validate L.I.F.E. Environment` - Environment validation
+- `🌐 Flawless Connection Validator` - Azure connection check
+- `🧠 Launch L.I.F.E Theory Platform` - Local platform server
+
+### Azure Multi-Tenant Setup
 ```cmd
-# 1. Login without subscription requirements to list tenants:
 az login --allow-no-subscriptions
 az account tenant list --output table
-# 2. Login to specific tenant and set subscription:
 az login --tenant e716161a-5e85-4d6d-82f9-96bcdd2e65ac
 az account set --subscription 5c88cef6-f243-497d-98af-6c6086d575ca
 ```
 
-**Core Testing & Validation:**
-- **Primary test suite:** Use VS Code task `🔬 Run All Tests` (`python -m pytest -v --tb=short`)
-- **Platform validation:** Use VS Code task `🔧 Validate L.I.F.E. Environment`
-- **Azure connection check:** Use VS Code task `� Flawless Connection Validator`
-- **Platform server:** Use VS Code task `🧠 Launch L.I.F.E Theory Platform`
-- **Full ecosystem test:** Use VS Code task `⚡ Ultimate Full-Cycle Ecosystem Test` (if available)
-- **Marketplace integration:** `python marketplace_integration_setup.py`
+## Key File Locations & Navigation
 
-## Key Repository Conventions
+### Core Algorithm Files
+- `algorithms/python-core/advanced_life_quantum_integration.py` - **NEWEST**: Complete quantum-neural integration with PyTorch transformers, Azure Quantum optimization, circuit breaker patterns, federated learning
+- `algorithms/python-core/experimentP2L_REPAIRED.py` - Main L.I.F.E algorithm with complete Azure integration (ML, IoT, Key Vault)
+- `algorithms/python-core/life_algorithm_complete_azure_integration.py` - Standalone complete implementation
+- `algorithms/python-core/venturi_gates_system.py` - 3-gate fluid dynamics (may be corrupted)
+- `algorithms/python-core/campaign_manager.py` - Async campaign operations
 
-**Critical Patterns (Do Not Invent):**
-- **All EEG processing is async:** Use `async def` and `await` for neural operations
-- **Dataclass-based metrics:** `UserTraits`, `EEGMetrics`, `LearningOutcome` in `experimentP2L_REPAIRED.py`
-- **OIDC-only Azure auth:** `DefaultAzureCredential()` - no connection strings or `.env` files
-- **Windows-first development:** Use `cmd.exe` commands and `\` path separators
-- **Auto-create directories:** Always `os.makedirs(LOGS_DIR, exist_ok=True)` before file operations
+### Unity VR Integration
+- `unity/UnityAdaptiveLearningManager_Fixed.cs` - **NEWEST**: Advanced Unity VR integration with quantum-neural optimization, real-time EEG adaptation, circuit breaker patterns
+- `unity/VREnvironmentController.cs` - Real-time VR environment adjustments based on EEG data
+- Unity API endpoint: `https://life-functions-app.azurewebsites.net/api/`
+- EEG thresholds: High focus (0.7), Low stress (0.3), Neuroplasticity (0.5)
+- Complexity adjustment rate: 0.2 (20% increases)
+- **New Features**: Quantum optimization integration, Hjorth parameter processing, circuit breaker fault tolerance
 
-**Azure Resources (East US 2):**
-- Functions: `life-functions-app` (marketplace webhooks in `azure_functions/function_app.py`)
-- Storage: `stlifeplatformprod` 
-- Key Vault: `kv-life-platform-prod`
+### Azure ML Pipeline
+- `azure_ml/life_automl_pipeline.py` - Complete AutoML stress classification pipeline
+- Features: 64-channel EEG processing, AKS deployment with auto-scaling (1-10 replicas)
+- Model versioning and enterprise registry integration
+- GDPR-compliant with model explainability
+
+### Azure Integration
+- `azure_functions/function_app.py` - Marketplace webhooks (`@app.route` v2 model)
+- `azure_auth_helper.py` - Azure CLI installation and authentication assistant
+- `AZURE_CONFIGURATION_GUIDE.md` - Complete Azure setup and authentication guide
+- `infra/*.bicep` - Infrastructure as Code templates
+- `marketplace_integration_setup.py` - SaaS marketplace automation
+
+### Project Navigation Tips
+- **686+ Python files** in `algorithms/python-core/` - use semantic search
+- **100+ VS Code tasks** - prefer tasks over manual commands
+- **Handle encoding errors** - files may be corrupted, use try/except when reading
+
+## Azure Resources (East US 2)
+- **Subscription:** Microsoft Azure Sponsorship (`5c88cef6-f243-497d-98af-6c6086d575ca`)
+- **Tenant:** `e716161a-5e85-4d6d-82f9-96bcdd2e65ac`
+- Functions: `life-functions-app` (marketplace webhooks)
+- Storage: `stlifeplatformprod`
+- Key Vault: `kv-life-platform-prod` (EEG-API-KEY, IOT-HUB-CONNECTION-STRING)
 - Service Bus: `sb-life-platform-prod`
-
-**Campaign System:**
-- Async operations in `algorithms/python-core/campaign_manager.py`
-- Tracking data: `tracking_data/{kpis,outreach,conversions,analytics}/`
-
-## VS Code Task Automation
-
-**Frequently Used Tasks:**
-- `🔬 Run All Tests` - Full pytest suite
-- `⚡ Ultimate Full-Cycle Ecosystem Test` - Complete system validation
-- `🚀 Run Autonomous Optimizer` - Performance benchmarking  
-- `🧠 Launch L.I.F.E Theory Platform` - Local platform server
-- `🔧 Azure Deploy Prep` - Connection validation
-
-**Testing Hierarchy:**
-1. **Neural core test:** VS Code task or direct Python import from `algorithms/python-core/`
-2. **Azure integration:** `🔧 Flawless Connection Validator` task
-3. **Full ecosystem:** `python ULTIMATE_FULL_CYCLE_ECOSYSTEM_TEST.py`
+- ML Workspace: `life-ml-workspace`
+- IoT Hub: `life-iot-hub`
+- AKS Cluster: `life-aks-cluster` (AutoML model deployment)
 
 ## Essential Development Patterns
 
@@ -186,28 +236,43 @@ async def launch_campaign(self, campaign_type: str, target_audience: str) -> str
 - All secrets in Azure Key Vault: `kv-life-platform-prod`
 
 **Current Project State (November 2025):**
-- Core files may have encoding issues - handle gracefully when reading
-- Many VS Code tasks defined in `.vscode/tasks.json` - prefer tasks over manual commands
-- Marketplace integration actively developed via `marketplace_integration_setup.py`
-- Bicep infrastructure templates exist in `infra/` directory
-- Multiple demo and validation scripts available in root directory
+- **ADVANCED QUANTUM-NEURAL INTEGRATION COMPLETE** - Section 2 code fully integrated with PyTorch, Azure Quantum, and advanced EEG processing
+- **New Advanced Components Added:**
+  - `algorithms/python-core/advanced_life_quantum_integration.py` - Complete quantum-neural system with PyTorch transformers, Azure Quantum optimization, circuit breaker patterns
+  - `unity/UnityAdaptiveLearningManager_Fixed.cs` - Advanced Unity VR integration with real-time EEG adaptation and quantum optimization
+  - `test_advanced_life_integration.py` - Comprehensive test suite for quantum-neural integration
+- **Critical file encoding issues** in `algorithms/python-core/` (venturi_gates_system.py, azure_config.py, campaign_manager.py) - handle with try/except when reading
+- **686+ Python files** - use semantic search and file patterns to navigate efficiently  
+- **100+ VS Code tasks** defined in `.vscode/tasks.json` - always prefer tasks over manual commands
+- **Production marketplace integration** via `marketplace_integration_setup.py` with SaaS fulfillment API
+- **Complete Bicep infrastructure** in `infra/` with multi-environment templates (main.bicep, microsoft-demo.bicep)
+- **Extensive demo ecosystem** - 7 specialized demo scripts for different market segments (clinical, education, enterprise)
 
 ## Critical Development Guidelines
 
 **Testing Requirements:**
 - **Always** run 100-cycle EEG test before committing neural processing changes
-- Use VS Code tasks over manual terminal commands for consistency
-- Run `ULTIMATE_FULL_CYCLE_ECOSYSTEM_TEST.py` for comprehensive system validation
-- Marketplace webhook testing: Use curl commands from `AZURE_MARKETPLACE_INTEGRATION_GUIDE.md`
+- **Use VS Code tasks exclusively** - 100+ available tasks with emojis for easy identification
+- **Primary validation flow:** `🔧 Validate L.I.F.E. Environment` → `🔬 Run All Tests` → `⚡ Ultimate Full-Cycle Ecosystem Test`
+- **Azure connection validation:** `🌐 Flawless Connection Validator` before any deployment
+- **Demo testing:** 7 specialized demo tasks for market segments (🏥 Hospital EEG, 🎓 Education K-12, 🏢 Enterprise AI)
+- **Marketplace webhook testing:** Use curl commands from `AZURE_MARKETPLACE_INTEGRATION_GUIDE.md`
 
 **Import Patterns:**
+- **Handle encoding errors gracefully:** Use try/except blocks when importing from `algorithms/python-core/`
 - Long filenames: `from algorithms.python_core import experimentP2L_REPAIRED`
 - Venturi system: `from algorithms.python_core.venturi_gates_system import create_3_venturi_system`
 - Azure integration: `from azure_functions.function_app import app`
+- **Campaign system:** `from algorithms.python_core.campaign_manager import CampaignManager`
 
 **Deployment Checklist:**
-1. Validate environment: VS Code task `🔧 Flawless Connection Validator`
-2. Test neural core: Direct Python import with async validation
-3. Deploy to staging: Use Bicep templates in `infra/`
-4. Marketplace integration: Follow `marketplace_integration_setup.py` workflow
-5. Production deployment: Remote build with Azure CLI
+1. **Validate environment:** VS Code task `🔧 Validate L.I.F.E. Environment`
+2. **Test neural core:** Direct Python import with async validation
+3. **Deploy to staging:** Use Bicep templates in `infra/`
+4. **Marketplace integration:** Follow `marketplace_integration_setup.py` workflow
+5. **Production deployment:** Remote build with Azure CLI
+
+**File Navigation Tips:**
+- **Use semantic search** for finding specific patterns across 686+ Python files
+- **File patterns:** Core algorithms in `algorithms/python-core/`, infrastructure in `infra/`
+- **Encoding issues:** Handle gracefully with try/except when reading corrupted files

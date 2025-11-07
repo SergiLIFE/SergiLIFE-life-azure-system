@@ -14,16 +14,14 @@ Copyright 2025 - Sergio Paya Benaully
 L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
 """
 
+import os
 import asyncio
 import json
 import logging
-import os
-from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Tuple
-
+from dataclasses import dataclass
+from typing import List, Dict, Optional, Tuple
 from azure.identity import DefaultAzureCredential
-
 
 # Critical file corruption handling
 def safe_read_file(file_path):
