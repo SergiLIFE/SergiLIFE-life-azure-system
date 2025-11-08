@@ -1,4 +1,4 @@
-# L.I.F.E. Platform - Learning Individually from Experience
+# L.I.F.E. Platform - Learning Individually from Experience-
 
 ## Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
 
