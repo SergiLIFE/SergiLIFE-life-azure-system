@@ -26,7 +26,7 @@ jobs:
                   az deployment group create \
                     --resource-group rg-life-microsoft-demo \
                     --template-file infra/microsoft-partnership-simple.bicep \
-                    --parameters environmentName=msftpartnership location=eastus2 lifeContainerImage=nginx:latest \
+                    ---parameters environmentName=msftpartnership location=eastus2 lifeContainerImage=nginx:latest resourceName=lifemsftpartnership-app-eastus2 \
                     --verbose
 
             - name: Get Deployment Outputs
