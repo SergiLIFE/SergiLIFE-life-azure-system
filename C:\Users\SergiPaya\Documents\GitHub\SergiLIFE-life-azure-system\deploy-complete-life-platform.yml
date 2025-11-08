@@ -1,0 +1,32 @@
+@echo off
+echo 🧹 L.I.F.E. Platform - Quick PC Cleanup Script
+echo ===============================================
+
+echo.
+echo 🗂️ Cleaning temporary files...
+del /q /s "%TEMP%\*" 2>nul
+for /d %%i in ("%TEMP%\*") do rmdir /s /q "%%i" 2>nul
+
+echo.
+echo 🗂️ Cleaning Windows temp files...
+del /q /s "C:\Windows\Temp\*" 2>nul
+for /d %%i in ("C:\Windows\Temp\*") do rmdir /s /q "%%i" 2>nul
+
+echo.
+echo 🗂️ Cleaning browser cache...
+del /q /s "%LOCALAPPDATA%\Microsoft\Windows\INetCache\*" 2>nul
+del /q /s "%LOCALAPPDATA%\Google\Chrome\User Data\Default\Cache\*" 2>nul
+
+echo.
+echo 🗂️ Cleaning recycle bin...
+rd /s /q C:\$Recycle.Bin 2>nul
+
+echo.
+echo ✅ Cleanup completed!
+echo.
+echo 📊 Checking disk space...
+wmic logicaldisk where caption="C:" get freespace,size
+
+echo.
+echo 🚀 Ready to deploy L.I.F.E. Platform!
+pause
