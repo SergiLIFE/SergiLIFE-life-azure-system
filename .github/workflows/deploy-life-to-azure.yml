@@ -37,7 +37,8 @@ jobs:
             - name: 🐳 Build and push Docker image
               run: |
                   az acr build \
-                    --registry ${{ steps.get-acr.outputs.acr_name }} \
+                 az acr build \
+  --registry lifecrozjafmtimm6os \
                     --image ${{ env.IMAGE_NAME }}:${{ github.sha }} \
                     --image ${{ env.IMAGE_NAME }}:latest \
                     --file Dockerfile \
@@ -58,21 +59,7 @@ jobs:
                     --resource-group ${{ env.RESOURCE_GROUP }} \
                     --image ${{ steps.get-acr.outputs.acr_name }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
                   echo "✅ L.I.F.E. Platform deployed!"
-
-            - name: 🌐 Get deployment URL
-              run: |
-                  URL=$(az containerapp show \
-                    --name ${{ steps.get-app.outputs.app_name }} \
-                    --resource-group ${{ env.RESOURCE_GROUP }} \
-                    --query properties.configuration.ingress.fqdn \
-                    -o tsv)
-                  echo "🎉 L.I.F.E. Platform live at: https://$URL"
-                  echo "### 🚀 Deployment Successful!" >> $GITHUB_STEP_SUMMARY
-                  echo "" >> $GITHUB_STEP_SUMMARY
-                  echo "**Live URL:** https://$URL" >> $GITHUB_STEP_SUMMARY
-                  echo "**Image:** ${{ env.IMAGE_NAME }}:${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
-                  echo "**Resource Group:** ${{ env.RESOURCE_GROUP }}" >> $GITHUB_STEP_SUMMARY
-
+--image lifecrozjafmtimm6os.azurecr.io/life-platform:${{ github.sha }} \
             - name: ⚡ Deploy Azure Functions (optional)
               continue-on-error: true
               run: |
