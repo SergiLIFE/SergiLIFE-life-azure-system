@@ -1,5 +1,5 @@
 # DISABLED - Using deploy-complete-life-platform.yml instead
-name: Deploy L.I.F.E. Platform to Azure
+name: DISABLED - Deploy L.I.F.E. Platform to Azure
     workflow_dispatch:
     push:
         branches: [main]
