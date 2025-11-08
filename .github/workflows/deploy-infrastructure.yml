@@ -1,0 +1,56 @@
+name: Deploy L.I.F.E. Infrastructure
+
+on:
+    workflow_dispatch: # Manual trigger
+    push:
+        branches:
+            - main
+        paths:
+            - "infra/**"
+
+jobs:
+    deploy-infrastructure:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Azure Login
+              uses: azure/login@v1
+              with:
+                  creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+            - name: Deploy Bicep Template
+              run: |
+                  az deployment group create \
+                    --resource-group rg-life-microsoft-demo \
+                    --template-file infra/microsoft-partnership-simple.bicep \
+                    --parameters environmentName=msftpartnership location=eastus2 lifeContainerImage=nginx:latest \
+                    --verbose
+
+            - name: Get Deployment Outputs
+              id: outputs
+              run: |
+                  CONTAINER_APP_URL=$(az deployment group show \
+                    --resource-group rg-life-microsoft-demo \
+                    --name microsoft-partnership-simple \
+                    --query properties.outputs.containerAppUrl.value -o tsv)
+                  echo "container_app_url=$CONTAINER_APP_URL" >> $GITHUB_OUTPUT
+
+                  ACR_NAME=$(az deployment group show \
+                    --resource-group rg-life-microsoft-demo \
+                    --name microsoft-partnership-simple \
+                    --query properties.outputs.containerRegistryName.value -o tsv)
+                  echo "acr_name=$ACR_NAME" >> $GITHUB_OUTPUT
+
+            - name: Display Deployment Info
+              run: |
+                  echo "🎉 Infrastructure Deployed Successfully!"
+                  echo "Container App URL: ${{ steps.outputs.outputs.container_app_url }}"
+                  echo "Container Registry: ${{ steps.outputs.outputs.acr_name }}"
+                  echo ""
+                  echo "Next steps:"
+                  echo "1. Build and push Docker image to ACR"
+                  echo "2. Update Container App with new image"
+                  echo "3. Test endpoints at ${{ steps.outputs.outputs.container_app_url }}"

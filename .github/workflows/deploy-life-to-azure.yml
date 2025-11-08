@@ -1,0 +1,87 @@
+name: Deploy L.I.F.E. Platform to Azure
+
+on:
+    workflow_dispatch:
+    push:
+        branches: [main]
+        paths:
+            - "algorithms/**"
+            - "*.py"
+            - "Dockerfile"
+            - "requirements.txt"
+
+env:
+    RESOURCE_GROUP: rg-life-microsoft-demo
+    IMAGE_NAME: life-platform
+
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: 📥 Checkout code
+              uses: actions/checkout@v3
+
+            - name: 🔐 Azure Login
+              uses: azure/login@v1
+              with:
+                  creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+            - name: 🔍 Get Azure Container Registry name
+              id: get-acr
+              run: |
+                  ACR_NAME=$(az acr list --resource-group ${{ env.RESOURCE_GROUP }} --query "[0].name" -o tsv)
+                  echo "acr_name=$ACR_NAME" >> $GITHUB_OUTPUT
+                  echo "✅ Found ACR: $ACR_NAME"
+
+            - name: 🐳 Build and push Docker image
+              run: |
+                  az acr build \
+                    --registry ${{ steps.get-acr.outputs.acr_name }} \
+                    --image ${{ env.IMAGE_NAME }}:${{ github.sha }} \
+                    --image ${{ env.IMAGE_NAME }}:latest \
+                    --file Dockerfile \
+                    .
+                  echo "✅ Image built and pushed: ${{ env.IMAGE_NAME }}:${{ github.sha }}"
+
+            - name: 🔍 Get Container App name
+              id: get-app
+              run: |
+                  APP_NAME=$(az containerapp list --resource-group ${{ env.RESOURCE_GROUP }} --query "[0].name" -o tsv)
+                  echo "app_name=$APP_NAME" >> $GITHUB_OUTPUT
+                  echo "✅ Found Container App: $APP_NAME"
+
+            - name: 🚀 Deploy to Azure Container Apps
+              run: |
+                  az containerapp update \
+                    --name ${{ steps.get-app.outputs.app_name }} \
+                    --resource-group ${{ env.RESOURCE_GROUP }} \
+                    --image ${{ steps.get-acr.outputs.acr_name }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+                  echo "✅ L.I.F.E. Platform deployed!"
+
+            - name: 🌐 Get deployment URL
+              run: |
+                  URL=$(az containerapp show \
+                    --name ${{ steps.get-app.outputs.app_name }} \
+                    --resource-group ${{ env.RESOURCE_GROUP }} \
+                    --query properties.configuration.ingress.fqdn \
+                    -o tsv)
+                  echo "🎉 L.I.F.E. Platform live at: https://$URL"
+                  echo "### 🚀 Deployment Successful!" >> $GITHUB_STEP_SUMMARY
+                  echo "" >> $GITHUB_STEP_SUMMARY
+                  echo "**Live URL:** https://$URL" >> $GITHUB_STEP_SUMMARY
+                  echo "**Image:** ${{ env.IMAGE_NAME }}:${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+                  echo "**Resource Group:** ${{ env.RESOURCE_GROUP }}" >> $GITHUB_STEP_SUMMARY
+
+            - name: ⚡ Deploy Azure Functions (optional)
+              continue-on-error: true
+              run: |
+                  if [ -d "azure_functions" ]; then
+                    FUNC_APP=$(az functionapp list --resource-group ${{ env.RESOURCE_GROUP }} --query "[0].name" -o tsv)
+                    cd azure_functions
+                    az functionapp deployment source config-zip \
+                      --name $FUNC_APP \
+                      --resource-group ${{ env.RESOURCE_GROUP }} \
+                      --src $(zip -r ../functions.zip . && echo ../functions.zip)
+                    echo "✅ Functions deployed!"
+                  fi

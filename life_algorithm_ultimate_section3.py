@@ -80,6 +80,16 @@ except ImportError:
     logging.warning("Scikit-learn not available - using fallback classifiers")
     SKLEARN_AVAILABLE = False
 
+try:
+    from algorithms.python_core.venturi_adaptive_system import (
+        VenturiSystem,  # type: ignore[import]
+    )
+
+    VENTURI_ADAPTIVE_AVAILABLE = True
+except Exception:
+    VenturiSystem = None  # type: ignore[assignment]
+    VENTURI_ADAPTIVE_AVAILABLE = False
+
 logger = logging.getLogger(__name__)
 
 # ========================================================================================
@@ -191,6 +201,13 @@ class LIFEAlgorithm:
         self.secret_client = None
         self.quantum_workspace = None
         self.neural_predictive_model = None
+        if VENTURI_ADAPTIVE_AVAILABLE and VenturiSystem is not None:
+            self.venturi_system = VenturiSystem()
+        else:
+            self.venturi_system = None
+        self._venturi_vector = np.zeros(3)
+        self._venturi_delta = np.zeros(4)
+        self._venturi_snapshot = {"cognitive": 0.0, "render": 0.0, "offload": 0.0}
         
         # Initialize all components
         self._init_azure()
@@ -211,7 +228,17 @@ class LIFEAlgorithm:
             "quantum_enabled": True,
             "motor_intent_enabled": True,
             "stress_monitoring": True,
-            "vr_integration": True
+            "vr_integration": True,
+            "venturi_render_profile": {
+                "framerate": 72.0,
+                "hardwarecapacity": 12.0,
+                "renderdemand": 0.6,
+            },
+            "venturi_cloud_profile": {
+                "bandwidth": 80.0,
+                "latency": 18.0,
+                "datasensitivity": 0.7,
+            },
         }
     
     def _init_azure(self):
@@ -293,7 +320,7 @@ class LIFEAlgorithm:
             if SKLEARN_AVAILABLE:
                 try:
                     self.models["motor_intent"] = joblib.load("motor_intent_classifier.pkl")
-                except:
+                except Exception:
                     # Create and train a simple motor intent classifier
                     self.models["motor_intent"] = RandomForestClassifier(n_estimators=100)
                     logger.info("Motor intent classifier created")
@@ -575,7 +602,7 @@ class LIFEAlgorithm:
                         prediction = self.models["motor_intent"].predict(features)
                         intent_classes = ["rest", "left_hand", "right_hand", "feet", "tongue"]
                         return intent_classes[prediction[0] % len(intent_classes)]
-                    except:
+                    except Exception:
                         # Fallback classification
                         lateralization = np.mean(c3_activity) - np.mean(c4_activity)
                         if lateralization > 0.1:
@@ -591,11 +618,74 @@ class LIFEAlgorithm:
             logger.error(f"Motor intent detection failed: {e}")
             return None
     
+    def _build_venturi_payloads(
+        self, processed_data: Dict[str, float]
+    ) -> Tuple[Dict[str, float], Dict[str, float], Dict[str, float]]:
+        """Prepare EEG, rendering, and cloud payloads for Venturi balancing."""
+
+        render_config = self.config.get("venturi_render_profile", {})
+        cloud_config = self.config.get("venturi_cloud_profile", {})
+
+        eeg_payload = {
+            "focusvelocity": float(processed_data.get("focus", 0.0)),
+            "stresspressure": float(processed_data.get("stress", 0.0)),
+            "neuroplasticity": float(max(0.1, processed_data.get("relaxation", 0.5))),
+        }
+
+        render_payload = {
+            "framerate": float(render_config.get("framerate", 72.0)),
+            "hardwarecapacity": float(render_config.get("hardwarecapacity", 12.0)),
+            "renderdemand": float(render_config.get("renderdemand", 0.6)),
+        }
+        render_payload["renderdemand"] += float(processed_data.get("arousal", 0.0)) * 0.3
+
+        cloud_payload = {
+            "bandwidth": float(cloud_config.get("bandwidth", 60.0)),
+            "latency": float(cloud_config.get("latency", 20.0)),
+            "datasensitivity": float(cloud_config.get("datasensitivity", 0.5)),
+        }
+        cloud_payload["datasensitivity"] = max(
+            0.1, min(1.0, cloud_payload["datasensitivity"] + processed_data.get("stress", 0.0) * 0.2)
+        )
+
+        return eeg_payload, render_payload, cloud_payload
+
+    async def _apply_venturi(self, processed_data: Dict[str, float]) -> Optional[Dict[str, Any]]:
+        """Run Venturi balancing if the adaptive system is available."""
+
+        if not self.venturi_system:
+            return None
+
+        eeg_payload, render_payload, cloud_payload = self._build_venturi_payloads(processed_data)
+        previous_vector = self._venturi_vector.copy()
+        cognitive, render, offload = await self.venturi_system.balancesystem(
+            eeg_payload, render_payload, cloud_payload
+        )
+        current_vector = np.array([cognitive, render, offload], dtype=float)
+        delta_vector = current_vector - previous_vector
+        self._venturi_vector = current_vector
+
+        snapshot = {
+            "cognitive": cognitive,
+            "render": render,
+            "offload": offload,
+            "delta": delta_vector.tolist(),
+            "timestamp": datetime.now().isoformat(),
+            "inputs": {
+                "eeg": eeg_payload,
+                "render": render_payload,
+                "cloud": cloud_payload,
+            },
+        }
+
+        self._venturi_snapshot = snapshot
+        return snapshot
+
     # ================================================================================
     # VR ENVIRONMENT CONTROL
     # ================================================================================
     
-    def process_eeg_stream(self, eeg_data: Dict):
+    async def process_eeg_stream(self, eeg_data: Dict):
         """
         Process EEG stream and update VR environment
         Education/Corporate Domain: Adaptive learning environments
@@ -611,12 +701,26 @@ class LIFEAlgorithm:
                 "arousal": eeg_data.get("gamma", 0.0),
                 "relaxation": eeg_data.get("alpha", 0.0) / (eeg_data.get("beta", 1e-9) + 1e-9)
             }
+
+            venturi_metrics = await self._apply_venturi(processed_data)
             
             # Use neural predictive coding for future state prediction
             if self.neural_predictive_model:
                 current_state = np.array(list(processed_data.values()))
                 previous_state = getattr(self, '_previous_eeg_state', current_state)
-                venturi_delta = getattr(self, '_venturi_delta', np.zeros_like(current_state))
+                if venturi_metrics:
+                    venturi_delta_vec = np.array(venturi_metrics["delta"], dtype=float)
+                    if len(venturi_delta_vec) < len(current_state):
+                        venturi_delta = np.pad(
+                            venturi_delta_vec,
+                            (0, len(current_state) - len(venturi_delta_vec)),
+                            "constant",
+                        )
+                    else:
+                        venturi_delta = venturi_delta_vec[: len(current_state)]
+                else:
+                    venturi_delta = np.zeros_like(current_state)
+                self._venturi_delta = venturi_delta
                 
                 # Predict next state
                 predicted_state = self.neural_predictive_model.predict(
@@ -625,9 +729,18 @@ class LIFEAlgorithm:
                 
                 # Update previous state
                 self._previous_eeg_state = current_state
+                self._predicted_eeg_state = predicted_state
             
             # Get ML prediction for VR adaptation
             prediction = self.predict_with_azure_ml(processed_data)
+            if venturi_metrics:
+                prediction["task_complexity"] = max(
+                    0.1,
+                    min(1.0, prediction["task_complexity"] * (1 - venturi_metrics["cognitive"] * 0.2)),
+                )
+                prediction["edge_routing_weight"] = venturi_metrics["offload"]
+                prediction["render_quality_weight"] = venturi_metrics["render"]
+                prediction["venturi_cognitive_load"] = venturi_metrics["cognitive"]
             
             # Send to VR environment
             self.send_to_vr_environment(prediction)
@@ -688,6 +801,8 @@ class LIFEAlgorithm:
                 "parameters": prediction,
                 "session_id": getattr(self, 'current_session_id', 'default')
             }
+            if getattr(self, "_venturi_snapshot", None):
+                vr_command["venturi"] = self._venturi_snapshot
             
             logger.debug(f"VR environment update: {vr_command}")
             
@@ -894,7 +1009,8 @@ class LIFEAlgorithm:
             "stress_level": stress_level,
             "system_status": "active",
             "active_domains": self._get_active_domains(),
-            "session_metrics": self._get_session_metrics()
+            "session_metrics": self._get_session_metrics(),
+            "venturi_metrics": getattr(self, "_venturi_snapshot", None),
         }
         
         logger.debug(f"Dashboard update: {dashboard_data}")
@@ -914,11 +1030,16 @@ class LIFEAlgorithm:
     def _get_active_domains(self) -> List[str]:
         """Get list of currently active domains"""
         domains = []
-        if self.config.get("stress_monitoring"): domains.append("corporate_training")
-        if self.config.get("motor_intent_enabled"): domains.append("healthcare")
-        if self.config.get("vr_integration"): domains.append("education")
-        if self.config.get("blockchain_enabled"): domains.append("finance")
-        if self.config.get("quantum_enabled"): domains.append("technology")
+        if self.config.get("stress_monitoring"):
+            domains.append("corporate_training")
+        if self.config.get("motor_intent_enabled"):
+            domains.append("healthcare")
+        if self.config.get("vr_integration"):
+            domains.append("education")
+        if self.config.get("blockchain_enabled"):
+            domains.append("finance")
+        if self.config.get("quantum_enabled"):
+            domains.append("technology")
         return domains
     
     def _get_session_metrics(self) -> Dict[str, Any]:
@@ -978,7 +1099,7 @@ async def main():
     
     # 4. Education/VR: Adaptive Environment Control
     print("\n4. 🎓 Education - VR Environment Adaptation")
-    life_algorithm.process_eeg_stream(eeg_data)
+    await life_algorithm.process_eeg_stream(eeg_data)
     print("   VR environment updated based on neural state")
     
     # 5. Finance: Blockchain Skill Certification
@@ -992,10 +1113,13 @@ async def main():
     previous_state = np.random.normal(0, 1, 64)
     venturi_delta = np.random.normal(0, 0.1, 64)
     
-    predicted_state = life_algorithm.neural_predictive_model.predict(
-        current_state, previous_state, venturi_delta
-    )
-    print(f"   Predicted next neural state: {np.mean(predicted_state):.4f} (mean)")
+    if life_algorithm.neural_predictive_model:
+        predicted_state = life_algorithm.neural_predictive_model.predict(
+            current_state, previous_state, venturi_delta
+        )
+        print(f"   Predicted next neural state: {np.mean(predicted_state):.4f} (mean)")
+    else:
+        print("   Neural predictive model unavailable in this environment")
     
     # 7. Federated Learning Aggregation
     print("\n7. 🔗 Federated Learning Aggregation")
@@ -1005,7 +1129,12 @@ async def main():
         {"weights": np.random.normal(0, 1, 32)}
     ]
     aggregated = life_algorithm.aggregate(mock_models)
-    print(f"   Aggregated {len(mock_models)} models successfully")
+    aggregated_mean = float(np.mean(aggregated["weights"])) if aggregated else 0.0
+    print(
+        "   Aggregated {count} models successfully (global weight mean {mean:.4f})".format(
+            count=len(mock_models), mean=aggregated_mean
+        )
+    )
     
     # System validation
     print("\n🔍 System Validation:")

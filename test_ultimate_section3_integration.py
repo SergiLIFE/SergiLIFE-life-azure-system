@@ -591,7 +591,7 @@ class TestUltimateSection3Integration(unittest.TestCase):
         self.assertLess(memory_increase, 100, 
                        f"Memory usage too high: {memory_increase:.1f}MB increase")
         
-        logger.info(f"✅ Performance benchmarks passed:")
+        logger.info("✅ Performance benchmarks passed:")
         logger.info(f"   - Avg EEG processing: {avg_processing_time*1000:.1f}ms")
         logger.info(f"   - Memory increase: {memory_increase:.1f}MB")
 
@@ -676,31 +676,34 @@ class TestUltimateSection3Integration(unittest.TestCase):
         except Exception as e:
             logger.warning(f"⚠️ Federated learning test limited: {e}")
 
-    @asyncio.coroutine
-    def async_test_16_real_time_processing(self):
+    def test_16_real_time_processing(self):
         """Test real-time asynchronous processing capabilities"""
         logger.info("⏱️ Testing real-time asynchronous processing...")
-        
+
         try:
-            # Test async EEG stream processing
             async def mock_eeg_stream():
-                for i in range(10):
+                for _ in range(10):
                     yield self.mock_eeg_data
-                    await asyncio.sleep(0.1)  # 100ms intervals
-            
-            if hasattr(self.life_algorithm, 'process_eeg_stream_async'):
-                results = []
-                async for result in self.life_algorithm.process_eeg_stream_async(mock_eeg_stream()):
-                    results.append(result)
-                    if len(results) >= 5:  # Test first 5 results
+                    await asyncio.sleep(0.1)
+
+            async def collect_async_results(async_flow):
+                collected = []
+                async for payload in async_flow:
+                    collected.append(payload)
+                    if len(collected) >= 5:
                         break
-                
+                return collected
+
+            async_flow_factory = getattr(self.life_algorithm, "process_eeg_stream_async", None)
+            if async_flow_factory:
+                async_flow = async_flow_factory(mock_eeg_stream())
+                results = asyncio.run(collect_async_results(async_flow))
                 self.assertEqual(len(results), 5)
                 for result in results:
                     self.assertIn("processed_timestamp", result)
-            
+
             logger.info("✅ Real-time async processing tests passed")
-            
+
         except Exception as e:
             logger.warning(f"⚠️ Async processing test limited: {e}")
 
@@ -710,7 +713,8 @@ class TestUltimateSection3Integration(unittest.TestCase):
         
         try:
             # Test audit logging
-            if hasattr(self.life_algorithm, 'log_user_session'):
+            log_user_session = getattr(self.life_algorithm, 'log_user_session', None)
+            if log_user_session:
                 session_data = {
                     "user_id": self.test_user_id,
                     "session_id": self.test_session_id,
@@ -719,12 +723,13 @@ class TestUltimateSection3Integration(unittest.TestCase):
                     "achievements": ["attention_improvement", "stress_reduction"]
                 }
                 
-                log_result = self.life_algorithm.log_user_session(session_data)
+                log_result = log_user_session(session_data)
                 self.assertTrue(log_result.get("logged", False))
             
             # Test performance metrics
-            if hasattr(self.life_algorithm, 'get_performance_metrics'):
-                metrics = self.life_algorithm.get_performance_metrics()
+            get_metrics = getattr(self.life_algorithm, 'get_performance_metrics', None)
+            if get_metrics:
+                metrics = get_metrics()
                 
                 expected_metrics = [
                     "total_sessions", "avg_processing_time", "success_rate",
@@ -735,8 +740,9 @@ class TestUltimateSection3Integration(unittest.TestCase):
                     self.assertIn(metric, metrics)
             
             # Test health monitoring
-            if hasattr(self.life_algorithm, 'health_check'):
-                health_status = self.life_algorithm.health_check()
+            health_check = getattr(self.life_algorithm, 'health_check', None)
+            if health_check:
+                health_status = health_check()
                 
                 self.assertIn("status", health_status)
                 self.assertIn("uptime", health_status)
@@ -752,9 +758,9 @@ class TestUltimateSection3Integration(unittest.TestCase):
         """Clean up after all tests"""
         test_duration = datetime.now() - cls.test_start_time
         logger.info("=" * 80)
-        logger.info(f"🏁 Ultimate L.I.F.E Platform Section 3 Test Suite Completed")
+        logger.info("🏁 Ultimate L.I.F.E Platform Section 3 Test Suite Completed")
         logger.info(f"⏱️ Total test duration: {test_duration}")
-        logger.info(f"🧪 Test results summary generated")
+        logger.info("🧪 Test results summary generated")
 
 def run_ultimate_section3_tests():
     """Run the complete Ultimate Section 3 test suite"""
@@ -832,7 +838,7 @@ def generate_test_report(test_result):
     logger.info(f"   Failed: {report['test_summary']['failed']}")
     logger.info(f"   Errors: {report['test_summary']['errors']}")
     logger.info(f"   Success Rate: {report['test_summary']['success_rate']:.1f}%")
-    logger.info(f"📄 Detailed report saved to: ultimate_section3_test_report.json")
+    logger.info("📄 Detailed report saved to: ultimate_section3_test_report.json")
 
 if __name__ == "__main__":
     # Run the ultimate test suite

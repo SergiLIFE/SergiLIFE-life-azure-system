@@ -9,7 +9,7 @@ Features:
 - Sub-millisecond neural processing
 - Integration with quantum-enhanced systems
 
-Copyright 2025 - Sergio Paya Benaully
+Copyright 2025 - Sergio Paya Borrull
 L.I.F.E. Platform - Azure Marketplace Offer ID: 9a600d96-fe1e-420b-902a-a0c42c561adb
 """
 
